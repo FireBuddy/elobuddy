@@ -12,7 +12,7 @@ namespace PartyJanna
         { }
 
         public const string AddonChampion = "Janna";
-        public const string AddonName = "Party-Janna";
+        public const string AddonName = "PartyJanna";
 
         private const bool ComboFunction = true;
         private const bool FleeFunction = true;
@@ -34,6 +34,7 @@ namespace PartyJanna
             JungleClear.Init();
             LaneClear.Init();
             LastHit.Init();
+            Draw.Init();
         }
 
         public static class Spells
