@@ -49,7 +49,7 @@ namespace PartyJanna
 
             static Spells()
             {
-                Q = new Spell.Skillshot(SpellSlot.Q, 1100, EloBuddy.SDK.Enumerations.SkillShotType.Circular);
+                Q = new Spell.Chargeable(SpellSlot.Q, 1100, 1700, 3);
                 W = new Spell.Targeted(SpellSlot.W, 600);
                 E = new Spell.Targeted(SpellSlot.E, 800);
                 R = new Spell.Active(SpellSlot.R, 725);
