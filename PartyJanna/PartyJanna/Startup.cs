@@ -1,9 +1,7 @@
-﻿using System;
-using EloBuddy;
+﻿using EloBuddy;
 using EloBuddy.SDK.Events;
-using EloBuddy.SDK.Rendering;
-using System.Collections.Generic;
 using PartyJanna.Functions;
+using System;
 
 namespace PartyJanna
 {
@@ -37,9 +35,9 @@ namespace PartyJanna
                 Combo.Execute();
                 Flee.Execute();
                 Harass.Execute();
-                JungleClear.Execute();
-                LaneClear.Execute();
-                LastHit.Execute();
+                JungleCleaner.Execute();
+                LaneCleaner.Execute();
+                KillStealer.Execute();
             }
             catch(Exception e)
             {

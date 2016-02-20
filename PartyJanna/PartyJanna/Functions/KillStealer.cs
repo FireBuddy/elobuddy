@@ -2,15 +2,15 @@
 
 namespace PartyJanna.Functions
 {
-    public static class Combo
+    public static class KillStealer
     {
         public static void Execute()
         {
-            Startup.CurrentFunction = "Combo";
+            Startup.CurrentFunction = "KillStealer";
 
             if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
-                
+
             }
         }
     }

@@ -1,14 +1,12 @@
-﻿using EloBuddy;
-using EloBuddy.SDK.Events;
-using EloBuddy.SDK;
+﻿using EloBuddy.SDK;
 
 namespace PartyJanna.Functions
 {
-    public static class JungleClear
+    public static class JungleCleaner
     {
         public static void Execute()
         {
-            Startup.CurrentFunction = "JungleClear";
+            Startup.CurrentFunction = "JungleCleaner";
 
             if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear))
             {

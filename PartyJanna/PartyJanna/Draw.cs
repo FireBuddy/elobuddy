@@ -1,8 +1,6 @@
 ﻿using EloBuddy;
-using EloBuddy.SDK.Events;
-using EloBuddy.SDK;
-using System;
 using EloBuddy.SDK.Rendering;
+using System;
 using System.Drawing;
 
 namespace PartyJanna
@@ -17,7 +15,7 @@ namespace PartyJanna
             Drawing.OnDraw += OnDraw;
         }
 
-        public static Color DrawingColor = Color.LightGray;
+        public static Color DrawingColor = Color.White;
 
         private static void OnDraw(EventArgs args)
         {

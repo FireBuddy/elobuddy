@@ -59,9 +59,9 @@
   <ItemGroup>
     <Compile Include="Functions\Flee.cs" />
     <Compile Include="Draw.cs" />
-    <Compile Include="Functions\JungleClear.cs" />
-    <Compile Include="Functions\LastHit.cs" />
-    <Compile Include="Functions\LaneClear.cs" />
+    <Compile Include="Functions\JungleCleaner.cs" />
+    <Compile Include="Functions\KillStealer.cs" />
+    <Compile Include="Functions\LaneCleaner.cs" />
     <Compile Include="Functions\Harass.cs" />
     <Compile Include="Functions\Combo.cs" />
     <Compile Include="Config.cs" />
@@ -69,7 +69,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
