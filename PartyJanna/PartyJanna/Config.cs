@@ -211,7 +211,7 @@ namespace PartyJanna
                     SubMenu.AddGroupLabel("LaneCleaner Settings");
 
                     UseQ = SubMenu.Add("laneUseQ", new CheckBox("Use Q", true));
-                    UseW = SubMenu.Add("laneUseW", new CheckBox("UseW", true));
+                    UseW = SubMenu.Add("laneUseW", new CheckBox("Use W", true));
                     UseE = SubMenu.Add("laneUseE", new CheckBox("Use E", true));
                     UseR = SubMenu.Add("laneUseR", new CheckBox("Use R", true));
                 }

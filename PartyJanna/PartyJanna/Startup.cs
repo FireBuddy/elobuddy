@@ -23,7 +23,7 @@ namespace PartyJanna
 
             Config.Init();
 
-            Chat.Print(string.Format("{0}'s has finished loading.\nHold SHIFT to configure.", Config.AddonName));
+            Chat.Print(string.Format("{0} has finished loading.\nHold SHIFT to configure.", Config.AddonName));
 
             Game.OnTick += OnTick;
         }
