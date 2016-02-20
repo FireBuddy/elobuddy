@@ -26,7 +26,7 @@ namespace PartyJanna
         static Config()
         {
             Menu = MainMenu.AddMenu(AddonName, AddonName.ToLower());
-            Menu.AddGroupLabel(string.Format("Welcome to {0}'s configuration menu!", AddonName));
+            Menu.AddGroupLabel(string.Format("Welcome to {0}'s settings menu!\nYour feedback would be much appreciated!", AddonName));
 
             Combo.Init();
             Flee.Init();
@@ -63,11 +63,21 @@ namespace PartyJanna
 
             private static readonly Menu SubMenu;
 
+            public static CheckBox UseQ { get; private set; }
+            public static CheckBox UseW { get; private set; }
+            public static CheckBox UseE { get; private set; }
+            public static CheckBox UseR { get; private set; }
+
             static Combo()
             {
                 if (ComboFunction)
                 {
                     SubMenu = Config.Menu.AddSubMenu("Combo");
+
+                    UseQ = SubMenu.Add("Use Q", new CheckBox("comboUseQ", true));
+                    UseW = SubMenu.Add("Use W", new CheckBox("comboUseW", true));
+                    UseE = SubMenu.Add("Use E", new CheckBox("comboUseE", true));
+                    UseR = SubMenu.Add("Use R", new CheckBox("comboUseR", true));
                 }
             }
         }
@@ -79,11 +89,21 @@ namespace PartyJanna
 
             private static readonly Menu SubMenu;
 
+            public static CheckBox UseQ { get; private set; }
+            public static CheckBox UseW { get; private set; }
+            public static CheckBox UseE { get; private set; }
+            public static CheckBox UseR { get; private set; }
+
             static Flee()
             {
                 if (FleeFunction)
                 {
                     SubMenu = Config.Menu.AddSubMenu("Flee");
+
+                    UseQ = SubMenu.Add("Use Q", new CheckBox("comboUseQ", true));
+                    UseW = SubMenu.Add("Use W", new CheckBox("comboUseW", true));
+                    UseE = SubMenu.Add("Use E", new CheckBox("comboUseE", true));
+                    UseR = SubMenu.Add("Use R", new CheckBox("comboUseR", true));
                 }
             }
         }
@@ -95,11 +115,21 @@ namespace PartyJanna
 
             private static readonly Menu SubMenu;
 
+            public static CheckBox UseQ { get; private set; }
+            public static CheckBox UseW { get; private set; }
+            public static CheckBox UseE { get; private set; }
+            public static CheckBox UseR { get; private set; }
+
             static Harass()
             {
                 if (HarassFunction)
                 {
                     SubMenu = Config.Menu.AddSubMenu("Harass");
+
+                    UseQ = SubMenu.Add("Use Q", new CheckBox("comboUseQ", true));
+                    UseW = SubMenu.Add("Use W", new CheckBox("comboUseW", true));
+                    UseE = SubMenu.Add("Use E", new CheckBox("comboUseE", true));
+                    UseR = SubMenu.Add("Use R", new CheckBox("comboUseR", true));
                 }
             }
         }
@@ -111,11 +141,21 @@ namespace PartyJanna
 
             private static readonly Menu SubMenu;
 
+            public static CheckBox UseQ { get; private set; }
+            public static CheckBox UseW { get; private set; }
+            public static CheckBox UseE { get; private set; }
+            public static CheckBox UseR { get; private set; }
+
             static JungleClear()
             {
                 if (JungleClearFunction)
                 {
                     SubMenu = Config.Menu.AddSubMenu("JungleClear");
+
+                    UseQ = SubMenu.Add("Use Q", new CheckBox("comboUseQ", true));
+                    UseW = SubMenu.Add("Use W", new CheckBox("comboUseW", true));
+                    UseE = SubMenu.Add("Use E", new CheckBox("comboUseE", true));
+                    UseR = SubMenu.Add("Use R", new CheckBox("comboUseR", true));
                 }
             }
         }
@@ -127,11 +167,21 @@ namespace PartyJanna
 
             private static readonly Menu SubMenu;
 
+            public static CheckBox UseQ { get; private set; }
+            public static CheckBox UseW { get; private set; }
+            public static CheckBox UseE { get; private set; }
+            public static CheckBox UseR { get; private set; }
+
             static LaneClear()
             {
                 if (LaneClearFunction)
                 {
                     SubMenu = Config.Menu.AddSubMenu("LaneClear");
+
+                    UseQ = SubMenu.Add("Use Q", new CheckBox("comboUseQ", true));
+                    UseW = SubMenu.Add("Use W", new CheckBox("comboUseW", true));
+                    UseE = SubMenu.Add("Use E", new CheckBox("comboUseE", true));
+                    UseR = SubMenu.Add("Use R", new CheckBox("comboUseR", true));
                 }
             }
         }
@@ -143,11 +193,21 @@ namespace PartyJanna
 
             private static readonly Menu SubMenu;
 
+            public static CheckBox UseQ { get; private set; }
+            public static CheckBox UseW { get; private set; }
+            public static CheckBox UseE { get; private set; }
+            public static CheckBox UseR { get; private set; }
+
             static LastHit()
             {
                 if (LastHitFunction)
                 {
                     SubMenu = Config.Menu.AddSubMenu("LastHit");
+
+                    UseQ = SubMenu.Add("Use Q", new CheckBox("comboUseQ", true));
+                    UseW = SubMenu.Add("Use W", new CheckBox("comboUseW", true));
+                    UseE = SubMenu.Add("Use E", new CheckBox("comboUseE", true));
+                    UseR = SubMenu.Add("Use R", new CheckBox("comboUseR", true));
                 }
             }
         }

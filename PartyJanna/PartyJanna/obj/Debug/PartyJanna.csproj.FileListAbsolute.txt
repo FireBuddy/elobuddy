@@ -9,3 +9,6 @@ c:\users\lucca vinicius\documents\visual studio 2015\Projects\PartyJanna\PartyJa
 c:\users\lucca vinicius\documents\visual studio 2015\Projects\PartyJanna\PartyJanna\obj\Debug\PartyJanna.csprojResolveAssemblyReference.cache
 c:\users\lucca vinicius\documents\visual studio 2015\Projects\PartyJanna\PartyJanna\obj\Debug\PartyJanna.exe
 c:\users\lucca vinicius\documents\visual studio 2015\Projects\PartyJanna\PartyJanna\obj\Debug\PartyJanna.pdb
+C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\PartyJanna\PartyJanna\bin\Debug\PartyJanna.exe.config
+C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\PartyJanna\PartyJanna\obj\Debug\PartyJanna.exe
+C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\PartyJanna\PartyJanna\obj\Debug\PartyJanna.pdb

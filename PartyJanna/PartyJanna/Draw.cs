@@ -17,12 +17,14 @@ namespace PartyJanna
             Drawing.OnDraw += OnDraw;
         }
 
+        public static Color DrawingColor = Color.LightGray;
+
         private static void OnDraw(EventArgs args)
         {
-            new Circle { Color = Color.WhiteSmoke, Radius = Config.Spells.Q.Range }.Draw(Player.Instance.Position);
-            new Circle { Color = Color.WhiteSmoke, Radius = Config.Spells.W.Range }.Draw(Player.Instance.Position);
-            new Circle { Color = Color.WhiteSmoke, Radius = Config.Spells.E.Range }.Draw(Player.Instance.Position);
-            new Circle { Color = Color.WhiteSmoke, Radius = Config.Spells.R.Range }.Draw(Player.Instance.Position);
+            new Circle { Color = DrawingColor, Radius = Config.Spells.Q.Range }.Draw(Player.Instance.Position);
+            new Circle { Color = DrawingColor, Radius = Config.Spells.W.Range }.Draw(Player.Instance.Position);
+            new Circle { Color = DrawingColor, Radius = Config.Spells.E.Range }.Draw(Player.Instance.Position);
+            new Circle { Color = DrawingColor, Radius = Config.Spells.R.Range }.Draw(Player.Instance.Position);
         }
     }
 }
