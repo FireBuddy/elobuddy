@@ -18,7 +18,7 @@ namespace PartyJanna.Functions
 
             foreach (Slider PrioritySlider in Config.Protect.PrioritySliderList)
             {
-                PrioritySlider.DisplayName.Insert(0, PrioritySlider.CurrentValue.ToString());
+                PriorityOrder.Add(PrioritySlider.DisplayName.Insert(0, PrioritySlider.CurrentValue.ToString()));
             }
 
             PriorityOrder.Sort();
