@@ -36,6 +36,7 @@ namespace PartyJanna
             JungleCleaner.Init();
             KillStealer.Init();
             LaneCleaner.Init();
+            Protect.Init();
         }
 
         public static class Spells
@@ -265,7 +266,7 @@ namespace PartyJanna
 
             static Protect()
             {
-                if (KillStealerFunction)
+                if (PassiveFunction)
                 {
                     SubMenu = Menu.AddSubMenu("Protect");
                     SubMenu.AddGroupLabel("Protect Settings");

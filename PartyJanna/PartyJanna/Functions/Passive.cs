@@ -7,7 +7,7 @@ namespace PartyJanna.Functions
     {
         public static void Execute()
         {
-            Startup.CurrentFunction = "Passive";
+            Startup.CurrentFunction = "Protect";
 
             /*private static void CheckDamage(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs Args)
         {
