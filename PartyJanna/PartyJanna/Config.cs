@@ -79,6 +79,8 @@ namespace PartyJanna
                     SubMenu = Menu.AddSubMenu("RangeCircles");
                     SubMenu.AddGroupLabel("RangeCircles Settings");
 
+                    SubMenu.AddSeparator();
+
                     DrawQ = SubMenu.Add("drawQ", new CheckBox("Draw Q Range Circle", true));
                     DrawW = SubMenu.Add("drawW", new CheckBox("Draw W Range Circle", true));
                     DrawE = SubMenu.Add("drawE", new CheckBox("Draw E Range Circle", true));
@@ -105,6 +107,8 @@ namespace PartyJanna
                 {
                     SubMenu = Menu.AddSubMenu("Combo");
                     SubMenu.AddGroupLabel("Combo Settings");
+
+                    SubMenu.AddSeparator();
 
                     UseQ = SubMenu.Add("comboUseQ", new CheckBox("Use Q", true));
                     UseW = SubMenu.Add("comboUseW", new CheckBox("Use W", true));
@@ -133,6 +137,8 @@ namespace PartyJanna
                     SubMenu = Menu.AddSubMenu("Flee");
                     SubMenu.AddGroupLabel("Flee Settings");
 
+                    SubMenu.AddSeparator();
+
                     UseQ = SubMenu.Add("fleeUseQ", new CheckBox("Use Q", true));
                     UseW = SubMenu.Add("fleeUseW", new CheckBox("Use W", true));
                     UseE = SubMenu.Add("fleeUseE", new CheckBox("Use E", true));
@@ -159,6 +165,8 @@ namespace PartyJanna
                 {
                     SubMenu = Menu.AddSubMenu("Harass");
                     SubMenu.AddGroupLabel("Harass Settings");
+
+                    SubMenu.AddSeparator();
 
                     UseQ = SubMenu.Add("harassUseQ", new CheckBox("Use Q", true));
                     UseW = SubMenu.Add("harassUseW", new CheckBox("Use W", true));
@@ -187,6 +195,8 @@ namespace PartyJanna
                     SubMenu = Menu.AddSubMenu("JungleCleaner");
                     SubMenu.AddGroupLabel("JungleCleaner Settings");
 
+                    SubMenu.AddSeparator();
+
                     UseQ = SubMenu.Add("jungleUseQ", new CheckBox("Use Q", true));
                     UseW = SubMenu.Add("jungleUseW", new CheckBox("Use W", true));
                     UseE = SubMenu.Add("jungleUseE", new CheckBox("Use E", true));
@@ -214,6 +224,8 @@ namespace PartyJanna
                     SubMenu = Menu.AddSubMenu("LaneCleaner");
                     SubMenu.AddGroupLabel("LaneCleaner Settings");
 
+                    SubMenu.AddSeparator();
+
                     UseQ = SubMenu.Add("laneUseQ", new CheckBox("Use Q", true));
                     UseW = SubMenu.Add("laneUseW", new CheckBox("Use W", true));
                     UseE = SubMenu.Add("laneUseE", new CheckBox("Use E", true));
@@ -240,6 +252,8 @@ namespace PartyJanna
                 {
                     SubMenu = Menu.AddSubMenu("KillStealer");
                     SubMenu.AddGroupLabel("KillStealer Settings");
+
+                    SubMenu.AddSeparator();
 
                     UseQ = SubMenu.Add("ksUseQ", new CheckBox("Use Q", true));
                     UseW = SubMenu.Add("ksUseW", new CheckBox("Use W", true));
@@ -270,12 +284,17 @@ namespace PartyJanna
                     SubMenu = Menu.AddSubMenu("Protect");
                     SubMenu.AddGroupLabel("Protect Settings");
 
+                    SubMenu.AddSeparator();
+
                     UseE = SubMenu.Add("protectUseE", new CheckBox("Use E", true));
                     UseR = SubMenu.Add("protectUseR", new CheckBox("Use R", false));
 
                     SubMenu.AddSeparator();
 
                     SubMenu.AddGroupLabel("Protection Priorities");
+
+                    SubMenu.AddSeparator();
+
                     PriorityMode = SubMenu.Add<ComboBox>("priorityMode", new ComboBox("Protect by:", 0, new string[] { "Lowest Health", "Priority Level" }));
 
                     SubMenu.AddSeparator();

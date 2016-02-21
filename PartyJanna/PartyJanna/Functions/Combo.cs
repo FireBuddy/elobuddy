@@ -11,7 +11,12 @@ namespace PartyJanna.Functions
 
             if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
-                Chat.Print(Passive.PriorityOrder);
+                foreach (string str in Passive.PriorityOrder)
+                {
+                    Chat.Print(str);
+                }
+
+                Chat.Print("");
             }
         }
     }
