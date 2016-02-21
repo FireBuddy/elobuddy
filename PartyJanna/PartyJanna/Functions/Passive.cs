@@ -9,7 +9,7 @@ namespace PartyJanna.Functions
         {
             Startup.CurrentFunction = "Protect";
 
-            /*private static void CheckDamage(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs Args)
+/*private static void CheckDamage(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs Args)
         {
             if (sender.Distance(Multi._Eu) >= 1100 || !sender.IsEnemy) return;
             if (Args.Target == null)

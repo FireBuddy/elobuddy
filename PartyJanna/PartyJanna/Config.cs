@@ -29,6 +29,7 @@ namespace PartyJanna
             Menu.AddGroupLabel(string.Format("Welcome to {0}'s settings menu!\nYour feedback would be much appreciated!", AddonName));
 
             Spells.Init();
+            RangeCircles.Init();
             Combo.Init();
             Draw.Init();
             Flee.Init();
@@ -277,10 +278,10 @@ namespace PartyJanna
                     SubMenu.AddGroupLabel("Protection Priorities");
                     PriorityMode = SubMenu.Add<ComboBox>("priorityMode", new ComboBox("Priority Mode", 0, new string[] { "Lowest Health", "Priority Level" }));
 
-                    TeammateOnePriority = SubMenu.Add<Slider>("teammateOnePriority", new Slider(string.Format("{0} ({1})", EntityManager.Heroes.Allies[0].ChampionName, EntityManager.Heroes.Allies[0].Name), 1, 1, 4));
-                    TeammateTwoPriority = SubMenu.Add<Slider>("teammateTwoPriority", new Slider(string.Format("{0} ({1})", EntityManager.Heroes.Allies[1].ChampionName, EntityManager.Heroes.Allies[1].Name), 1, 1, 4));
-                    TeammateThreePriority = SubMenu.Add<Slider>("teammateThreePriority", new Slider(string.Format("{0} ({1})", EntityManager.Heroes.Allies[2].ChampionName, EntityManager.Heroes.Allies[2].Name), 1, 1, 4));
-                    TeammateFourPriority = SubMenu.Add<Slider>("teammateFourPriority", new Slider(string.Format("{0} ({1})", EntityManager.Heroes.Allies[3].ChampionName, EntityManager.Heroes.Allies[3].Name), 1, 1, 4));
+                    TeammateOnePriority = SubMenu.Add<Slider>("teammateOnePriority", new Slider(string.Format("{0} ({1})", EntityManager.Heroes.Allies[0].ChampionName, EntityManager.Heroes.Allies[1].Name), 1, 1, 4));
+                    TeammateTwoPriority = SubMenu.Add<Slider>("teammateTwoPriority", new Slider(string.Format("{0} ({1})", EntityManager.Heroes.Allies[1].ChampionName, EntityManager.Heroes.Allies[2].Name), 1, 1, 4));
+                    TeammateThreePriority = SubMenu.Add<Slider>("teammateThreePriority", new Slider(string.Format("{0} ({1})", EntityManager.Heroes.Allies[2].ChampionName, EntityManager.Heroes.Allies[3].Name), 1, 1, 4));
+                    TeammateFourPriority = SubMenu.Add<Slider>("teammateFourPriority", new Slider(string.Format("{0} ({1})", EntityManager.Heroes.Allies[3].ChampionName, EntityManager.Heroes.Allies[4].Name), 1, 1, 4));
                 }
             }
         }
