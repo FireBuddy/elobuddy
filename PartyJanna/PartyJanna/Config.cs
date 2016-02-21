@@ -261,14 +261,7 @@ namespace PartyJanna
 
             public static ComboBox PriorityMode { get; private set; }
 
-            public static List<Slider> PrioritySliderList { get; private set; }
-
-            /*
-            public static Slider TeammateOnePriority { get; private set; }
-            public static Slider TeammateTwoPriority { get; private set; }
-            public static Slider TeammateThreePriority { get; private set; }
-            public static Slider TeammateFourPriority { get; private set; }
-            */
+            public static List<Slider> PrioritySliderList = new List<Slider>();
 
             static Protect()
             {
@@ -295,13 +288,6 @@ namespace PartyJanna
                             PrioritySliderList.Add(PrioritySlider);
                         }
                     }
-
-                    /*
-                    TeammateOnePriority = SubMenu.Add<Slider>("teammateOnePriority", new Slider(string.Format("{0} ({1})", EntityManager.Heroes.Allies[1].ChampionName, EntityManager.Heroes.Allies[1].Name), 1, 1, 4));
-                    TeammateTwoPriority = SubMenu.Add<Slider>("teammateTwoPriority", new Slider(string.Format("{0} ({1})", EntityManager.Heroes.Allies[2].ChampionName, EntityManager.Heroes.Allies[2].Name), 1, 1, 4));
-                    TeammateThreePriority = SubMenu.Add<Slider>("teammateThreePriority", new Slider(string.Format("{0} ({1})", EntityManager.Heroes.Allies[3].ChampionName, EntityManager.Heroes.Allies[3].Name), 1, 1, 4));
-                    TeammateFourPriority = SubMenu.Add<Slider>("teammateFourPriority", new Slider(string.Format("{0} ({1})", EntityManager.Heroes.Allies[4].ChampionName, EntityManager.Heroes.Allies[4].Name), 1, 1, 4));
-                    */
                 }
             }
         }
