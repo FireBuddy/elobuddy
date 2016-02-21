@@ -1,4 +1,5 @@
 ﻿using EloBuddy.SDK;
+using EloBuddy;
 
 namespace PartyJanna.Functions
 {
@@ -10,7 +11,7 @@ namespace PartyJanna.Functions
 
             if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
-                
+                Chat.Print(Passive.PriorityOrder);
             }
         }
     }

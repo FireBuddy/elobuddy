@@ -1,29 +1,38 @@
 ﻿using EloBuddy;
 using EloBuddy.SDK;
+using EloBuddy.SDK.Menu.Values;
+using System;
+using System.Collections.Generic;
 
 namespace PartyJanna.Functions
 {
     public static class Passive
     {
+        public static List<string> PriorityOrder = new List<string>();
+
         public static void Execute()
         {
             Startup.CurrentFunction = "Protect";
 
-/*private static void CheckDamage(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs Args)
-        {
-            if (sender.Distance(Multi._Eu) >= 1100 || !sender.IsEnemy) return;
-            if (Args.Target == null)
-            {
-                if (Args.End.Distance(Multi._Eu) <= Args.SData.LineWidth)
+            int HighestPriority = 0;
+
+            foreach (Slider PrioritySlider in Config.Protect.PrioritySliderList)
+            {     
+                if (PrioritySlider.CurrentValue >= HighestPriority)
                 {
-                    Console.Write("Receiving damage");
+                    HighestPriority = PrioritySlider.CurrentValue;
+                    PriorityOrder.Insert(0, PrioritySlider.DisplayName);
+                }
+                else
+                {
+                    PriorityOrder.Add(PrioritySlider.DisplayName);
                 }
             }
-            else if (Args.Target.IsMe)
+
+            /*foreach (AIHeroClient Enemy in EntityManager.Heroes.Enemies)
             {
-                Console.Write("Receiving damage");
-            }
-        }*/
-    }
+                if (Enemy.range)
+            }*/
+        }
     }
 }
