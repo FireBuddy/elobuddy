@@ -17,17 +17,12 @@ namespace PartyJanna.Functions
             Startup.CurrentFunction = "Protect";
 
             foreach (Slider PrioritySlider in Config.Protect.PrioritySliderList)
-            {     
-                if (PrioritySlider.CurrentValue >= HighestPriority)
-                {
-                    HighestPriority = PrioritySlider.CurrentValue;
-                    PriorityOrder.Insert(0, PrioritySlider.DisplayName);
-                }
-                else
-                {
-                    PriorityOrder.Add(PrioritySlider.DisplayName);
-                }
+            {
+                PrioritySlider.DisplayName.Insert(0, PrioritySlider.CurrentValue.ToString());
             }
+
+            PriorityOrder.Sort();
+            PriorityOrder.Reverse();
 
             /*foreach (AIHeroClient Enemy in EntityManager.Heroes.Enemies)
             {
