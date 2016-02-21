@@ -1,4 +1,5 @@
 ﻿using EloBuddy;
+using EloBuddy.SDK.Utils;
 using EloBuddy.SDK.Events;
 using PartyJanna.Functions;
 using System;
@@ -42,7 +43,7 @@ namespace PartyJanna
             }
             catch(Exception e)
             {
-                Chat.Print(string.Format("Error - {0} function is not working correctly:\n{1}", CurrentFunction, e));
+                Logger.Error("Error - {0} function is not working correctly:\n{1}", CurrentFunction, e);
             }
         }
     }

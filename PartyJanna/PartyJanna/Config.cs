@@ -289,7 +289,7 @@ namespace PartyJanna
 
                     foreach (AIHeroClient Ally in EntityManager.Heroes.Allies)
                     {
-                        if (Ally.ChampionName != AddonChampion && Ally.IsValid)
+                        if (Ally.ChampionName != AddonChampion)
                         {
                             Slider PrioritySlider = SubMenu.Add<Slider>(Ally.ChampionName, new Slider(string.Format("{0} ({1})", Ally.ChampionName, Ally.Name), 1, 1, EntityManager.Heroes.Allies.Count - 1));
                             PrioritySliderList.Add(PrioritySlider);

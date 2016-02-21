@@ -14,7 +14,7 @@ namespace PartyJanna.Functions
         {
             Startup.CurrentFunction = "Protect";
 
-            int HighestPriority = 0;
+            /*int HighestPriority = 0;
 
             foreach (Slider PrioritySlider in Config.Protect.PrioritySliderList)
             {     
@@ -27,7 +27,7 @@ namespace PartyJanna.Functions
                 {
                     PriorityOrder.Add(PrioritySlider.DisplayName);
                 }
-            }
+            }*/
 
             /*foreach (AIHeroClient Enemy in EntityManager.Heroes.Enemies)
             {
