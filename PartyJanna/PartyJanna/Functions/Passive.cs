@@ -10,11 +10,11 @@ namespace PartyJanna.Functions
     {
         public static List<string> PriorityOrder = new List<string>();
 
+        private static int HighestPriority = 0;
+
         public static void Execute()
         {
             Startup.CurrentFunction = "Protect";
-
-            int HighestPriority = 0;
 
             foreach (Slider PrioritySlider in Config.Protect.PrioritySliderList)
             {     
