@@ -32,12 +32,13 @@ namespace PartyJanna
         {
             try
             {
-                Combo.Execute();
-                Flee.Execute();
-                Harass.Execute();
-                JungleCleaner.Execute();
-                LaneCleaner.Execute();
+                Passive.Execute();
                 KillStealer.Execute();
+                Combo.Execute();
+                Harass.Execute();
+                Flee.Execute();
+                LaneCleaner.Execute();
+                JungleCleaner.Execute();
             }
             catch(Exception e)
             {

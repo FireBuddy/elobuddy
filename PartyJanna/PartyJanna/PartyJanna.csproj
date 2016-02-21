@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Functions\Passive.cs" />
     <Compile Include="Functions\Flee.cs" />
     <Compile Include="Draw.cs" />
     <Compile Include="Functions\JungleCleaner.cs" />
