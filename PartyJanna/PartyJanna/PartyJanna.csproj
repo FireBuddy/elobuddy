@@ -74,8 +74,6 @@
   <ItemGroup>
     <Compile Include="Functions\Flee.cs" />
     <Compile Include="Draw.cs" />
-    <Compile Include="Functions\JungleCleaner.cs" />
-    <Compile Include="Functions\KillStealer.cs" />
     <Compile Include="Functions\LaneCleaner.cs" />
     <Compile Include="Functions\Harass.cs" />
     <Compile Include="Functions\Combo.cs" />

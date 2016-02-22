@@ -1,5 +1,4 @@
 ﻿using EloBuddy;
-using EloBuddy.SDK.Utils;
 using EloBuddy.SDK.Events;
 using PartyJanna.Functions;
 using System;
@@ -24,27 +23,23 @@ namespace PartyJanna
 
             Config.Init();
 
-            Logger.Info("{0} has finished loading.\nHold SHIFT to configure.", Config.AddonName);
+            Chat.Print("{0} has finished loading.\nHold SHIFT to configure.", Config.AddonName);
 
             Game.OnTick += OnTick;
         }
 
         private static void OnTick(EventArgs args)
         {
-            Config.MyHero = Player.Instance;
-
             try
             {
-                KillStealer.Execute();
                 Combo.Execute();
                 Harass.Execute();
                 Flee.Execute();
                 LaneCleaner.Execute();
-                JungleCleaner.Execute();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                Logger.Error("Error - {0} function is not working correctly:\n{1}", CurrentFunction, e);
+                Chat.Print("Error - {0} function is not working correctly:\n{1}", CurrentFunction, e);
             }
         }
     }

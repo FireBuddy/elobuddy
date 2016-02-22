@@ -1,17 +1,19 @@
-﻿using EloBuddy.SDK;
-using EloBuddy;
+﻿using EloBuddy;
+using EloBuddy.SDK;
 using EloBuddy.SDK.Menu.Values;
-using System.Collections.Generic;
 using System;
-using SharpDX;
+using System.Collections.Generic;
 
 namespace PartyJanna.Functions
 {
     public static class Combo
     {
-        private static List<string> PriorityOrder { get; set; }
+        private static List<AIHeroClient> PriorAllyOrder { get; set; }
+        private static List<AIHeroClient> HpAllyOrder { get; set; }
 
         private static int HighestPriority { get; set; }
+
+        private static float LowestHP { get; set; }
 
         private static Prediction.Position.PredictionData PredictionData { get; set; }
 
@@ -20,69 +22,130 @@ namespace PartyJanna.Functions
         public static void Execute()
         {
             Startup.CurrentFunction = "Combo";
-            
-            if (Config.MyHero.Mana >= Config.Spells.manaE[Config.Spells.E.Level])
+
+            PriorAllyOrder = new List<AIHeroClient>();
+
+            HpAllyOrder = new List<AIHeroClient>();
+
+            PredictionData = new Prediction.Position.PredictionData(Prediction.Position.PredictionData.PredictionType.Circular, Convert.ToInt32(Config.Spells.Q.Range), Config.Spells.Q.Width, Config.Spells.Q.ConeAngleDegrees, Config.Spells.Q.CastDelay, Config.Spells.Q.Speed);
+
+            HighestPriority = 0;
+
+            LowestHP = int.MaxValue;
+
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
-                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
+                foreach (Slider Slider in Config.Protect.SliderList)
                 {
-                    PriorityOrder = new List<string>();
-
-                    PredictionData = new Prediction.Position.PredictionData(Prediction.Position.PredictionData.PredictionType.Circular, Convert.ToInt32(Config.Spells.Q.Range), Config.Spells.Q.Width, Config.Spells.Q.ConeAngleDegrees, Config.Spells.Q.CastDelay, Config.Spells.Q.Speed);
-
-                    HighestPriority = 0;
-
-                    foreach (Slider PrioritySlider in Config.Protect.PrioritySliderList)
+                    if (Slider.CurrentValue >= HighestPriority)
                     {
-                        if (PrioritySlider.CurrentValue >= HighestPriority)
+                        HighestPriority = Slider.CurrentValue;
+
+                        foreach (AIHeroClient Ally in Config.Protect.AIHeroClientList)
                         {
-                            HighestPriority = PrioritySlider.CurrentValue;
-                            PriorityOrder.Insert(0, PrioritySlider.VisibleName);
+                            if (Slider.VisibleName.Contains(Ally.ChampionName))
+                            {
+                                PriorAllyOrder.Insert(0, Ally);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        foreach (AIHeroClient Ally in Config.Protect.AIHeroClientList)
+                        {
+                            if (Slider.VisibleName.Contains(Ally.ChampionName))
+                            {
+                                PriorAllyOrder.Add(Ally);
+                            }
+                        }
+                    }
+                }
+
+                foreach (AIHeroClient Ally in EntityManager.Heroes.Allies)
+                {
+                    if (Ally.Health <= LowestHP)
+                    {
+                        LowestHP = Ally.Health;
+                        HpAllyOrder.Insert(0, Ally);
+                    }
+                    else
+                    {
+                        HpAllyOrder.Add(Ally);
+                    }
+                }
+
+                if (Config.Combo.UseQ.CurrentValue && Player.Instance.Mana >= Config.Spells.manaQ[Config.Spells.Q.Level])
+                {
+                    if (TargetSelector.SelectedTarget.IsInRange(Player.Instance, Config.Spells.Q.Range))
+                    {
+                        if (Player.Instance.CountEnemiesInRange(Config.Spells.Q.Range + 525) <= 2)
+                        {
+                            IgnoreMinionCollision = false;
                         }
                         else
                         {
-                            PriorityOrder.Add(PrioritySlider.VisibleName);
+                            IgnoreMinionCollision = true;
                         }
-                    }
 
-                    foreach (AIHeroClient Enemy in EntityManager.Heroes.Enemies)
+                        Config.Spells.Q.Cast(Prediction.Position.GetPrediction(TargetSelector.SelectedTarget, PredictionData, IgnoreMinionCollision).CastPosition);
+                    }
+                }
+
+                if (Config.Combo.UseE.CurrentValue && Player.Instance.Mana >= Config.Spells.manaE[Config.Spells.E.Level])
+                {
+                    if (Config.Protect.PriorityMode.CurrentValue == 0)
                     {
                         foreach (AIHeroClient Ally in EntityManager.Heroes.Allies)
                         {
-                            if (Enemy.IsInRange(Config.MyHero, Config.Spells.Q.Range))
+                            if (Ally.ChampionName != Config.AddonChampion && Ally.IsInRange(Player.Instance, Config.Spells.E.Range))
                             {
-                                if (Config.MyHero.CountEnemiesInRange(Config.Spells.Q.Range) <= 2)
+                                foreach (AIHeroClient Enemy in EntityManager.Heroes.Enemies)
                                 {
-                                    IgnoreMinionCollision = false;
-                                }
-                                else
-                                {
-                                    IgnoreMinionCollision = true;
-                                }
+                                    if (Ally.IsInAutoAttackRange(Enemy))
+                                    {
+                                        Config.Spells.E.Cast(Ally);
+                                    }
 
-                                Config.Spells.Q.Cast(Prediction.Position.GetPrediction(Enemy, PredictionData, IgnoreMinionCollision).CastPosition);
-                            }
-
-                            if (Ally.ChampionName != Config.AddonChampion && Ally.IsInRange(Config.MyHero, Config.Spells.E.Range))
-                            {
-                                if (Ally.IsInAutoAttackRange(Enemy))
-                                {
-                                    Config.Spells.E.Cast(Ally);
+                                    if (Enemy.Spellbook.SpellWasCast && Ally.IsInRange(Enemy, Enemy.CastRange))
+                                    {
+                                        Config.Spells.E.Cast(Ally);
+                                    }
                                 }
-
-                                if (Enemy.Spellbook.SpellWasCast && Ally.IsInRange(Enemy, Enemy.CastRange))
-                                {
-                                    Config.Spells.E.Cast(Ally);
-                                }
-                            }
-
-                            if (Enemy.IsInRange(Config.MyHero, Config.Spells.W.Range))
-                            {
-                                Config.Spells.W.Cast(Enemy);
                             }
                         }
+                    }
+                    else
+                    {
+                        foreach (AIHeroClient Ally in HpAllyOrder)
+                        {
+                            if (Ally.ChampionName != Config.AddonChampion && Ally.IsInRange(Player.Instance, Config.Spells.E.Range))
+                            {
+                                foreach (AIHeroClient Enemy in EntityManager.Heroes.Enemies)
+                                {
+                                    if (Ally.IsInAutoAttackRange(Enemy))
+                                    {
+                                        Config.Spells.E.Cast(Ally);
+                                    }
+
+                                    if (Enemy.Spellbook.SpellWasCast && Ally.IsInRange(Enemy, Enemy.CastRange))
+                                    {
+                                        Config.Spells.E.Cast(Ally);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (Config.Combo.UseW.CurrentValue && Player.Instance.Mana >= Config.Spells.manaW[Config.Spells.W.Level])
+                {
+                    if (TargetSelector.SelectedTarget.IsInRange(Player.Instance, Config.Spells.W.Range))
+                    {
+                        Config.Spells.W.Cast(TargetSelector.SelectedTarget);
                     }
                 }
             }
         }
     }
 }
+
