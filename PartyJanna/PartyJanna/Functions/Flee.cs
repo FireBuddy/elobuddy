@@ -16,7 +16,7 @@ namespace PartyJanna.Functions
 
             PredictionData = new Prediction.Position.PredictionData(Prediction.Position.PredictionData.PredictionType.Circular, Convert.ToInt32(Config.Spells.Q.Range), Config.Spells.Q.Width, Config.Spells.Q.ConeAngleDegrees, Config.Spells.Q.CastDelay, Config.Spells.Q.Speed);
 
-            GetTarget = TargetSelector.GetTarget(EntityManager.Heroes.Enemies, DamageType.Mixed);
+            GetTarget = TargetSelector.GetTarget(Config.Spells.Q.Range, DamageType.True);
 
             if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Flee))
             {
