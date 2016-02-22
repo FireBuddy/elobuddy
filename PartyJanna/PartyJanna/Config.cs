@@ -121,7 +121,6 @@ namespace PartyJanna
             public static CheckBox UseQ { get; private set; }
             public static CheckBox UseW { get; private set; }
             public static CheckBox UseE { get; private set; }
-            public static CheckBox UseR { get; private set; }
 
             static Flee()
             {
@@ -133,7 +132,6 @@ namespace PartyJanna
                 UseQ = SubMenu.Add("fleeUseQ", new CheckBox("Use Q", true));
                 UseW = SubMenu.Add("fleeUseW", new CheckBox("Use W", true));
                 UseE = SubMenu.Add("fleeUseE", new CheckBox("Use E on yourself", true));
-                UseR = SubMenu.Add("fleeUseR", new CheckBox("Use R to escape", true));
             }
         }
 
@@ -189,7 +187,6 @@ namespace PartyJanna
             private static readonly Menu SubMenu;
 
             public static CheckBox UseE { get; private set; }
-            //public static CheckBox UseR { get; private set; }
 
             public static ComboBox PriorityMode { get; private set; }
 
@@ -208,7 +205,6 @@ namespace PartyJanna
                 SubMenu.AddSeparator();
 
                 UseE = SubMenu.Add("protectUseE", new CheckBox("Use E", true));
-                //UseR = SubMenu.Add("protectUseR", new CheckBox("Use R", false));
 
                 SubMenu.AddSeparator();
 
@@ -225,7 +221,9 @@ namespace PartyJanna
                     if (Ally.ChampionName != AddonChampion)
                     {
                         Slider PrioritySlider = SubMenu.Add<Slider>(Ally.ChampionName, new Slider(string.Format("{0} ({1})", Ally.ChampionName, Ally.Name), 1, 1, EntityManager.Heroes.Allies.Count - 1));
+
                         SliderList.Add(PrioritySlider);
+
                         AIHeroClientList.Add(Ally);
                     }
                 }

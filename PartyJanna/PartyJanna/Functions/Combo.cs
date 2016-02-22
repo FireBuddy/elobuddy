@@ -74,21 +74,18 @@ namespace PartyJanna.Functions
                     }
                 }
 
-                if (Config.Combo.UseQ.CurrentValue && Player.Instance.Mana >= Config.Spells.manaQ[Config.Spells.Q.Level])
+                if (TargetSelector.SelectedTarget.IsValid && TargetSelector.SelectedTarget.IsEnemy && Config.Combo.UseQ.CurrentValue && Player.Instance.Mana >= Config.Spells.manaQ[Config.Spells.Q.Level] && TargetSelector.SelectedTarget.IsInRange(Player.Instance, Config.Spells.Q.Range))
                 {
-                    if (TargetSelector.SelectedTarget.IsInRange(Player.Instance, Config.Spells.Q.Range))
+                    if (Player.Instance.CountEnemiesInRange(Config.Spells.Q.Range + 525) <= 2)
                     {
-                        if (Player.Instance.CountEnemiesInRange(Config.Spells.Q.Range + 525) <= 2)
-                        {
-                            IgnoreMinionCollision = false;
-                        }
-                        else
-                        {
-                            IgnoreMinionCollision = true;
-                        }
-
-                        Config.Spells.Q.Cast(Prediction.Position.GetPrediction(TargetSelector.SelectedTarget, PredictionData, IgnoreMinionCollision).CastPosition);
+                        IgnoreMinionCollision = false;
                     }
+                    else
+                    {
+                        IgnoreMinionCollision = true;
+                    }
+
+                    Config.Spells.Q.Cast(Prediction.Position.GetPrediction(TargetSelector.SelectedTarget, PredictionData, IgnoreMinionCollision).CastPosition);
                 }
 
                 if (Config.Combo.UseE.CurrentValue && Player.Instance.Mana >= Config.Spells.manaE[Config.Spells.E.Level])
@@ -137,12 +134,9 @@ namespace PartyJanna.Functions
                     }
                 }
 
-                if (Config.Combo.UseW.CurrentValue && Player.Instance.Mana >= Config.Spells.manaW[Config.Spells.W.Level])
+                if (TargetSelector.SelectedTarget.IsValid && TargetSelector.SelectedTarget.IsEnemy && Config.Combo.UseW.CurrentValue && Player.Instance.Mana >= Config.Spells.manaW[Config.Spells.W.Level] && TargetSelector.SelectedTarget.IsInRange(Player.Instance, Config.Spells.W.Range))
                 {
-                    if (TargetSelector.SelectedTarget.IsInRange(Player.Instance, Config.Spells.W.Range))
-                    {
-                        Config.Spells.W.Cast(TargetSelector.SelectedTarget);
-                    }
+                    Config.Spells.W.Cast(TargetSelector.SelectedTarget);
                 }
             }
         }

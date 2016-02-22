@@ -14,16 +14,13 @@ namespace PartyJanna.Functions
 
             PredictionData = new Prediction.Position.PredictionData(Prediction.Position.PredictionData.PredictionType.Circular, Convert.ToInt32(Config.Spells.Q.Range), Config.Spells.Q.Width, Config.Spells.Q.ConeAngleDegrees, Config.Spells.Q.CastDelay, Config.Spells.Q.Speed);
 
-            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear))
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) && Config.LaneCleaner.UseQ.CurrentValue && Player.Instance.Mana >= Config.Spells.manaQ[Config.Spells.Q.Level])
             {
-                if (Config.LaneCleaner.UseQ.CurrentValue && Player.Instance.Mana >= Config.Spells.manaQ[Config.Spells.Q.Level])
+                foreach (Obj_AI_Minion EnemyMinion in EntityManager.MinionsAndMonsters.GetLaneMinions())
                 {
-                    foreach (Obj_AI_Minion EnemyMinion in EntityManager.MinionsAndMonsters.GetLaneMinions())
+                    if (EnemyMinion.IsInRange(Player.Instance, Config.Spells.Q.Range))
                     {
-                        if (EnemyMinion.IsInRange(Player.Instance, Config.Spells.Q.Range))
-                        {
-                            Config.Spells.Q.Cast(Prediction.Position.GetPrediction(EnemyMinion, PredictionData, true).CastPosition);
-                        }
+                        Config.Spells.Q.Cast(Prediction.Position.GetPrediction(EnemyMinion, PredictionData, true).CastPosition);
                     }
                 }
             }

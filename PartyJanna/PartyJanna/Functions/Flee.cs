@@ -16,36 +16,28 @@ namespace PartyJanna.Functions
 
             if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Flee))
             {
-                if (Config.Flee.UseQ.CurrentValue && Player.Instance.Mana >= Config.Spells.manaQ[Config.Spells.Q.Level])
+                if (TargetSelector.SelectedTarget.IsValid && TargetSelector.SelectedTarget.IsEnemy && Config.Flee.UseQ.CurrentValue && Player.Instance.Mana >= Config.Spells.manaQ[Config.Spells.Q.Level] && TargetSelector.SelectedTarget.IsInRange(Player.Instance, Config.Spells.Q.Range))
                 {
                     Config.Spells.Q.Cast(Prediction.Position.GetPrediction(TargetSelector.SelectedTarget, PredictionData, true).CastPosition);
                 }
-            }
 
-            if (Config.Flee.UseE.CurrentValue && Player.Instance.Mana >= Config.Spells.manaE[Config.Spells.E.Level])
-            {
-                foreach (AIHeroClient Enemy in EntityManager.Heroes.Enemies)
+                if (Config.Flee.UseE.CurrentValue && Player.Instance.Mana >= Config.Spells.manaE[Config.Spells.E.Level])
                 {
-                    if (Player.Instance.IsInAutoAttackRange(Enemy))
+                    foreach (AIHeroClient Enemy in EntityManager.Heroes.Enemies)
                     {
-                        Config.Spells.E.Cast(Player.Instance);
-                    }
-
-                    if (Enemy.Spellbook.SpellWasCast && Player.Instance.IsInRange(Enemy, Enemy.CastRange))
-                    {
-                        Config.Spells.E.Cast(Player.Instance);
-
-                        if (Config.Flee.UseR.CurrentValue)
+                        if (Player.Instance.IsInAutoAttackRange(Enemy))
                         {
-                            Config.Spells.R.Cast();
+                            Config.Spells.E.Cast(Player.Instance);
+                        }
+
+                        if (Enemy.Spellbook.SpellWasCast && Player.Instance.IsInRange(Enemy, Enemy.CastRange))
+                        {
+                            Config.Spells.E.Cast(Player.Instance);
                         }
                     }
                 }
-            }
 
-            if (Config.Flee.UseW.CurrentValue && Player.Instance.Mana >= Config.Spells.manaW[Config.Spells.W.Level])
-            {
-                if (TargetSelector.SelectedTarget.IsInRange(Player.Instance, Config.Spells.W.Range))
+                if (TargetSelector.SelectedTarget.IsValid && TargetSelector.SelectedTarget.IsEnemy && Config.Flee.UseW.CurrentValue && Player.Instance.Mana >= Config.Spells.manaW[Config.Spells.W.Level] && TargetSelector.SelectedTarget.IsInRange(Player.Instance, Config.Spells.W.Range))
                 {
                     Config.Spells.W.Cast(TargetSelector.SelectedTarget);
                 }
