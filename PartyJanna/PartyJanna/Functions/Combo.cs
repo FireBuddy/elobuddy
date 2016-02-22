@@ -20,7 +20,7 @@ namespace PartyJanna.Functions
         public static void Execute()
         {
             Startup.CurrentFunction = "Combo";
-
+            
             if (Config.MyHero.Mana >= Config.Spells.manaE[Config.Spells.E.Level])
             {
                 if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
@@ -67,9 +67,9 @@ namespace PartyJanna.Functions
                                 Config.Spells.W.Cast(Enemy);
                             }
 
-                            if (Ally.ChampionName != Config.AddonChampion)
+                            if (Ally.ChampionName != Config.AddonChampion && Ally.IsInRange(Config.MyHero, Config.Spells.E.Range))
                             {
-                                if (Ally.IsInRange(Config.MyHero, Config.Spells.E.Range) && (Enemy.Spellbook.SpellWasCast && Ally.IsInRange(Enemy, Enemy.CastRange)) || Ally.IsInAutoAttackRange(Enemy))
+                                if (Ally.IsInAutoAttackRange(Enemy) || Enemy.Spellbook.SpellWasCast && Ally.IsInRange(Enemy, Enemy.CastRange))
                                 {
                                     Config.Spells.E.Cast(Ally);
                                 }
