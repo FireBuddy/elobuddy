@@ -17,7 +17,7 @@ namespace PartyJanna.Functions
                     {
                         if (Enemy.IsInRange(Config.MyHero, Config.Spells.W.Range))
                         {
-
+                            Config.Spells.W.Cast(Enemy);
                         }
                     }
                 }

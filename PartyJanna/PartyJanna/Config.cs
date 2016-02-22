@@ -1,5 +1,6 @@
 ﻿using EloBuddy;
 using EloBuddy.SDK;
+using EloBuddy.SDK.Enumerations;
 using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 using System.Collections.Generic;
@@ -60,7 +61,7 @@ namespace PartyJanna
 
             static Spells()
             {
-                Q = new Spell.Chargeable(SpellSlot.Q, 1100, 1700, 3);
+                Q = new Spell.Skillshot(SpellSlot.Q, 1100, SkillShotType.Circular, 250, 900, 200);
                 W = new Spell.Targeted(SpellSlot.W, 600);
                 E = new Spell.Targeted(SpellSlot.E, 800);
                 R = new Spell.Active(SpellSlot.R, 725);

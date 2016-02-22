@@ -3,14 +3,17 @@ using EloBuddy;
 using EloBuddy.SDK.Menu.Values;
 using System.Collections.Generic;
 using System;
+using SharpDX;
 
 namespace PartyJanna.Functions
 {
     public static class Combo
     {
-        public static List<string> PriorityOrder;
+        private static List<string> PriorityOrder { get; set; }
 
-        private static int HighestPriority = 0;
+        private static int HighestPriority { get; set; }
+
+        private static Prediction.Position.PredictionData PredictionData { get; set; }
 
         public static void Execute()
         {
@@ -21,6 +24,8 @@ namespace PartyJanna.Functions
                 if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 {
                     PriorityOrder = new List<string>();
+                    PredictionData = new Prediction.Position.PredictionData(Prediction.Position.PredictionData.PredictionType.Circular, Convert.ToInt32(Config.Spells.Q.Range), Config.Spells.Q.Radius, Config.Spells.Q.ConeAngleDegrees, Config.Spells.Q.CastDelay, Config.Spells.Q.Speed);
+                    HighestPriority = 0;
 
                     foreach (Slider PrioritySlider in Config.Protect.PrioritySliderList)
                     {
@@ -39,7 +44,7 @@ namespace PartyJanna.Functions
                     {
                         if (Enemy.IsInRange(Config.MyHero, Config.Spells.Q.Range))
                         {
-                            Config.Spells.Q.Cast(Prediction.Position.GetPrediction(Enemy, new Prediction.Position.PredictionData(Prediction.Position.PredictionData.PredictionType.Circular, Convert.ToInt32(Config.Spells.Q.Range), Config.Spells.Q.Radius, Config.Spells.Q.ConeAngleDegrees, Config.Spells.Q.CastDelay, Config.Spells.Q.Speed), true).CastPosition);
+                            Config.Spells.Q.Cast(Prediction.Position.PredictCircularMissile(Enemy, Config.Spells.Q.Range, Config.Spells.Q.Width, Config.Spells.Q.CastDelay, Config.Spells.Q.Speed, null, true).CastPosition);
                         }
 
                         if (Enemy.IsInRange(Config.MyHero, Config.Spells.W.Range))
