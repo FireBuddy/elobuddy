@@ -15,34 +15,35 @@ namespace PartyJanna.Functions
         {
             Startup.CurrentFunction = "Combo";
 
-            PriorityOrder = new List<string>();
-
-            foreach (Slider PrioritySlider in Config.Protect.PrioritySliderList)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
-                if (PrioritySlider.CurrentValue >= HighestPriority)
-                {
-                    HighestPriority = PrioritySlider.CurrentValue;
-                    PriorityOrder.Insert(0, PrioritySlider.VisibleName);
-                }
-                else
-                {
-                    PriorityOrder.Add(PrioritySlider.VisibleName);
-                }
-            }
+                PriorityOrder = new List<string>();
 
-                /*foreach (Slider PrioritySlider in Config.Protect.PrioritySliderList)
+                foreach (Slider PrioritySlider in Config.Protect.PrioritySliderList)
                 {
-                    PriorityOrder.Add(PrioritySlider.VisibleName.Insert(0, PrioritySlider.CurrentValue.ToString()));
+                    if (PrioritySlider.CurrentValue >= HighestPriority)
+                    {
+                        HighestPriority = PrioritySlider.CurrentValue;
+                        PriorityOrder.Insert(0, PrioritySlider.VisibleName);
+                    }
+                    else
+                    {
+                        PriorityOrder.Add(PrioritySlider.VisibleName);
+                    }
                 }
 
-                PriorityOrder.Sort();
-                PriorityOrder.Reverse();*/
-
-                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
-            {
-                foreach (var Element in PriorityOrder)
+                foreach (AIHeroClient Enemy in EntityManager.Heroes.Enemies)
                 {
-                    Chat.Print(Element);
+                    foreach (AIHeroClient Ally in EntityManager.Heroes.Allies)
+                    {
+                        if (Ally.ChampionName != Config.AddonChampion)
+                        {
+                            if ((Ally.IsInAutoAttackRange(Enemy) || Ally.IsInRange(Enemy, Enemy.CastRange)) && Ally.IsInRange(EntityManager.Heroes.Allies[0], Config.Spells.E.Range))
+                            {
+                                Config.Spells.E.Cast(Ally);
+                            }
+                        }
+                    }
                 }
             }
         }

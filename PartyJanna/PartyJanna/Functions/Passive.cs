@@ -8,20 +8,9 @@ namespace PartyJanna.Functions
 {
     public static class Passive
     {
-        //public static List<string> PriorityOrder = new List<string>();
-
-        //private static int HighestPriority = 0;
-
-
-
         public static void Execute()
         {
-            Startup.CurrentFunction = "Protect";
-
-            /*foreach (AIHeroClient Enemy in EntityManager.Heroes.Enemies)
-            {
-                if (Enemy.range)
-            }*/
+            Startup.CurrentFunction = "Passive";
         }
     }
 }
