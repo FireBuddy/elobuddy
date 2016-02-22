@@ -240,7 +240,7 @@ namespace PartyJanna
 
                 SubMenu = Menu.AddSubMenu("Protect");
                 SubMenu.AddGroupLabel("Protect Settings");
-
+                
                 SubMenu.AddSeparator();
 
                 UseE = SubMenu.Add("protectUseE", new CheckBox("Use E", true));
