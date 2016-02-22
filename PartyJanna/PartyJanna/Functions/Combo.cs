@@ -2,6 +2,7 @@
 using EloBuddy;
 using EloBuddy.SDK.Menu.Values;
 using System.Collections.Generic;
+using System;
 
 namespace PartyJanna.Functions
 {
@@ -15,32 +16,45 @@ namespace PartyJanna.Functions
         {
             Startup.CurrentFunction = "Combo";
 
-            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
+            if (Config.MyHero.Mana >= Config.Spells.manaE[Config.Spells.E.Level])
             {
-                PriorityOrder = new List<string>();
-
-                foreach (Slider PrioritySlider in Config.Protect.PrioritySliderList)
+                if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 {
-                    if (PrioritySlider.CurrentValue >= HighestPriority)
-                    {
-                        HighestPriority = PrioritySlider.CurrentValue;
-                        PriorityOrder.Insert(0, PrioritySlider.VisibleName);
-                    }
-                    else
-                    {
-                        PriorityOrder.Add(PrioritySlider.VisibleName);
-                    }
-                }
+                    PriorityOrder = new List<string>();
 
-                foreach (AIHeroClient Enemy in EntityManager.Heroes.Enemies)
-                {
-                    foreach (AIHeroClient Ally in EntityManager.Heroes.Allies)
+                    foreach (Slider PrioritySlider in Config.Protect.PrioritySliderList)
                     {
-                        if (Ally.ChampionName != Config.AddonChampion)
+                        if (PrioritySlider.CurrentValue >= HighestPriority)
                         {
-                            if ((Ally.IsInAutoAttackRange(Enemy) || Ally.IsInRange(Enemy, Enemy.CastRange)) && Ally.IsInRange(EntityManager.Heroes.Allies[0], Config.Spells.E.Range))
+                            HighestPriority = PrioritySlider.CurrentValue;
+                            PriorityOrder.Insert(0, PrioritySlider.VisibleName);
+                        }
+                        else
+                        {
+                            PriorityOrder.Add(PrioritySlider.VisibleName);
+                        }
+                    }
+
+                    foreach (AIHeroClient Enemy in EntityManager.Heroes.Enemies)
+                    {
+                        if (Enemy.IsInRange(Config.MyHero, Config.Spells.Q.Range))
+                        {
+                            Config.Spells.Q.Cast(Prediction.Position.GetPrediction(Enemy, new Prediction.Position.PredictionData(Prediction.Position.PredictionData.PredictionType.Circular, Convert.ToInt32(Config.Spells.Q.Range), Config.Spells.Q.Radius, Config.Spells.Q.ConeAngleDegrees, Config.Spells.Q.CastDelay, Config.Spells.Q.Speed), true).CastPosition);
+                        }
+
+                        if (Enemy.IsInRange(Config.MyHero, Config.Spells.W.Range))
+                        {
+                            Config.Spells.W.Cast(Enemy);
+                        }
+
+                        foreach (AIHeroClient Ally in EntityManager.Heroes.Allies)
+                        {
+                            if (Ally.ChampionName != Config.AddonChampion)
                             {
-                                Config.Spells.E.Cast(Ally);
+                                if ((Ally.IsInAutoAttackRange(Enemy) || Ally.IsInRange(Enemy, Enemy.CastRange)) && Ally.IsInRange(Config.MyHero, Config.Spells.E.Range))
+                                {
+                                    Config.Spells.E.Cast(Ally);
+                                }
                             }
                         }
                     }

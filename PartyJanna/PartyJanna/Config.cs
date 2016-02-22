@@ -14,12 +14,14 @@ namespace PartyJanna
         public const string AddonChampion = "Janna";
         public const string AddonName = "PartyJanna";
 
+        public static AIHeroClient MyHero { get; set; }
+
         private const bool ComboFunction = true;
         private const bool FleeFunction = true;
         private const bool HarassFunction = true;
-        private const bool JungleClearFunction = false;
+        private const bool JungleCleanerFunction = false;
         private const bool KillStealerFunction = true;
-        private const bool LaneClearFunction = true;
+        private const bool LaneCleanerFunction = true;
         private const bool PassiveFunction = true;
 
         private static readonly Menu Menu;
@@ -51,12 +53,22 @@ namespace PartyJanna
             public static Spell.Targeted E { get; private set; }
             public static Spell.Active R { get; private set; }
 
+            public static int[] manaQ { get; private set; }
+            public static int[] manaW { get; private set; }
+            public static int[] manaE { get; private set; }
+            public static int[] manaR { get; private set; }
+
             static Spells()
             {
                 Q = new Spell.Chargeable(SpellSlot.Q, 1100, 1700, 3);
                 W = new Spell.Targeted(SpellSlot.W, 600);
                 E = new Spell.Targeted(SpellSlot.E, 800);
                 R = new Spell.Active(SpellSlot.R, 725);
+
+                manaQ = new int[] { 90, 105, 120, 135, 150 };
+                manaW = new int[] { 40, 50, 60, 70, 80 };
+                manaE = new int[] { 70, 80, 90, 100, 110 };
+                manaR = new int[] { 100, 100, 100, 100, 100 };
             }
         }
 
@@ -190,7 +202,7 @@ namespace PartyJanna
 
             static JungleCleaner()
             {
-                if (JungleClearFunction)
+                if (JungleCleanerFunction)
                 {
                     SubMenu = Menu.AddSubMenu("JungleCleaner");
                     SubMenu.AddGroupLabel("JungleCleaner Settings");
@@ -219,7 +231,7 @@ namespace PartyJanna
 
             static LaneCleaner()
             {
-                if (LaneClearFunction)
+                if (LaneCleanerFunction)
                 {
                     SubMenu = Menu.AddSubMenu("LaneCleaner");
                     SubMenu.AddGroupLabel("LaneCleaner Settings");
@@ -279,33 +291,30 @@ namespace PartyJanna
 
             static Protect()
             {
-                if (PassiveFunction)
+                SubMenu = Menu.AddSubMenu("Protect");
+                SubMenu.AddGroupLabel("Protect Settings");
+
+                SubMenu.AddSeparator();
+
+                UseE = SubMenu.Add("protectUseE", new CheckBox("Use E", true));
+                UseR = SubMenu.Add("protectUseR", new CheckBox("Use R", false));
+
+                SubMenu.AddSeparator();
+
+                SubMenu.AddGroupLabel("Protection Priorities");
+
+                SubMenu.AddSeparator();
+
+                PriorityMode = SubMenu.Add<ComboBox>("priorityMode", new ComboBox("Protect by:", 0, new string[] { "Lowest Health", "Priority Level" }));
+
+                SubMenu.AddSeparator();
+
+                foreach (AIHeroClient Ally in EntityManager.Heroes.Allies)
                 {
-                    SubMenu = Menu.AddSubMenu("Protect");
-                    SubMenu.AddGroupLabel("Protect Settings");
-
-                    SubMenu.AddSeparator();
-
-                    UseE = SubMenu.Add("protectUseE", new CheckBox("Use E", true));
-                    UseR = SubMenu.Add("protectUseR", new CheckBox("Use R", false));
-
-                    SubMenu.AddSeparator();
-
-                    SubMenu.AddGroupLabel("Protection Priorities");
-
-                    SubMenu.AddSeparator();
-
-                    PriorityMode = SubMenu.Add<ComboBox>("priorityMode", new ComboBox("Protect by:", 0, new string[] { "Lowest Health", "Priority Level" }));
-
-                    SubMenu.AddSeparator();
-
-                    foreach (AIHeroClient Ally in EntityManager.Heroes.Allies)
+                    if (Ally.ChampionName != AddonChampion)
                     {
-                        if (Ally.ChampionName != AddonChampion)
-                        {
-                            Slider PrioritySlider = SubMenu.Add<Slider>(Ally.ChampionName, new Slider(string.Format("{0} ({1})", Ally.ChampionName, Ally.Name), 1, 1, EntityManager.Heroes.Allies.Count - 1));
-                            PrioritySliderList.Add(PrioritySlider);
-                        }
+                        Slider PrioritySlider = SubMenu.Add<Slider>(Ally.ChampionName, new Slider(string.Format("{0} ({1})", Ally.ChampionName, Ally.Name), 1, 1, EntityManager.Heroes.Allies.Count - 1));
+                        PrioritySliderList.Add(PrioritySlider);
                     }
                 }
             }

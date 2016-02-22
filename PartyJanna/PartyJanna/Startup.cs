@@ -24,16 +24,17 @@ namespace PartyJanna
 
             Config.Init();
 
-            Chat.Print(string.Format("{0} has finished loading.\nHold SHIFT to configure.", Config.AddonName));
+            Logger.Info("{0} has finished loading.\nHold SHIFT to configure.", Config.AddonName);
 
             Game.OnTick += OnTick;
         }
 
         private static void OnTick(EventArgs args)
         {
+            Config.MyHero = Player.Instance;
+
             try
             {
-                Passive.Execute();
                 KillStealer.Execute();
                 Combo.Execute();
                 Harass.Execute();

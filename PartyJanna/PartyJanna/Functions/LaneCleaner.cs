@@ -1,4 +1,8 @@
-﻿using EloBuddy.SDK;
+﻿using EloBuddy;
+using EloBuddy.SDK;
+using EloBuddy.SDK.Rendering;
+using System;
+using System.Drawing;
 
 namespace PartyJanna.Functions
 {
