@@ -108,7 +108,7 @@ namespace PartyJanna
                 SubMenu = Menu.AddSubMenu("Combo");
                 SubMenu.AddGroupLabel("Combo Settings");
 
-                SubMenu.AddSeparator(50);
+                SubMenu.AddSeparator();
 
                 UseQ = SubMenu.Add("comboUseQ", new CheckBox("Use Q", true));
                 SubMenu.AddSeparator();
@@ -120,11 +120,11 @@ namespace PartyJanna
 
                 TryToHitMultipleEnemies = SubMenu.Add("hitMultipleEnemies", new CheckBox("Q Spell - Try to hit multiple enemies", false));
                 SubMenu.AddSeparator();
-                IgnoreCollision = SubMenu.Add("ignoreCollision", new CheckBox("Q Spell - Ignore Other Collisions", false));
+                IgnoreCollision = SubMenu.Add("ignoreCollision", new CheckBox("Q Spell - Ignore Other Collisions (Not working very well)", false));
 
-                SubMenu.AddSeparator(50);
+                SubMenu.AddSeparator();
 
-                IgnoreCollisionEnemies = SubMenu.Add<Slider>("ignoreCollisionEnemies", new Slider("Enemies Nearby to Ignore Collisions:", 3, 1, 5));
+                IgnoreCollisionEnemies = SubMenu.Add<Slider>("ignoreCollisionEnemies", new Slider("Enemies Nearby to Ignore Collisions:", 1, 1, 5));
             }
         }
 
@@ -144,7 +144,7 @@ namespace PartyJanna
                 SubMenu = Menu.AddSubMenu("Flee");
                 SubMenu.AddGroupLabel("Flee Settings");
 
-                SubMenu.AddSeparator(50);
+                SubMenu.AddSeparator();
 
                 UseQ = SubMenu.Add("fleeUseQ", new CheckBox("Use Q", true));
                 SubMenu.AddSeparator();
@@ -175,7 +175,7 @@ namespace PartyJanna
                 SubMenu = Menu.AddSubMenu("Harass");
                 SubMenu.AddGroupLabel("Harass Settings");
 
-                SubMenu.AddSeparator(50);
+                SubMenu.AddSeparator();
 
                 UseQ = SubMenu.Add("harassUseQ", new CheckBox("Use Q", false));
                 SubMenu.AddSeparator();
@@ -187,9 +187,9 @@ namespace PartyJanna
 
                 TryToHitMultipleEnemies = SubMenu.Add("hitMultipleEnemies", new CheckBox("Q Spell - Try to hit multiple enemies", false));
                 SubMenu.AddSeparator();
-                IgnoreCollision = SubMenu.Add("ignoreCollision", new CheckBox("Q Spell - Ignore Other Collisions", false));
+                IgnoreCollision = SubMenu.Add("ignoreCollision", new CheckBox("Q Spell - Ignore Other Collisions (Not working very well)", false));
 
-                SubMenu.AddSeparator(50);
+                SubMenu.AddSeparator();
 
                 IgnoreCollisionEnemies = SubMenu.Add<Slider>("ignoreCollisionEnemies", new Slider("Enemies Nearby to Ignore Collisions:", 2, 1, 5));
             }
@@ -209,7 +209,7 @@ namespace PartyJanna
                 SubMenu = Menu.AddSubMenu("LaneCleaner");
                 SubMenu.AddGroupLabel("LaneCleaner Settings");
 
-                SubMenu.AddSeparator(50);
+                SubMenu.AddSeparator();
 
                 UseQ = SubMenu.Add("laneUseQ", new CheckBox("Use Q", true));
             }
@@ -238,7 +238,7 @@ namespace PartyJanna
                 SubMenu = Menu.AddSubMenu("Protect");
                 SubMenu.AddGroupLabel("Protect Settings");
 
-                SubMenu.AddSeparator(50);
+                SubMenu.AddSeparator();
 
                 UseE = SubMenu.Add("protectUseE", new CheckBox("Use E", true));
 
@@ -246,7 +246,7 @@ namespace PartyJanna
 
                 SubMenu.AddGroupLabel("Protection Priorities");
 
-                SubMenu.AddSeparator(50);
+                SubMenu.AddSeparator();
 
                 PriorityMode = SubMenu.Add<ComboBox>("priorityMode", new ComboBox("Protect by:", 0, new string[] { "Lowest Health", "Priority Level" }));
 
