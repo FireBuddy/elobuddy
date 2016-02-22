@@ -14,8 +14,11 @@ namespace PartyJanna.Functions
 
             PredictionData = new Prediction.Position.PredictionData(Prediction.Position.PredictionData.PredictionType.Circular, Convert.ToInt32(Config.Spells.Q.Range), Config.Spells.Q.Width, Config.Spells.Q.ConeAngleDegrees, Config.Spells.Q.CastDelay, Config.Spells.Q.Speed);
 
+            TargetSelector.GetTarget(Config.Spells.Q.Range, DamageType.Mixed);
+
             if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Flee))
             {
+
                 if (TargetSelector.SelectedTarget.IsValid && TargetSelector.SelectedTarget.IsEnemy && Config.Flee.UseQ.CurrentValue && Player.Instance.Mana >= Config.Spells.manaQ[Config.Spells.Q.Level] && TargetSelector.SelectedTarget.IsInRange(Player.Instance, Config.Spells.Q.Range))
                 {
                     Config.Spells.Q.Cast(Prediction.Position.GetPrediction(TargetSelector.SelectedTarget, PredictionData, true).CastPosition);

@@ -33,6 +33,8 @@ namespace PartyJanna.Functions
 
             LowestHP = int.MaxValue;
 
+            TargetSelector.GetTarget(Config.Spells.Q.Range, DamageType.Mixed);
+
             if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
                 foreach (Slider Slider in Config.Protect.SliderList)

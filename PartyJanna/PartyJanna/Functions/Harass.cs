@@ -12,6 +12,8 @@ namespace PartyJanna.Functions
         {
             Startup.CurrentFunction = "Harass";
 
+            TargetSelector.GetTarget(Config.Spells.Q.Range, DamageType.Mixed);
+
             if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) && TargetSelector.SelectedTarget.IsValid && TargetSelector.SelectedTarget.IsEnemy)
             {
                 if (Config.Harass.UseQ.CurrentValue && Player.Instance.Mana >= Config.Spells.manaQ[Config.Spells.Q.Level] && TargetSelector.SelectedTarget.IsInRange(Player.Instance, Config.Spells.Q.Range))
