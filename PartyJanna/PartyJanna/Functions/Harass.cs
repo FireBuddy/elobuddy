@@ -14,7 +14,7 @@ namespace PartyJanna.Functions
         {
             Startup.CurrentFunction = "Harass";
 
-            GetTarget = TargetSelector.GetTarget(Config.Spells.Q.Range, DamageType.Mixed);
+            GetTarget = TargetSelector.GetTarget(EntityManager.Heroes.Enemies, DamageType.Mixed);
 
             if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) && GetTarget.IsValid && GetTarget.IsEnemy)
             {
