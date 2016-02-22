@@ -81,8 +81,11 @@ namespace PartyJanna
                 SubMenu.AddSeparator();
 
                 DrawQ = SubMenu.Add("drawQ", new CheckBox("Draw Q Range Circle", true));
+                SubMenu.AddSeparator();
                 DrawW = SubMenu.Add("drawW", new CheckBox("Draw W Range Circle", true));
+                SubMenu.AddSeparator();
                 DrawE = SubMenu.Add("drawE", new CheckBox("Draw E Range Circle", true));
+                SubMenu.AddSeparator();
                 DrawR = SubMenu.Add("drawR", new CheckBox("Draw R Range Circle", true));
             }
         }
@@ -258,7 +261,7 @@ namespace PartyJanna
                     {
                         Slider PrioritySlider = SubMenu.Add<Slider>(Ally.ChampionName, new Slider(string.Format("{0} ({1})", Ally.ChampionName, Ally.Name), 1, 1, EntityManager.Heroes.Allies.Count - 1));
 
-                        SubMenu.AddSeparator();
+                        SubMenu.AddSeparator(13);
 
                         SliderList.Add(PrioritySlider);
 

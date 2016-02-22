@@ -38,8 +38,6 @@ namespace PartyJanna
             {
                 new Circle { Color = DrawingColor, Radius = Config.Spells.R.Range }.Draw(Player.Instance.Position);
             }
-
-            new Circle { Color = DrawingColor, Radius = 2200 }.Draw(Player.Instance.Position);
         }
     }
 }
