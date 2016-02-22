@@ -27,7 +27,7 @@ namespace PartyJanna.Functions
                 {
                     PriorityOrder = new List<string>();
 
-                    PredictionData = new Prediction.Position.PredictionData(Prediction.Position.PredictionData.PredictionType.Circular, Convert.ToInt32(Config.Spells.Q.Range), Config.Spells.Q.Radius, Config.Spells.Q.ConeAngleDegrees, Config.Spells.Q.CastDelay, Config.Spells.Q.Speed);
+                    PredictionData = new Prediction.Position.PredictionData(Prediction.Position.PredictionData.PredictionType.Circular, Convert.ToInt32(Config.Spells.Q.Range), Config.Spells.Q.Width, Config.Spells.Q.ConeAngleDegrees, Config.Spells.Q.CastDelay, Config.Spells.Q.Speed);
 
                     HighestPriority = 0;
 
@@ -59,20 +59,25 @@ namespace PartyJanna.Functions
                                     IgnoreMinionCollision = true;
                                 }
 
-                                Config.Spells.Q.Cast(Prediction.Position.PredictCircularMissile(Enemy, Config.Spells.Q.Range, Config.Spells.Q.Width, Config.Spells.Q.CastDelay, Config.Spells.Q.Speed, null, IgnoreMinionCollision).CastPosition);
+                                Config.Spells.Q.Cast(Prediction.Position.GetPrediction(Enemy, PredictionData, IgnoreMinionCollision).CastPosition);
+                            }
+
+                            if (Ally.ChampionName != Config.AddonChampion && Ally.IsInRange(Config.MyHero, Config.Spells.E.Range))
+                            {
+                                if (Ally.IsInAutoAttackRange(Enemy))
+                                {
+                                    Config.Spells.E.Cast(Ally);
+                                }
+
+                                if (Enemy.Spellbook.SpellWasCast && Ally.IsInRange(Enemy, Enemy.CastRange))
+                                {
+                                    Config.Spells.E.Cast(Ally);
+                                }
                             }
 
                             if (Enemy.IsInRange(Config.MyHero, Config.Spells.W.Range))
                             {
                                 Config.Spells.W.Cast(Enemy);
-                            }
-
-                            if (Ally.ChampionName != Config.AddonChampion && Ally.IsInRange(Config.MyHero, Config.Spells.E.Range))
-                            {
-                                if (Ally.IsInAutoAttackRange(Enemy) || Enemy.Spellbook.SpellWasCast && Ally.IsInRange(Enemy, Enemy.CastRange))
-                                {
-                                    Config.Spells.E.Cast(Ally);
-                                }
                             }
                         }
                     }
