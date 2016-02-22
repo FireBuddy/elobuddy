@@ -78,7 +78,7 @@ namespace PartyJanna.Functions
                     }
                 }
 
-                if (GetTarget.IsValid && GetTarget.IsEnemy && Config.Combo.UseQ.CurrentValue && Player.Instance.Mana >= Config.Spells.manaQ[Config.Spells.Q.Level] && GetTarget.IsInRange(Player.Instance, Config.Spells.Q.Range))
+                if (GetTarget.IsValid && GetTarget.IsEnemy && Config.Combo.UseQ.CurrentValue && Config.Spells.Q.IsReady() && Player.Instance.Mana >= Config.Spells.manaQ[Config.Spells.Q.Level] && GetTarget.IsInRange(Player.Instance, Config.Spells.Q.Range))
                 {
                     if (Player.Instance.CountEnemiesInRange(Config.Spells.Q.Range + 525) <= 2)
                     {
@@ -92,7 +92,7 @@ namespace PartyJanna.Functions
                     Config.Spells.Q.Cast(Prediction.Position.GetPrediction(GetTarget, PredictionData, IgnoreMinionCollision).CastPosition);
                 }
 
-                if (Config.Combo.UseE.CurrentValue && Player.Instance.Mana >= Config.Spells.manaE[Config.Spells.E.Level])
+                if (Config.Combo.UseE.CurrentValue && Config.Spells.E.IsReady() && Player.Instance.Mana >= Config.Spells.manaE[Config.Spells.E.Level])
                 {
                     if (Config.Protect.PriorityMode.CurrentValue == 0)
                     {
@@ -138,7 +138,7 @@ namespace PartyJanna.Functions
                     }
                 }
 
-                if (GetTarget.IsValid && GetTarget.IsEnemy && Config.Combo.UseW.CurrentValue && Player.Instance.Mana >= Config.Spells.manaW[Config.Spells.W.Level] && GetTarget.IsInRange(Player.Instance, Config.Spells.W.Range))
+                if (GetTarget.IsValid && GetTarget.IsEnemy && Config.Combo.UseW.CurrentValue && Config.Spells.W.IsReady() && Player.Instance.Mana >= Config.Spells.manaW[Config.Spells.W.Level] && GetTarget.IsInRange(Player.Instance, Config.Spells.W.Range))
                 {
                     Config.Spells.W.Cast(GetTarget);
                 }

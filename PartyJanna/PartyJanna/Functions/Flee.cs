@@ -21,12 +21,12 @@ namespace PartyJanna.Functions
             if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Flee))
             {
 
-                if (GetTarget.IsValid && GetTarget.IsEnemy && Config.Flee.UseQ.CurrentValue && Player.Instance.Mana >= Config.Spells.manaQ[Config.Spells.Q.Level] && GetTarget.IsInRange(Player.Instance, Config.Spells.Q.Range))
+                if (GetTarget.IsValid && GetTarget.IsEnemy && Config.Flee.UseQ.CurrentValue && Config.Spells.Q.IsReady() && Player.Instance.Mana >= Config.Spells.manaQ[Config.Spells.Q.Level] && GetTarget.IsInRange(Player.Instance, Config.Spells.Q.Range))
                 {
                     Config.Spells.Q.Cast(Prediction.Position.GetPrediction(GetTarget, PredictionData, true).CastPosition);
                 }
 
-                if (Config.Flee.UseE.CurrentValue && Player.Instance.Mana >= Config.Spells.manaE[Config.Spells.E.Level])
+                if (Config.Flee.UseE.CurrentValue && Config.Spells.E.IsReady() && Player.Instance.Mana >= Config.Spells.manaE[Config.Spells.E.Level])
                 {
                     foreach (AIHeroClient Enemy in EntityManager.Heroes.Enemies)
                     {
@@ -42,7 +42,7 @@ namespace PartyJanna.Functions
                     }
                 }
 
-                if (GetTarget.IsValid && GetTarget.IsEnemy && Config.Flee.UseW.CurrentValue && Player.Instance.Mana >= Config.Spells.manaW[Config.Spells.W.Level] && GetTarget.IsInRange(Player.Instance, Config.Spells.W.Range))
+                if (GetTarget.IsValid && GetTarget.IsEnemy && Config.Flee.UseW.CurrentValue && Config.Spells.W.IsReady() && Player.Instance.Mana >= Config.Spells.manaW[Config.Spells.W.Level] && GetTarget.IsInRange(Player.Instance, Config.Spells.W.Range))
                 {
                     Config.Spells.W.Cast(GetTarget);
                 }
