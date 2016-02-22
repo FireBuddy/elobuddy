@@ -19,6 +19,8 @@ namespace PartyJanna.Functions
 
         private static bool IgnoreMinionCollision { get; set; }
 
+        private static AIHeroClient GetTarget { get; set; }
+
         public static void Execute()
         {
             Startup.CurrentFunction = "Combo";
@@ -33,7 +35,7 @@ namespace PartyJanna.Functions
 
             LowestHP = int.MaxValue;
 
-            TargetSelector.GetTarget(Config.Spells.Q.Range, DamageType.Mixed);
+            GetTarget = TargetSelector.GetTarget(Config.Spells.Q.Range, DamageType.Mixed);
 
             if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
@@ -76,7 +78,7 @@ namespace PartyJanna.Functions
                     }
                 }
 
-                if (TargetSelector.SelectedTarget.IsValid && TargetSelector.SelectedTarget.IsEnemy && Config.Combo.UseQ.CurrentValue && Player.Instance.Mana >= Config.Spells.manaQ[Config.Spells.Q.Level] && TargetSelector.SelectedTarget.IsInRange(Player.Instance, Config.Spells.Q.Range))
+                if (GetTarget.IsValid && GetTarget.IsEnemy && Config.Combo.UseQ.CurrentValue && Player.Instance.Mana >= Config.Spells.manaQ[Config.Spells.Q.Level] && GetTarget.IsInRange(Player.Instance, Config.Spells.Q.Range))
                 {
                     if (Player.Instance.CountEnemiesInRange(Config.Spells.Q.Range + 525) <= 2)
                     {
@@ -87,7 +89,7 @@ namespace PartyJanna.Functions
                         IgnoreMinionCollision = true;
                     }
 
-                    Config.Spells.Q.Cast(Prediction.Position.GetPrediction(TargetSelector.SelectedTarget, PredictionData, IgnoreMinionCollision).CastPosition);
+                    Config.Spells.Q.Cast(Prediction.Position.GetPrediction(GetTarget, PredictionData, IgnoreMinionCollision).CastPosition);
                 }
 
                 if (Config.Combo.UseE.CurrentValue && Player.Instance.Mana >= Config.Spells.manaE[Config.Spells.E.Level])
@@ -136,9 +138,9 @@ namespace PartyJanna.Functions
                     }
                 }
 
-                if (TargetSelector.SelectedTarget.IsValid && TargetSelector.SelectedTarget.IsEnemy && Config.Combo.UseW.CurrentValue && Player.Instance.Mana >= Config.Spells.manaW[Config.Spells.W.Level] && TargetSelector.SelectedTarget.IsInRange(Player.Instance, Config.Spells.W.Range))
+                if (GetTarget.IsValid && GetTarget.IsEnemy && Config.Combo.UseW.CurrentValue && Player.Instance.Mana >= Config.Spells.manaW[Config.Spells.W.Level] && GetTarget.IsInRange(Player.Instance, Config.Spells.W.Range))
                 {
-                    Config.Spells.W.Cast(TargetSelector.SelectedTarget);
+                    Config.Spells.W.Cast(GetTarget);
                 }
             }
         }

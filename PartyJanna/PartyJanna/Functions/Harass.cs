@@ -8,15 +8,17 @@ namespace PartyJanna.Functions
     {
         private static bool IgnoreMinionCollision { get; set; }
 
+        private static AIHeroClient GetTarget { get; set; }
+
         public static void Execute()
         {
             Startup.CurrentFunction = "Harass";
 
-            TargetSelector.GetTarget(Config.Spells.Q.Range, DamageType.Mixed);
+            GetTarget = TargetSelector.GetTarget(Config.Spells.Q.Range, DamageType.Mixed);
 
-            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) && TargetSelector.SelectedTarget.IsValid && TargetSelector.SelectedTarget.IsEnemy)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) && GetTarget.IsValid && GetTarget.IsEnemy)
             {
-                if (Config.Harass.UseQ.CurrentValue && Player.Instance.Mana >= Config.Spells.manaQ[Config.Spells.Q.Level] && TargetSelector.SelectedTarget.IsInRange(Player.Instance, Config.Spells.Q.Range))
+                if (Config.Harass.UseQ.CurrentValue && Player.Instance.Mana >= Config.Spells.manaQ[Config.Spells.Q.Level] && GetTarget.IsInRange(Player.Instance, Config.Spells.Q.Range))
                 {
                     if (Player.Instance.CountEnemiesInRange(Config.Spells.Q.Range + 525) <= 2)
                     {
@@ -27,7 +29,7 @@ namespace PartyJanna.Functions
                         IgnoreMinionCollision = true;
                     }
 
-                    Config.Spells.Q.Cast(Prediction.Position.GetPrediction(TargetSelector.SelectedTarget, new Prediction.Position.PredictionData(Prediction.Position.PredictionData.PredictionType.Circular, Convert.ToInt32(Config.Spells.Q.Range), Config.Spells.Q.Width, Config.Spells.Q.ConeAngleDegrees, Config.Spells.Q.CastDelay, Config.Spells.Q.Speed), IgnoreMinionCollision).CastPosition);
+                    Config.Spells.Q.Cast(Prediction.Position.GetPrediction(GetTarget, new Prediction.Position.PredictionData(Prediction.Position.PredictionData.PredictionType.Circular, Convert.ToInt32(Config.Spells.Q.Range), Config.Spells.Q.Width, Config.Spells.Q.ConeAngleDegrees, Config.Spells.Q.CastDelay, Config.Spells.Q.Speed), IgnoreMinionCollision).CastPosition);
 
                     if (Config.Harass.UseE.CurrentValue && Player.Instance.Mana >= Config.Spells.manaE[Config.Spells.E.Level])
                     {
@@ -42,9 +44,9 @@ namespace PartyJanna.Functions
 
                 }
 
-                if (Config.Harass.UseW.CurrentValue && Player.Instance.Mana >= Config.Spells.manaW[Config.Spells.W.Level] && TargetSelector.SelectedTarget.IsInRange(Player.Instance, Config.Spells.W.Range))
+                if (Config.Harass.UseW.CurrentValue && Player.Instance.Mana >= Config.Spells.manaW[Config.Spells.W.Level] && GetTarget.IsInRange(Player.Instance, Config.Spells.W.Range))
                 {
-                    Config.Spells.W.Cast(TargetSelector.SelectedTarget);
+                    Config.Spells.W.Cast(GetTarget);
 
                     if (Config.Harass.UseE.CurrentValue && Player.Instance.Mana >= Config.Spells.manaE[Config.Spells.E.Level])
                     {
