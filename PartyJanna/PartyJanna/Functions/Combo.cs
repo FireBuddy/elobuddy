@@ -29,7 +29,7 @@ namespace PartyJanna.Functions
 
             HpAllyOrder = new List<AIHeroClient>();
 
-            PredictionData = new Prediction.Position.PredictionData(Prediction.Position.PredictionData.PredictionType.Circular, Convert.ToInt32(Config.Spells.Q.Range), Config.Spells.Q.Width, Config.Spells.Q.ConeAngleDegrees, Config.Spells.Q.CastDelay, Config.Spells.Q.Speed);
+            PredictionData = new Prediction.Position.PredictionData(Prediction.Position.PredictionData.PredictionType.Circular, Convert.ToInt32(Config.Spells.Q.Range), Config.Spells.Q.Width, Config.Spells.Q.ConeAngleDegrees, Config.Spells.Q.CastDelay, Config.Spells.Q.Speed, Config.Combo.TryToHitMultipleEnemies.CurrentValue ? 2 : 0);
 
             HighestPriority = 0;
 
@@ -80,16 +80,14 @@ namespace PartyJanna.Functions
 
                 if (GetTarget.IsValid && GetTarget.IsEnemy && Config.Combo.UseQ.CurrentValue && Config.Spells.Q.IsReady() && Player.Instance.Mana >= Config.Spells.manaQ[Config.Spells.Q.Level] && GetTarget.IsInRange(Player.Instance, Config.Spells.Q.Range))
                 {
-                    if (Player.Instance.CountEnemiesInRange(Config.Spells.Q.Range + 525) <= 2)
+                    if (Config.Combo.IgnoreCollision.CurrentValue && Player.Instance.CountEnemiesInRange(2200) >= Config.Combo.IgnoreCollisionEnemies.CurrentValue)
                     {
-                        IgnoreMinionCollision = false;
+                        Config.Spells.Q.Cast(Prediction.Position.GetPrediction(GetTarget, PredictionData, true).CastPosition);
                     }
                     else
                     {
-                        IgnoreMinionCollision = true;
+                        Config.Spells.Q.Cast(Prediction.Position.GetPrediction(GetTarget, PredictionData).CastPosition);
                     }
-
-                    Config.Spells.Q.Cast(Prediction.Position.GetPrediction(GetTarget, PredictionData, IgnoreMinionCollision).CastPosition);
                 }
 
                 if (Config.Combo.UseE.CurrentValue && Config.Spells.E.IsReady() && Player.Instance.Mana >= Config.Spells.manaE[Config.Spells.E.Level])
