@@ -15,6 +15,8 @@ namespace PartyJanna.Functions
 
         private static Prediction.Position.PredictionData PredictionData { get; set; }
 
+        private static bool IgnoreMinionCollision { get; set; }
+
         public static void Execute()
         {
             Startup.CurrentFunction = "Combo";
@@ -24,7 +26,9 @@ namespace PartyJanna.Functions
                 if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
                 {
                     PriorityOrder = new List<string>();
+
                     PredictionData = new Prediction.Position.PredictionData(Prediction.Position.PredictionData.PredictionType.Circular, Convert.ToInt32(Config.Spells.Q.Range), Config.Spells.Q.Radius, Config.Spells.Q.ConeAngleDegrees, Config.Spells.Q.CastDelay, Config.Spells.Q.Speed);
+
                     HighestPriority = 0;
 
                     foreach (Slider PrioritySlider in Config.Protect.PrioritySliderList)
@@ -42,21 +46,30 @@ namespace PartyJanna.Functions
 
                     foreach (AIHeroClient Enemy in EntityManager.Heroes.Enemies)
                     {
-                        if (Enemy.IsInRange(Config.MyHero, Config.Spells.Q.Range))
-                        {
-                            Config.Spells.Q.Cast(Prediction.Position.PredictCircularMissile(Enemy, Config.Spells.Q.Range, Config.Spells.Q.Width, Config.Spells.Q.CastDelay, Config.Spells.Q.Speed, null, true).CastPosition);
-                        }
-
-                        if (Enemy.IsInRange(Config.MyHero, Config.Spells.W.Range))
-                        {
-                            Config.Spells.W.Cast(Enemy);
-                        }
-
                         foreach (AIHeroClient Ally in EntityManager.Heroes.Allies)
                         {
+                            if (Enemy.IsInRange(Config.MyHero, Config.Spells.Q.Range))
+                            {
+                                if (Config.MyHero.CountEnemiesInRange(Config.Spells.Q.Range) <= 2)
+                                {
+                                    IgnoreMinionCollision = false;
+                                }
+                                else
+                                {
+                                    IgnoreMinionCollision = true;
+                                }
+
+                                Config.Spells.Q.Cast(Prediction.Position.PredictCircularMissile(Enemy, Config.Spells.Q.Range, Config.Spells.Q.Width, Config.Spells.Q.CastDelay, Config.Spells.Q.Speed, null, IgnoreMinionCollision).CastPosition);
+                            }
+
+                            if (Enemy.IsInRange(Config.MyHero, Config.Spells.W.Range))
+                            {
+                                Config.Spells.W.Cast(Enemy);
+                            }
+
                             if (Ally.ChampionName != Config.AddonChampion)
                             {
-                                if ((Ally.IsInAutoAttackRange(Enemy) || Ally.IsInRange(Enemy, Enemy.CastRange)) && Ally.IsInRange(Config.MyHero, Config.Spells.E.Range))
+                                if (Ally.IsInRange(Config.MyHero, Config.Spells.E.Range) && (Enemy.Spellbook.SpellWasCast && Ally.IsInRange(Enemy, Enemy.CastRange)) || Ally.IsInAutoAttackRange(Enemy))
                                 {
                                     Config.Spells.E.Cast(Ally);
                                 }
