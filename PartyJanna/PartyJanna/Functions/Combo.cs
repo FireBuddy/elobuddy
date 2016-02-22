@@ -35,7 +35,7 @@ namespace PartyJanna.Functions
 
             LowestHP = int.MaxValue;
 
-            GetTarget = TargetSelector.GetTarget(Config.Spells.Q.Range, DamageType.True);
+            GetTarget = TargetSelector.GetTarget(EntityManager.Heroes.Enemies, DamageType.True);
 
             if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo))
             {
