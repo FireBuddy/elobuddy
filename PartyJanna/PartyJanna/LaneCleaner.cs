@@ -6,13 +6,9 @@ namespace PartyJanna
 {
     public static class LaneCleaner
     {
-        private static Prediction.Position.PredictionData PredictionData { get; set; }
-
         public static void Execute()
         {
             Startup.CurrentFunction = "LaneCleaner";
-
-            PredictionData = new Prediction.Position.PredictionData(Prediction.Position.PredictionData.PredictionType.Circular, Convert.ToInt32(Config.Spells.Q.Range), Config.Spells.Q.Width, Config.Spells.Q.ConeAngleDegrees, Config.Spells.Q.CastDelay, Config.Spells.Q.Speed);
 
             if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear) && Config.LaneCleaner.UseQ.CurrentValue && Player.Instance.Mana >= Config.Spells.manaQ[Config.Spells.Q.Level])
             {
@@ -20,7 +16,7 @@ namespace PartyJanna
                 {
                     if (EnemyMinion.IsInRange(Player.Instance, Config.Spells.Q.Range))
                     {
-                        Config.Spells.Q.Cast(Prediction.Position.GetPrediction(EnemyMinion, PredictionData, true).CastPosition);
+                        Config.Spells.Q.Cast(EnemyMinion);
                     }
                 }
             }

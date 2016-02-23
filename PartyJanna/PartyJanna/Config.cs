@@ -28,6 +28,7 @@ namespace PartyJanna
             Harass.Init();
             LaneCleaner.Init();
             RangeCircles.Init();
+            AutoShield.Init();
         }
 
         public static class Spells
@@ -40,22 +41,22 @@ namespace PartyJanna
             public static Spell.Targeted E { get; private set; }
             public static Spell.Active R { get; private set; }
 
-            public static int[] manaQ { get; private set; }
-            public static int[] manaW { get; private set; }
-            public static int[] manaE { get; private set; }
-            public static int[] manaR { get; private set; }
+            public static float[] manaQ { get; private set; }
+            public static float[] manaW { get; private set; }
+            public static float[] manaE { get; private set; }
+            public static float[] manaR { get; private set; }
 
             static Spells()
             {
-                Q = new Spell.Skillshot(SpellSlot.Q, 1050, SkillShotType.Circular, 250, 900, 100);
+                Q = new Spell.Skillshot(SpellSlot.Q, 1100, SkillShotType.Linear, 250, 900, 200);
                 W = new Spell.Targeted(SpellSlot.W, 600);
                 E = new Spell.Targeted(SpellSlot.E, 800);
                 R = new Spell.Active(SpellSlot.R, 725);
 
-                manaQ = new int[] { 90, 105, 120, 135, 150 };
-                manaW = new int[] { 40, 50, 60, 70, 80 };
-                manaE = new int[] { 70, 80, 90, 100, 110 };
-                manaR = new int[] { 100, 100, 100, 100, 100 };
+                manaQ = new float[] { 90, 105, 120, 135, 150 };
+                manaW = new float[] { 40, 50, 60, 70, 80 };
+                manaE = new float[] { 70, 80, 90, 100, 110 };
+                manaR = new float[] { 100, 100, 100, 100, 100 };
             }
         }
 
@@ -99,10 +100,9 @@ namespace PartyJanna
             public static CheckBox UseW { get; private set; }
             public static CheckBox UseE { get; private set; }
 
-            public static CheckBox IgnoreCollision { get; private set; }
             public static CheckBox TryToHitMultipleEnemies { get; private set; }
 
-            public static Slider IgnoreCollisionEnemies { get; private set; }
+            public static Slider UseRange { get; private set; }
 
             static Combo()
             {
@@ -114,18 +114,14 @@ namespace PartyJanna
                 UseQ = SubMenu.Add("comboUseQ", new CheckBox("Use Q", true));
                 SubMenu.AddSeparator();
                 UseW = SubMenu.Add("comboUseW", new CheckBox("Use W", true));
-                SubMenu.AddSeparator();
-                UseE = SubMenu.Add("comboUseE", new CheckBox("Use E to protect allies", false));
 
                 SubMenu.AddSeparator(50);
 
                 TryToHitMultipleEnemies = SubMenu.Add("hitMultipleEnemies", new CheckBox("Q Spell - Try to hit multiple enemies", false));
-                SubMenu.AddSeparator();
-                IgnoreCollision = SubMenu.Add("ignoreCollision", new CheckBox("Q Spell - Ignore Other Collisions (Not working very well)", false));
 
                 SubMenu.AddSeparator();
 
-                IgnoreCollisionEnemies = SubMenu.Add<Slider>("ignoreCollisionEnemies", new Slider("Enemies Nearby to Ignore Collisions:", 1, 1, 5));
+                UseRange = SubMenu.Add<Slider>("useRange", new Slider("Q Spell - Max. range to use:", 1100, 1100, 1700));
             }
         }
 
@@ -140,6 +136,8 @@ namespace PartyJanna
             public static CheckBox UseW { get; private set; }
             public static CheckBox UseE { get; private set; }
 
+            public static Slider UseRange { get; private set; }
+
             static Flee()
             {
                 SubMenu = Menu.AddSubMenu("Flee");
@@ -152,6 +150,10 @@ namespace PartyJanna
                 UseW = SubMenu.Add("fleeUseW", new CheckBox("Use W", true));
                 SubMenu.AddSeparator();
                 UseE = SubMenu.Add("fleeUseE", new CheckBox("Use E on yourself", true));
+
+                SubMenu.AddSeparator();
+
+                UseRange = SubMenu.Add<Slider>("useRange", new Slider("Q Spell - Max. range to use:", 1100, 1100, 1700));
             }
         }
 
@@ -166,10 +168,9 @@ namespace PartyJanna
             public static CheckBox UseW { get; private set; }
             public static CheckBox UseE { get; private set; }
 
-            public static CheckBox IgnoreCollision { get; private set; }
             public static CheckBox TryToHitMultipleEnemies { get; private set; }
 
-            public static Slider IgnoreCollisionEnemies { get; private set; }
+            public static Slider UseRange { get; private set; }
 
             static Harass()
             {
@@ -187,12 +188,10 @@ namespace PartyJanna
                 SubMenu.AddSeparator(50);
 
                 TryToHitMultipleEnemies = SubMenu.Add("hitMultipleEnemies", new CheckBox("Q Spell - Try to hit multiple enemies", false));
-                SubMenu.AddSeparator();
-                IgnoreCollision = SubMenu.Add("ignoreCollision", new CheckBox("Q Spell - Ignore Other Collisions (Not working very well)", false));
 
                 SubMenu.AddSeparator();
 
-                IgnoreCollisionEnemies = SubMenu.Add<Slider>("ignoreCollisionEnemies", new Slider("Enemies Nearby to Ignore Collisions:", 2, 1, 5));
+                UseRange = SubMenu.Add<Slider>("useRange", new Slider("Q Spell - Max. range to use:", 1100, 1100, 1700));
             }
         }
 

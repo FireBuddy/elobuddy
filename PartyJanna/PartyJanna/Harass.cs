@@ -1,6 +1,5 @@
 ﻿using EloBuddy;
 using EloBuddy.SDK;
-using System;
 
 namespace PartyJanna
 {
@@ -18,48 +17,19 @@ namespace PartyJanna
 
             GetTarget = TargetSelector.GetTarget(EntityManager.Heroes.Enemies, DamageType.True);
 
-            PredictionData = new Prediction.Position.PredictionData(Prediction.Position.PredictionData.PredictionType.Circular, Convert.ToInt32(Config.Spells.Q.Range), Config.Spells.Q.Width, Config.Spells.Q.ConeAngleDegrees, Config.Spells.Q.CastDelay, Config.Spells.Q.Speed, Config.Harass.TryToHitMultipleEnemies.CurrentValue ? 2 : 0);
-
-            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass) && GetTarget.IsValid && GetTarget.IsEnemy)
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
             {
-                if (Config.Harass.UseQ.CurrentValue && Config.Spells.Q.IsReady() && Player.Instance.Mana >= Config.Spells.manaQ[Config.Spells.Q.Level] && GetTarget.IsInRange(Player.Instance, Config.Spells.Q.Range))
+                if (Player.Instance.Mana < Config.Spells.manaW[Config.Spells.W.Level])
+                { return; }
+
+                if (Config.Combo.UseQ.CurrentValue && Config.Spells.Q.IsReady() && Player.Instance.Mana >= Config.Spells.manaQ[Config.Spells.Q.Level] && GetTarget.IsInRange(Player.Instance, Config.Spells.Q.Range))
                 {
-                    if (Config.Harass.IgnoreCollision.CurrentValue && Player.Instance.CountEnemiesInRange(2200) >= Config.Harass.IgnoreCollisionEnemies.CurrentValue)
-                    {
-                        Config.Spells.Q.Cast(Prediction.Position.GetPrediction(GetTarget, PredictionData, true).CastPosition);
-                    }
-                    else
-                    {
-                        Config.Spells.Q.Cast(Prediction.Position.GetPrediction(GetTarget, PredictionData).CastPosition);
-                    }
-
-                    if (Config.Harass.UseE.CurrentValue && Config.Spells.E.IsReady() && Player.Instance.Mana >= Config.Spells.manaE[Config.Spells.E.Level])
-                    {
-                        foreach (AIHeroClient Enemy in EntityManager.Heroes.Enemies)
-                        {
-                            if (Enemy.Spellbook.SpellWasCast && Player.Instance.IsInRange(Enemy, Enemy.CastRange))
-                            {
-                                Config.Spells.E.Cast(Player.Instance);
-                            }
-                        }
-                    }
-
+                    Config.Spells.Q.Cast(Prediction.Position.GetPrediction(GetTarget, new Prediction.Position.PredictionData(Prediction.Position.PredictionData.PredictionType.Linear, Config.Harass.UseRange.CurrentValue, Config.Spells.Q.Width, Config.Spells.Q.ConeAngleDegrees, Config.Spells.Q.CastDelay, Config.Spells.Q.Speed, Config.Combo.TryToHitMultipleEnemies.CurrentValue ? 2 : 0), true).CastPosition);
                 }
 
-                if (Config.Harass.UseW.CurrentValue && Config.Spells.W.IsReady() && Player.Instance.Mana >= Config.Spells.manaW[Config.Spells.W.Level] && GetTarget.IsInRange(Player.Instance, Config.Spells.W.Range))
+                if (Config.Combo.UseW.CurrentValue && Config.Spells.W.IsReady() && GetTarget.IsInRange(Player.Instance, Config.Spells.W.Range))
                 {
                     Config.Spells.W.Cast(GetTarget);
-
-                    if (Config.Harass.UseE.CurrentValue && Config.Spells.E.IsReady() && Player.Instance.Mana >= Config.Spells.manaE[Config.Spells.E.Level])
-                    {
-                        foreach (AIHeroClient Enemy in EntityManager.Heroes.Enemies)
-                        {
-                            if (Enemy.Spellbook.SpellWasCast && Player.Instance.IsInRange(Enemy, Enemy.CastRange))
-                            {
-                                Config.Spells.E.Cast(Player.Instance);
-                            }
-                        }
-                    }
                 }
             }
         }
