@@ -78,10 +78,16 @@ namespace PartyJanna
 
             LowestHP = int.MaxValue;
 
-            /*if (sender.IsAlly && sender.IsRanged && args.Target.IsEnemy && !args.Target)
+            if (sender.IsAlly && sender.IsRanged)
             {
-                Config.Spells.E.Cast(sender);
-            }*/
+                foreach (AIHeroClient Enemy in EntityManager.Heroes.Enemies)
+                {
+                    if (args.Target == Enemy)
+                    {
+                        Config.Spells.E.Cast(sender);
+                    }
+                }
+            }
 
             if (sender.IsEnemy)
             {
