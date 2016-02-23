@@ -1,14 +1,8 @@
 ﻿using EloBuddy;
 using EloBuddy.SDK;
-using EloBuddy.SDK.Rendering;
-using System;
+using EloBuddy.SDK.Menu.Values;
 using System.Collections.Generic;
 using System.Linq;
-using EloBuddy;
-using EloBuddy.SDK;
-using EloBuddy.SDK.Menu.Values;
-using System;
-using System.Collections.Generic;
 
 namespace PartyJanna
 {
@@ -129,7 +123,6 @@ namespace PartyJanna
         static AutoShield()
         {
             Startup.CurrentFunction = "AutoShield";
-            Chat.Print("auto");
 
             Obj_AI_Base.OnProcessSpellCast += OnProcessSpellCast;
         }
