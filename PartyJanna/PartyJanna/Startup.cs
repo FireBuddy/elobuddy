@@ -1,6 +1,5 @@
 ﻿using EloBuddy;
 using EloBuddy.SDK.Events;
-using PartyJanna.Functions;
 using System;
 
 namespace PartyJanna

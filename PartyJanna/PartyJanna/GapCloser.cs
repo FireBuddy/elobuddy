@@ -2,7 +2,7 @@
 using EloBuddy.SDK;
 using System;
 
-namespace PartyJanna.Functions
+namespace PartyJanna
 {
     public static class GapCloser
     {
