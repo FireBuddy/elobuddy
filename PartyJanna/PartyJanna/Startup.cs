@@ -22,6 +22,8 @@ namespace PartyJanna
             }
 
             Config.Init();
+            //AutoShield.Init();
+            Draw.Init();
 
             Chat.Print("{0} has finished loading.\nHold SHIFT to configure.", Config.AddonName);
 

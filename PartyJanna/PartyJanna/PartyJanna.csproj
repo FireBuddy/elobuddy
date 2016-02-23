@@ -72,11 +72,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Functions\Flee.cs" />
+    <Compile Include="AutoShield.cs" />
+    <Compile Include="Interrupter.cs" />
+    <Compile Include="Flee.cs" />
     <Compile Include="Draw.cs" />
-    <Compile Include="Functions\LaneCleaner.cs" />
-    <Compile Include="Functions\Harass.cs" />
-    <Compile Include="Functions\Combo.cs" />
+    <Compile Include="GapCloser.cs" />
+    <Compile Include="LaneCleaner.cs" />
+    <Compile Include="Harass.cs" />
+    <Compile Include="Combo.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

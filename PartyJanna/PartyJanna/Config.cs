@@ -24,11 +24,9 @@ namespace PartyJanna
 
             Spells.Init();
             Combo.Init();
-            Draw.Init();
             Flee.Init();
             Harass.Init();
             LaneCleaner.Init();
-            Protect.Init();
             RangeCircles.Init();
         }
 
@@ -218,7 +216,7 @@ namespace PartyJanna
             }
         }
 
-        public static class Protect
+        public static class AutoShield
         {
             public static void Init()
             { }
@@ -233,21 +231,21 @@ namespace PartyJanna
             public static List<AIHeroClient> AIHeroClientList { get; private set; }
 
 
-            static Protect()
+            static AutoShield()
             {
                 SliderList = new List<Slider>();
                 AIHeroClientList = new List<AIHeroClient>();
 
-                SubMenu = Menu.AddSubMenu("Protect");
-                SubMenu.AddGroupLabel("Protect Settings");
+                SubMenu = Menu.AddSubMenu("AutoShield");
+                SubMenu.AddGroupLabel("AutoShield Settings");
                 
                 SubMenu.AddSeparator();
 
-                UseE = SubMenu.Add("protectUseE", new CheckBox("Use E", true));
+                UseE = SubMenu.Add("useShield", new CheckBox("Use E", true));
 
                 SubMenu.AddSeparator(50);
 
-                SubMenu.AddGroupLabel("Protection Priorities");
+                SubMenu.AddGroupLabel("AutoShield Priorities");
 
                 SubMenu.AddSeparator();
 
