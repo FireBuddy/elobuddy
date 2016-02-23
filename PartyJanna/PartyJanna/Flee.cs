@@ -6,15 +6,11 @@ namespace PartyJanna
 {
     public static class Flee
     {
-        private static Prediction.Position.PredictionData PredictionData { get; set; }
-
         private static AIHeroClient GetTarget { get; set; }
 
         public static void Execute()
         {
             Startup.CurrentFunction = "Flee";
-
-            PredictionData = new Prediction.Position.PredictionData(Prediction.Position.PredictionData.PredictionType.Circular, Convert.ToInt32(Config.Spells.Q.Range), Config.Spells.Q.Width, Config.Spells.Q.ConeAngleDegrees, Config.Spells.Q.CastDelay, Config.Spells.Q.Speed);
 
             GetTarget = TargetSelector.GetTarget(EntityManager.Heroes.Enemies, DamageType.True);
 
@@ -23,7 +19,7 @@ namespace PartyJanna
 
                 if (GetTarget.IsValid && GetTarget.IsEnemy && Config.Flee.UseQ.CurrentValue && Config.Spells.Q.IsReady() && Player.Instance.Mana >= Config.Spells.manaQ[Config.Spells.Q.Level] && GetTarget.IsInRange(Player.Instance, Config.Spells.Q.Range))
                 {
-                    Config.Spells.Q.Cast(Prediction.Position.GetPrediction(GetTarget, PredictionData, true).CastPosition);
+                    Config.Spells.Q.Cast(Prediction.Position.GetPrediction(GetTarget, new Prediction.Position.PredictionData(Prediction.Position.PredictionData.PredictionType.Circular, Convert.ToInt32(Config.Spells.Q.Range), Config.Spells.Q.Width, Config.Spells.Q.ConeAngleDegrees, Config.Spells.Q.CastDelay, Config.Spells.Q.Speed), true).CastPosition);
                 }
 
                 if (Config.Flee.UseE.CurrentValue && Config.Spells.E.IsReady() && Player.Instance.Mana >= Config.Spells.manaE[Config.Spells.E.Level])

@@ -18,12 +18,6 @@ namespace PartyJanna
 
         private static float LowestHP { get; set; }
 
-        private static Prediction.Position.PredictionData PredictionData { get; set; }
-
-        private static bool IgnoreMinionCollision { get; set; }
-
-        private static AIHeroClient GetTarget { get; set; }
-
         public static void Execute()
         {
             PriorAllyOrder = new List<AIHeroClient>();
