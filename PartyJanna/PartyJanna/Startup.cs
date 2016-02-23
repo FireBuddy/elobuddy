@@ -34,6 +34,7 @@ namespace PartyJanna
         {
             try
             {
+                AutoShield.Execute();
                 Combo.Execute();
                 Harass.Execute();
                 Flee.Execute();
