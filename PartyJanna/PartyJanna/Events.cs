@@ -63,7 +63,7 @@ namespace PartyJanna
 
             if (e.DangerLevel == DangerLevel.High)
             {
-                if (SpellManager.R.IsReady() && SpellManager.R.IsInRange(sender))
+                if (SpellManager.R.IsReady() && SpellManager.R.IsInRange(sender) && Player.Instance.Mana >= 100)
                 {
                     SpellManager.R.Cast();
                 }
