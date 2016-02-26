@@ -1,32 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{80849191-98E3-4B09-9B1A-61859E2FC38A}</ProjectGuid>
+    <ProjectGuid>{6CE561E6-368D-4E58-BFBB-77F4E96EF5C5}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>PartyJanna</RootNamespace>
     <AssemblyName>PartyJanna</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <PublishUrl>publish\</PublishUrl>
-    <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -47,9 +31,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject>PartyJanna.Startup</StartupObject>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="EloBuddy">
       <HintPath>..\..\..\..\..\AppData\Roaming\EloBuddy\Addons\Libraries\EloBuddy.dll</HintPath>
@@ -57,8 +38,7 @@
     <Reference Include="EloBuddy.SDK">
       <HintPath>..\..\..\..\..\AppData\Roaming\EloBuddy\Addons\Libraries\EloBuddy.SDK.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX, Version=2.6.3.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="SharpDX">
       <HintPath>..\..\..\..\..\AppData\Roaming\EloBuddy\Addons\Libraries\SharpDX.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -68,38 +48,26 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutoShield.cs" />
-    <Compile Include="Interrupter.cs" />
-    <Compile Include="Flee.cs" />
-    <Compile Include="Draw.cs" />
-    <Compile Include="GapCloser.cs" />
-    <Compile Include="LaneCleaner.cs" />
-    <Compile Include="Harass.cs" />
-    <Compile Include="Combo.cs" />
     <Compile Include="Config.cs" />
-    <Compile Include="Startup.cs" />
+    <Compile Include="ModeManager.cs" />
+    <Compile Include="Modes\PermaActive.cs" />
+    <Compile Include="Modes\Flee.cs" />
+    <Compile Include="Modes\LaneClear.cs" />
+    <Compile Include="Modes\JungleClear.cs" />
+    <Compile Include="Modes\LastHit.cs" />
+    <Compile Include="Modes\Harass.cs" />
+    <Compile Include="Modes\Combo.cs" />
+    <Compile Include="Modes\ModeBase.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Events.cs" />
+    <Compile Include="SpellManager.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
-      <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4.5.2 %28x86 and x64%29</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
+    <None Include="App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("PartyJanna")]
-[assembly: AssemblyDescription("Elobuddy Addon for use with the champion: Janna.")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("houzeparty")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("PartyJanna")]
-[assembly: AssemblyCopyright("Copyright ©  2016")]
+[assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("80849191-98e3-4b09-9b1a-61859e2fc38a")]
+[assembly: Guid("3203502a-4253-4edd-9331-74a49c616ed2")]
 
 // Version information for an assembly consists of the following four values:
 //

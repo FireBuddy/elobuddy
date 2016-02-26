@@ -1,6 +1,5 @@
 ﻿using EloBuddy;
 using EloBuddy.SDK;
-using EloBuddy.SDK.Enumerations;
 using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 using System.Collections.Generic;
@@ -9,262 +8,221 @@ namespace PartyJanna
 {
     public static class Config
     {
-        public static void Init()
-        { }
-
-        public const string AddonChampion = "Janna";
-        public const string AddonName = "PartyJanna";
+        private const string MenuName = "PartyJanna";
 
         private static readonly Menu Menu;
 
         static Config()
         {
-            Menu = MainMenu.AddMenu(AddonName, AddonName.ToLower());
-            Menu.AddGroupLabel(string.Format("Welcome to {0}'s settings menu!\nYour feedback would be much appreciated!", AddonName));
+            Menu = MainMenu.AddMenu(MenuName, MenuName.ToLower());
+            Menu.AddGroupLabel("Welcome to PartyJanna settings menu!");
 
-            Spells.Init();
-            Combo.Init();
-            Flee.Init();
-            Harass.Init();
-            LaneCleaner.Init();
-            RangeCircles.Init();
-            AutoShield.Init();
+            Modes.Initialize();
         }
 
-        public static class Spells
+        public static void Initialize() { }
+
+        public static class Modes
         {
-            public static void Init()
-            { }
+            private static readonly Menu Menu;
 
-            public static Spell.Skillshot Q { get; private set; }
-            public static Spell.Targeted W { get; private set; }
-            public static Spell.Targeted E { get; private set; }
-            public static Spell.Active R { get; private set; }
-
-            public static float[] manaQ { get; private set; }
-            public static float[] manaW { get; private set; }
-            public static float[] manaE { get; private set; }
-            public static float[] manaR { get; private set; }
-
-            static Spells()
+            static Modes()
             {
-                Q = new Spell.Skillshot(SpellSlot.Q, 1100, SkillShotType.Linear, 250, 900, 200);
-                W = new Spell.Targeted(SpellSlot.W, 600);
-                E = new Spell.Targeted(SpellSlot.E, 800);
-                R = new Spell.Active(SpellSlot.R, 725);
+                Menu = Config.Menu.AddSubMenu("Modes");
 
-                manaQ = new float[] { 90, 105, 120, 135, 150 };
-                manaW = new float[] { 40, 50, 60, 70, 80 };
-                manaE = new float[] { 70, 80, 90, 100, 110 };
-                manaR = new float[] { 100, 100, 100, 100, 100 };
+                AutoShield.Initialize();
+                Menu.AddSeparator();
+
+                Combo.Initialize();
+                Menu.AddSeparator();
+
+                Flee.Initialize();
+                Menu.AddSeparator();
+
+                Harass.Initialize();
+                Menu.AddSeparator();
             }
-        }
 
-        public static class RangeCircles
-        {
-            public static void Init()
-            { }
-
-            private static readonly Menu SubMenu;
-
-            public static CheckBox DrawQ { get; private set; }
-            public static CheckBox DrawW { get; private set; }
-            public static CheckBox DrawE { get; private set; }
-            public static CheckBox DrawR { get; private set; }
-
-            static RangeCircles()
+            public static void Initialize()
             {
-                SubMenu = Menu.AddSubMenu("RangeCircles");
-                SubMenu.AddGroupLabel("RangeCircles Settings");
-
-                SubMenu.AddSeparator();
-
-                DrawQ = SubMenu.Add("drawQ", new CheckBox("Draw Q Range Circle", true));
-                SubMenu.AddSeparator();
-                DrawW = SubMenu.Add("drawW", new CheckBox("Draw W Range Circle", true));
-                SubMenu.AddSeparator();
-                DrawE = SubMenu.Add("drawE", new CheckBox("Draw E Range Circle", true));
-                SubMenu.AddSeparator();
-                DrawR = SubMenu.Add("drawR", new CheckBox("Draw R Range Circle", true));
             }
-        }
 
-        public static class Combo
-        {
-            public static void Init()
-            { }
-
-            private static readonly Menu SubMenu;
-
-            public static CheckBox UseQ { get; private set; }
-            public static CheckBox UseW { get; private set; }
-            public static CheckBox UseE { get; private set; }
-
-            public static CheckBox TryToHitMultipleEnemies { get; private set; }
-
-            public static Slider UseRange { get; private set; }
-
-            static Combo()
+            public static class AutoShield
             {
-                SubMenu = Menu.AddSubMenu("Combo");
-                SubMenu.AddGroupLabel("Combo Settings");
+                private static readonly CheckBox _boostAD;
+                private static readonly ComboBox _priorMode;
+                private static readonly List<Slider> _sliders;
+                private static readonly List<AIHeroClient> _heros;
 
-                SubMenu.AddSeparator();
-
-                UseQ = SubMenu.Add("comboUseQ", new CheckBox("Use Q", true));
-                SubMenu.AddSeparator();
-                UseW = SubMenu.Add("comboUseW", new CheckBox("Use W", true));
-
-                SubMenu.AddSeparator(50);
-
-                TryToHitMultipleEnemies = SubMenu.Add("hitMultipleEnemies", new CheckBox("Q Spell - Try to hit multiple enemies", false));
-
-                SubMenu.AddSeparator();
-
-                UseRange = SubMenu.Add<Slider>("useRange", new Slider("Q Spell - Max. range to use:", 1100, 1100, 1700));
-            }
-        }
-
-        public static class Flee
-        {
-            public static void Init()
-            { }
-
-            private static readonly Menu SubMenu;
-
-            public static CheckBox UseQ { get; private set; }
-            public static CheckBox UseW { get; private set; }
-            public static CheckBox UseE { get; private set; }
-
-            public static Slider UseRange { get; private set; }
-
-            static Flee()
-            {
-                SubMenu = Menu.AddSubMenu("Flee");
-                SubMenu.AddGroupLabel("Flee Settings");
-
-                SubMenu.AddSeparator();
-
-                UseQ = SubMenu.Add("fleeUseQ", new CheckBox("Use Q", true));
-                SubMenu.AddSeparator();
-                UseW = SubMenu.Add("fleeUseW", new CheckBox("Use W", true));
-                SubMenu.AddSeparator();
-                UseE = SubMenu.Add("fleeUseE", new CheckBox("Use E on yourself", true));
-
-                SubMenu.AddSeparator();
-
-                UseRange = SubMenu.Add<Slider>("useRange", new Slider("Q Spell - Max. range to use:", 1100, 1100, 1700));
-            }
-        }
-
-        public static class Harass
-        {
-            public static void Init()
-            { }
-
-            private static readonly Menu SubMenu;
-
-            public static CheckBox UseQ { get; private set; }
-            public static CheckBox UseW { get; private set; }
-            public static CheckBox UseE { get; private set; }
-
-            public static CheckBox TryToHitMultipleEnemies { get; private set; }
-
-            public static Slider UseRange { get; private set; }
-
-            static Harass()
-            {
-                SubMenu = Menu.AddSubMenu("Harass");
-                SubMenu.AddGroupLabel("Harass Settings");
-
-                SubMenu.AddSeparator();
-
-                UseQ = SubMenu.Add("harassUseQ", new CheckBox("Use Q", false));
-                SubMenu.AddSeparator();
-                UseW = SubMenu.Add("harassUseW", new CheckBox("Use W", true));
-                SubMenu.AddSeparator();
-                UseE = SubMenu.Add("harassUseE", new CheckBox("Use E on yourself", true));
-
-                SubMenu.AddSeparator(50);
-
-                TryToHitMultipleEnemies = SubMenu.Add("hitMultipleEnemies", new CheckBox("Q Spell - Try to hit multiple enemies", false));
-
-                SubMenu.AddSeparator();
-
-                UseRange = SubMenu.Add<Slider>("useRange", new Slider("Q Spell - Max. range to use:", 1100, 1100, 1700));
-            }
-        }
-
-        public static class LaneCleaner
-        {
-            public static void Init()
-            { }
-
-            private static readonly Menu SubMenu;
-
-            public static CheckBox UseQ { get; private set; }
-
-            static LaneCleaner()
-            {
-                SubMenu = Menu.AddSubMenu("LaneCleaner");
-                SubMenu.AddGroupLabel("LaneCleaner Settings");
-
-                SubMenu.AddSeparator();
-
-                UseQ = SubMenu.Add("laneUseQ", new CheckBox("Use Q", true));
-            }
-        }
-
-        public static class AutoShield
-        {
-            public static void Init()
-            { }
-
-            private static readonly Menu SubMenu;
-
-            public static CheckBox UseE { get; private set; }
-
-            public static ComboBox PriorityMode { get; private set; }
-
-            public static List<Slider> SliderList { get; private set; }
-            public static List<AIHeroClient> AIHeroClientList { get; private set; }
-
-
-            static AutoShield()
-            {
-                SliderList = new List<Slider>();
-                AIHeroClientList = new List<AIHeroClient>();
-
-                SubMenu = Menu.AddSubMenu("AutoShield");
-                SubMenu.AddGroupLabel("AutoShield Settings");
-                
-                SubMenu.AddSeparator();
-
-                UseE = SubMenu.Add("useShield", new CheckBox("Use E", true));
-
-                SubMenu.AddSeparator(50);
-
-                SubMenu.AddGroupLabel("AutoShield Priorities");
-
-                SubMenu.AddSeparator();
-
-                PriorityMode = SubMenu.Add<ComboBox>("priorityMode", new ComboBox("Protect by:", 0, new string[] { "Lowest Health", "Priority Level" }));
-
-                SubMenu.AddSeparator();
-
-                foreach (AIHeroClient Ally in EntityManager.Heroes.Allies)
+                public static bool BoostAD
                 {
-                    if (Ally.ChampionName != AddonChampion)
+                    get { return _boostAD.CurrentValue; }
+                }
+                public static int PriorMode
+                {
+                    get { return _priorMode.SelectedIndex; }
+                }
+                public static List<Slider> Sliders
+                {
+                    get { return _sliders; }
+                }
+                public static List<AIHeroClient> Heros
+                {
+                    get { return _heros; }
+                }
+
+                static AutoShield()
+                {
+                    Menu.AddGroupLabel("AutoShield");
+
+                    _boostAD = Menu.Add("autoShieldBoostAd", new CheckBox("Use E to boost ally AD"));
+                    Menu.AddSeparator(13);
+
+                    _priorMode = Menu.Add("autoShieldPriorMode", new ComboBox("AutoShield Priority Mode:", 0, new string[] { "Lowest Health", "Priority Level" }));
+                    Menu.AddSeparator(13);
+
+                    _sliders = new List<Slider>();
+                    _heros = new List<AIHeroClient>();
+
+                    foreach (var ally in EntityManager.Heroes.Allies)
                     {
-                        Slider PrioritySlider = SubMenu.Add<Slider>(Ally.ChampionName, new Slider(string.Format("{0} ({1})", Ally.ChampionName, Ally.Name), 1, 1, EntityManager.Heroes.Allies.Count - 1));
+                        if (ally.ChampionName != Program.ChampName)
+                        {
+                            Slider PrioritySlider = Menu.Add<Slider>(ally.ChampionName, new Slider(string.Format("{0} ({1})", ally.ChampionName, ally.Name), 1, 1, EntityManager.Heroes.Allies.Count - 1));
 
-                        SubMenu.AddSeparator(13);
+                            Menu.AddSeparator(13);
 
-                        SliderList.Add(PrioritySlider);
+                            _sliders.Add(PrioritySlider);
 
-                        AIHeroClientList.Add(Ally);
+                            _heros.Add(ally);
+                        }
                     }
                 }
+
+                public static void Initialize() { }
+            }
+
+            public static class Combo
+            {
+                private static readonly CheckBox _useQ;
+                private static readonly CheckBox _useW;
+                private static readonly Slider _qUseRange;
+
+                public static bool UseQ
+                {
+                    get { return _useQ.CurrentValue; }
+                }
+                public static bool UseW
+                {
+                    get { return _useW.CurrentValue; }
+                }
+                public static int QUseRange
+                {
+                    get { return _qUseRange.CurrentValue; }
+                }
+
+                static Combo()
+                {
+                    Menu.AddGroupLabel("Combo");
+
+                    _useQ = Menu.Add("comboUseQ", new CheckBox("Use Q"));
+                    _useW = Menu.Add("comboUseW", new CheckBox("Use W"));
+                    Menu.AddSeparator();
+
+                    _qUseRange = Menu.Add<Slider>("qUseRangeCombo", new Slider("Use Q at range:", 1100, 1100, 1700));
+                }
+
+                public static void Initialize() { }
+            }
+
+            public static class Flee
+            {
+                private static readonly CheckBox _useQ;
+                private static readonly CheckBox _useW;
+                //private static readonly CheckBox _useR;
+                private static readonly Slider _qUseRange;
+
+                public static bool UseQ
+                {
+                    get { return _useQ.CurrentValue; }
+                }
+                public static bool UseW
+                {
+                    get { return _useW.CurrentValue; }
+                }
+                /*public static bool UseR
+                {
+                    get { return _useR.CurrentValue; }
+                }*/
+                public static int QUseRange
+                {
+                    get { return _qUseRange.CurrentValue; }
+                }
+
+                static Flee()
+                {
+                    Menu.AddGroupLabel("Flee");
+
+                    _useQ = Menu.Add("fleeUseQ", new CheckBox("Use Q"));
+                    _useW = Menu.Add("fleeUseW", new CheckBox("Use W"));
+                    //_useR = Menu.Add("comboUseR", new CheckBox("Use R", false));
+                    Menu.AddSeparator();
+
+                    _qUseRange = Menu.Add<Slider>("qUseRangeFlee", new Slider("Use Q at range:", 1100, 1100, 1700));
+                }
+
+                public static void Initialize() { }
+            }
+
+            public static class Harass
+            {
+                private static readonly CheckBox _useQ;
+                private static readonly CheckBox _useW;
+                private static readonly CheckBox _autoHarass;
+                private static readonly Slider _autoHarassManaPercent;
+                private static readonly Slider _qUseRange;
+
+                public static bool UseQ
+                {
+                    get { return _useQ.CurrentValue; }
+                }
+                public static bool UseW
+                {
+                    get { return _useW.CurrentValue; }
+                }
+                public static bool AutoHarass
+                {
+                    get { return _autoHarass.CurrentValue; }
+                }
+                public static int AutoHarassManaPercent
+                {
+                    get { return _autoHarassManaPercent.CurrentValue; }
+                }
+                public static int QUseRange
+                {
+                    get { return _qUseRange.CurrentValue; }
+                }
+
+                static Harass()
+                {
+                    Menu.AddGroupLabel("Harass");
+
+                    _useQ = Menu.Add("harassUseQ", new CheckBox("Use Q"));
+                    Menu.AddSeparator(13);
+
+                    _qUseRange = Menu.Add<Slider>("qUseRangeHarass", new Slider("Use Q at range:", 1100, 1100, 1700));
+                    Menu.AddSeparator();
+
+                    _useW = Menu.Add("harassUseW", new CheckBox("Use W"));
+                    Menu.AddSeparator();
+
+                    _useW = Menu.Add("autoHarass", new CheckBox("Auto Harass with W at mana %"));
+                    Menu.AddSeparator(13);
+
+                    _qUseRange = Menu.Add<Slider>("autoHarassManaPercent", new Slider("Auto Harass min. mana %:", 75));
+                }
+
+                public static void Initialize() { }
             }
         }
     }
