@@ -69,12 +69,18 @@ namespace PartyJanna
                 }
                 else
                 {
-                    SpellManager.Q.Cast(sender);
+                    if (SpellManager.Q.IsReady() && SpellManager.Q.IsInRange(sender))
+                    {
+                        SpellManager.Q.Cast(sender);
+                    }
                 }
             }
             else
             {
-                SpellManager.Q.Cast(sender);
+                if (SpellManager.Q.IsReady() && SpellManager.Q.IsInRange(sender))
+                {
+                    SpellManager.Q.Cast(sender);
+                }
             }
         }
 
