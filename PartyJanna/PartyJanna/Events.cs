@@ -52,7 +52,7 @@ namespace PartyJanna
             {
                 if (e.End.Distance(ally) <= 300 && SpellManager.Q.IsInRange(sender))
                 {
-                    SpellManager.Q.Cast(sender);
+                    SpellManager.Q.Cast(sender.Position);
                 }
             }
         }
@@ -72,7 +72,7 @@ namespace PartyJanna
                 {
                     if (SpellManager.Q.IsReady() && SpellManager.Q.IsInRange(sender))
                     {
-                        SpellManager.Q.Cast(sender);
+                        SpellManager.Q.Cast(sender.Position);
                     }
                 }
             }
@@ -80,7 +80,7 @@ namespace PartyJanna
             {
                 if (SpellManager.Q.IsReady() && SpellManager.Q.IsInRange(sender))
                 {
-                    SpellManager.Q.Cast(sender);
+                    SpellManager.Q.Cast(sender.Position);
                 }
             }
         }
