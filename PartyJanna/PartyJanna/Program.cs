@@ -32,22 +32,22 @@ namespace PartyJanna
 
         private static void OnDraw(EventArgs args)
         {
-            if (PartyJanna.Config.Modes.Draw.DrawQ)
+            if (PartyJanna.Config.Settings.Draw.DrawQ)
             {
                 Circle.Draw(Color.White, SpellManager.Q.Range, Player.Instance.Position);
             }
 
-            if (PartyJanna.Config.Modes.Draw.DrawW)
+            if (PartyJanna.Config.Settings.Draw.DrawW)
             {
                 Circle.Draw(Color.White, SpellManager.W.Range, Player.Instance.Position);
             }
 
-            if (PartyJanna.Config.Modes.Draw.DrawE)
+            if (PartyJanna.Config.Settings.Draw.DrawE)
             {
                 Circle.Draw(Color.White, SpellManager.E.Range, Player.Instance.Position);
             }
 
-            if (PartyJanna.Config.Modes.Draw.DrawR)
+            if (PartyJanna.Config.Settings.Draw.DrawR)
             {
                 Circle.Draw(Color.White, SpellManager.R.Range, Player.Instance.Position);
             }

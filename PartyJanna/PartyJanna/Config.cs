@@ -17,36 +17,42 @@ namespace PartyJanna
             Menu = MainMenu.AddMenu(MenuName, MenuName.ToLower());
             Menu.AddGroupLabel("Welcome to PartyJanna settings menu!");
 
-            Modes.Initialize();
+            Settings.Initialize();
         }
 
         public static void Initialize() { }
 
-        public static class Modes
+        public static class Settings
         {
             private static readonly Menu Menu;
 
-            static Modes()
+            static Settings()
             {
-                Menu = Config.Menu.AddSubMenu("Modes");
+                Menu = Config.Menu.AddSubMenu("Settings");
 
                 Draw.Initialize();
-                Menu.AddSeparator();
+                Menu.AddSeparator(13);
+
+                AntiGapcloser.Initialize();
+                Menu.AddSeparator(13);
+
+                Interrupter.Initialize();
+                Menu.AddSeparator(13);
 
                 Items.Initialize();
-                Menu.AddSeparator();
+                Menu.AddSeparator(13);
 
                 AutoShield.Initialize();
-                Menu.AddSeparator();
+                Menu.AddSeparator(13);
 
                 Combo.Initialize();
-                Menu.AddSeparator();
+                Menu.AddSeparator(13);
 
                 Flee.Initialize();
-                Menu.AddSeparator();
+                Menu.AddSeparator(13);
 
                 Harass.Initialize();
-                Menu.AddSeparator();
+                Menu.AddSeparator(13);
             }
 
             public static void Initialize()
@@ -104,6 +110,60 @@ namespace PartyJanna
                     Menu.AddGroupLabel("Items");
 
                     _useItems = Menu.Add("useItems", new CheckBox("Use Items"));
+                }
+
+                public static void Initialize() { }
+            }
+
+            public static class AntiGapcloser
+            {
+                private static readonly CheckBox _antiGapcloser;
+
+                public static bool AntiGap
+                {
+                    get { return _antiGapcloser.CurrentValue; }
+                }
+
+                static AntiGapcloser()
+                {
+                    Menu.AddGroupLabel("Anti-Gapcloser");
+
+                    _antiGapcloser = Menu.Add("antiGapcloser", new CheckBox("Anti-Gapcloser"));
+                }
+
+                public static void Initialize() { }
+            }
+
+            public static class Interrupter
+            {
+                private static readonly CheckBox _qInterrupt;
+                private static readonly CheckBox _qInterruptDangerous;
+                private static readonly CheckBox _rInterruptDangerous;
+
+                public static bool QInterrupt
+                {
+                    get { return _qInterrupt.CurrentValue; }
+                }
+                public static bool QInterruptDangerous
+                {
+                    get { return _qInterruptDangerous.CurrentValue; }
+                }
+                public static bool RInterruptDangerous
+                {
+                    get { return _rInterruptDangerous.CurrentValue; }
+                }
+
+                static Interrupter()
+                {
+                    Menu.AddGroupLabel("Interrupter");
+
+                    _qInterrupt = Menu.Add("qInterrupt", new CheckBox("Interrupt low/med-danger spells with Q"));
+                    Menu.AddSeparator(13);
+
+                    _qInterruptDangerous = Menu.Add("rInterrupt", new CheckBox("Interrupt high-danger spells with Q"));
+                    Menu.AddSeparator(13);
+
+                    _rInterruptDangerous = Menu.Add("rInterruptDangerous", new CheckBox("Interrupt high-danger spells with R"));
                 }
 
                 public static void Initialize() { }

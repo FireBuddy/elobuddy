@@ -1,6 +1,6 @@
 ﻿using EloBuddy;
 using EloBuddy.SDK;
-using Settings = PartyJanna.Config.Modes.Harass;
+using Settings = PartyJanna.Config.Settings.Harass;
 
 namespace PartyJanna.Modes
 {

@@ -1,7 +1,7 @@
 ﻿using EloBuddy;
 using EloBuddy.SDK;
 using System.Linq;
-using Settings = PartyJanna.Config.Modes.Items;
+using Settings = PartyJanna.Config.Settings.Items;
 
 namespace PartyJanna.Modes
 {

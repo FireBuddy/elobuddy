@@ -5,7 +5,9 @@ using EloBuddy.SDK.Events;
 using SharpDX;
 using System.Collections.Generic;
 using System.Linq;
-using Settings = PartyJanna.Config.Modes.AutoShield;
+using Settings = PartyJanna.Config.Settings.AutoShield;
+using Settings2 = PartyJanna.Config.Settings.AntiGapcloser;
+using Settings3 = PartyJanna.Config.Settings.Interrupter;
 
 namespace PartyJanna
 {
@@ -42,7 +44,7 @@ namespace PartyJanna
 
         private static void OnGapcloser(AIHeroClient sender, Gapcloser.GapcloserEventArgs e)
         {
-            if (!sender.IsEnemy)
+            if (!sender.IsEnemy || !Settings2.AntiGap)
             { return; }
 
             foreach (var ally in EntityManager.Heroes.Allies)
@@ -61,13 +63,13 @@ namespace PartyJanna
 
             if (e.DangerLevel == DangerLevel.High)
             {
-                if (SpellManager.R.IsReady() && SpellManager.R.IsInRange(sender) && Player.Instance.Mana >= 100)
+                if (Settings3.RInterruptDangerous && SpellManager.R.IsReady() && SpellManager.R.IsInRange(sender) && Player.Instance.Mana >= 100)
                 {
                     SpellManager.R.Cast();
                 }
                 else
                 {
-                    if (SpellManager.Q.IsReady() && SpellManager.Q.IsInRange(sender))
+                    if (Settings3.QInterruptDangerous && SpellManager.Q.IsReady() && SpellManager.Q.IsInRange(sender))
                     {
                         SpellManager.Q.Cast(sender.Position);
                     }
@@ -75,7 +77,7 @@ namespace PartyJanna
             }
             else
             {
-                if (SpellManager.Q.IsReady() && SpellManager.Q.IsInRange(sender))
+                if (Settings3.QInterrupt && SpellManager.Q.IsReady() && SpellManager.Q.IsInRange(sender))
                 {
                     SpellManager.Q.Cast(sender.Position);
                 }

@@ -1,6 +1,6 @@
 ﻿using EloBuddy;
 using EloBuddy.SDK;
-using Settings = PartyJanna.Config.Modes.Flee;
+using Settings = PartyJanna.Config.Settings.Flee;
 
 namespace PartyJanna.Modes
 {
