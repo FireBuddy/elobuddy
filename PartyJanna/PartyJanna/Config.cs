@@ -47,6 +47,43 @@ namespace PartyJanna
             {
             }
 
+            public static class Draw
+            {
+                private static readonly CheckBox _drawQ;
+                private static readonly CheckBox _drawW;
+                private static readonly CheckBox _drawE;
+                private static readonly CheckBox _drawR;
+
+                public static bool DrawQ
+                {
+                    get { return _drawQ.CurrentValue; }
+                }
+                public static bool DrawW
+                {
+                    get { return _drawW.CurrentValue; }
+                }
+                public static bool DrawE
+                {
+                    get { return _drawE.CurrentValue; }
+                }
+                public static bool DrawR
+                {
+                    get { return _drawR.CurrentValue; }
+                }
+
+                static Draw()
+                {
+                    Menu.AddGroupLabel("Draw");
+
+                    _drawQ = Menu.Add("drawQ", new CheckBox("Draw Q Range"));
+                    _drawW = Menu.Add("drawW", new CheckBox("Draw W Range"));
+                    _drawE = Menu.Add("drawE", new CheckBox("Draw E Range"));
+                    _drawR = Menu.Add("drawR", new CheckBox("Draw R Range"));
+                }
+
+                public static void Initialize() { }
+            }
+
             public static class Items
             {
                 private static readonly CheckBox _useItems;

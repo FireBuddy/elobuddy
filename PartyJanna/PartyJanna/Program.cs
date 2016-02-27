@@ -3,6 +3,7 @@ using EloBuddy.SDK.Events;
 using EloBuddy.SDK.Rendering;
 using SharpDX;
 using System;
+using Settings = PartyJanna.Config.Modes.Draw;
 
 namespace PartyJanna
 {
@@ -32,10 +33,25 @@ namespace PartyJanna
 
         private static void OnDraw(EventArgs args)
         {
-            Circle.Draw(Color.White, SpellManager.Q.Range, Player.Instance.Position);
-            Circle.Draw(Color.White, SpellManager.W.Range, Player.Instance.Position);
-            Circle.Draw(Color.White, SpellManager.E.Range, Player.Instance.Position);
-            Circle.Draw(Color.White, SpellManager.R.Range, Player.Instance.Position);
+            if (Settings.DrawQ)
+            {
+                Circle.Draw(Color.White, SpellManager.Q.Range, Player.Instance.Position);
+            }
+
+            if (Settings.DrawW)
+            {
+                Circle.Draw(Color.White, SpellManager.W.Range, Player.Instance.Position);
+            }
+
+            if (Settings.DrawE)
+            {
+                Circle.Draw(Color.White, SpellManager.E.Range, Player.Instance.Position);
+            }
+
+            if (Settings.DrawR)
+            {
+                Circle.Draw(Color.White, SpellManager.R.Range, Player.Instance.Position);
+            }
         }
     }
 }
