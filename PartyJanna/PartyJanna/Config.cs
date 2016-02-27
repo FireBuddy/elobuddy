@@ -216,10 +216,10 @@ namespace PartyJanna
                     _useW = Menu.Add("harassUseW", new CheckBox("Use W"));
                     Menu.AddSeparator();
 
-                    _useW = Menu.Add("autoHarass", new CheckBox("Auto Harass with W at mana %"));
+                    _autoHarass = Menu.Add("autoHarass", new CheckBox("Auto Harass with W at mana %"));
                     Menu.AddSeparator(13);
 
-                    _qUseRange = Menu.Add<Slider>("autoHarassManaPercent", new Slider("Auto Harass min. mana %:", 75));
+                    _autoHarassManaPercent = Menu.Add<Slider>("autoHarassManaPercent", new Slider("Auto Harass min. mana %:", 75));
                 }
 
                 public static void Initialize() { }

@@ -24,6 +24,7 @@ namespace PartyJanna
             Obj_AI_Base.OnProcessSpellCast += OnProcessSpellCast;
             Gapcloser.OnGapcloser += OnGapcloser;
             Interrupter.OnInterruptableSpell += OnInterruptableSpell;
+            
         }
 
         public static void Initialize() { }
