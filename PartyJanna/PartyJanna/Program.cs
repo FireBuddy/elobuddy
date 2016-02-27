@@ -37,10 +37,6 @@ namespace PartyJanna
             Circle.Draw(Color.White, SpellManager.W.Range, Player.Instance.Position);
             Circle.Draw(Color.White, SpellManager.E.Range, Player.Instance.Position);
             Circle.Draw(Color.White, SpellManager.R.Range, Player.Instance.Position);
-
-            Circle.Draw(Color.Red, 100, Player.Instance.Position);
-            Circle.Draw(Color.Red, 200, Player.Instance.Position);
-            Circle.Draw(Color.Red, 300, Player.Instance.Position);
         }
     }
 }
