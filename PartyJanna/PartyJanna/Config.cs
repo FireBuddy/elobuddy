@@ -30,6 +30,12 @@ namespace PartyJanna
             {
                 Menu = Config.Menu.AddSubMenu("Modes");
 
+                Draw.Initialize();
+                Menu.AddSeparator();
+
+                Items.Initialize();
+                Menu.AddSeparator();
+
                 AutoShield.Initialize();
                 Menu.AddSeparator();
 
@@ -150,6 +156,11 @@ namespace PartyJanna
 
                             _sliders.Add(PrioritySlider);
 
+                            _heros.Add(ally);
+                        }
+                        else
+                        {
+                            _sliders.Add(new Slider("Janna"));
                             _heros.Add(ally);
                         }
                     }
