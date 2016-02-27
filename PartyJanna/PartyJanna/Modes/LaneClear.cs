@@ -12,11 +12,11 @@ namespace PartyJanna.Modes
 
         public override void Execute()
         {
-            foreach (Obj_AI_Minion EnemyMinion in EntityManager.MinionsAndMonsters.GetLaneMinions())
+            foreach (Obj_AI_Minion enemyMinion in EntityManager.MinionsAndMonsters.GetLaneMinions())
             {
-                if (EnemyMinion.IsInRange(Player.Instance, Q.Range))
+                if (enemyMinion.IsInRange(Player.Instance, Q.Range))
                 {
-                    Q.Cast(EnemyMinion);
+                    Q.Cast(enemyMinion);
                 }
             }
         }

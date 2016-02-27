@@ -47,6 +47,25 @@ namespace PartyJanna
             {
             }
 
+            public static class Items
+            {
+                private static readonly CheckBox _useItems;
+
+                public static bool UseItems
+                {
+                    get { return _useItems.CurrentValue; }
+                }
+
+                static Items()
+                {
+                    Menu.AddGroupLabel("Items");
+
+                    _useItems = Menu.Add("useItems", new CheckBox("Use Items"));
+                }
+
+                public static void Initialize() { }
+            }
+
             public static class AutoShield
             {
                 private static readonly CheckBox _boostAD;
