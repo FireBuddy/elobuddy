@@ -3,7 +3,6 @@ using EloBuddy.SDK.Events;
 using EloBuddy.SDK.Rendering;
 using SharpDX;
 using System;
-using PartyJanna.Modes;
 
 namespace PartyJanna
 {

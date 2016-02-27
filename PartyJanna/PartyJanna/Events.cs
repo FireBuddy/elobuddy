@@ -1,13 +1,11 @@
 ﻿using EloBuddy;
 using EloBuddy.SDK;
 using EloBuddy.SDK.Enumerations;
+using EloBuddy.SDK.Events;
 using SharpDX;
 using System.Collections.Generic;
 using System.Linq;
-using EloBuddy.SDK.Menu.Values;
 using Settings = PartyJanna.Config.Modes.AutoShield;
-using EloBuddy.SDK.Events;
-using System;
 
 namespace PartyJanna
 {
@@ -24,7 +22,6 @@ namespace PartyJanna
             Obj_AI_Base.OnProcessSpellCast += OnProcessSpellCast;
             Gapcloser.OnGapcloser += OnGapcloser;
             Interrupter.OnInterruptableSpell += OnInterruptableSpell;
-            
         }
 
         public static void Initialize() { }
@@ -50,7 +47,7 @@ namespace PartyJanna
 
             foreach (var ally in EntityManager.Heroes.Allies)
             {
-                if (e.End.Distance(ally) <= 300 && SpellManager.Q.IsInRange(sender))
+                if (e.End.Distance(ally) <= 300 && SpellManager.Q.IsInRange(sender.Position))
                 {
                     SpellManager.Q.Cast(sender.Position);
                 }
@@ -97,9 +94,9 @@ namespace PartyJanna
 
             if (sender.IsEnemy && sender.IsMinion)
             {
-                foreach (var Ally in EntityManager.Heroes.Allies.Where(Ally => Ally.CountEnemiesInRange(1000) == 0))
+                foreach (var ally in EntityManager.Heroes.Allies.Where(ally => ally.CountEnemiesInRange(1000) == 0))
                 {
-                    if (args.Target == Ally)
+                    if (args.Target == ally)
                     {
                         SpellManager.E.Cast(sender);
                     }
@@ -108,9 +105,9 @@ namespace PartyJanna
 
             if (sender.IsAlly && sender.IsRanged && !sender.IsMinion && Settings.BoostAD)
             {
-                foreach (var Enemy in EntityManager.Heroes.Enemies)
+                foreach (var enemy in EntityManager.Heroes.Enemies)
                 {
-                    if (args.Target == Enemy)
+                    if (args.Target == enemy)
                     {
                         SpellManager.E.Cast(sender);
                     }
@@ -123,60 +120,60 @@ namespace PartyJanna
                 {
                     if (Settings.PriorMode == 0)
                     {
-                        foreach (var Ally in EntityManager.Heroes.Allies)
+                        foreach (var ally in EntityManager.Heroes.Allies)
                         {
-                            if (Ally.Health <= LowestHP)
+                            if (ally.Health <= LowestHP)
                             {
-                                LowestHP = Ally.Health;
-                                HpAllyOrder.Insert(0, Ally);
+                                LowestHP = ally.Health;
+                                HpAllyOrder.Insert(0, ally);
                             }
                             else
                             {
-                                HpAllyOrder.Add(Ally);
+                                HpAllyOrder.Add(ally);
                             }
                         }
 
-                        foreach (var Ally in HpAllyOrder.Where(ally => Player.Instance.IsInRange(ally, SpellManager.E.Range)))
+                        foreach (var ally in HpAllyOrder.Where(ally => Player.Instance.IsInRange(ally, SpellManager.E.Range)))
                         {
-                            if (args.Target == Ally)
+                            if (args.Target == ally)
                             {
-                                SpellManager.E.Cast(Ally);
+                                SpellManager.E.Cast(ally);
                             }
                         }
                     }
                     else
                     {
-                        foreach (var Slider in Settings.Sliders)
+                        foreach (var slider in Settings.Sliders)
                         {
-                            if (Slider.CurrentValue >= HighestPriority)
+                            if (slider.CurrentValue >= HighestPriority)
                             {
-                                HighestPriority = Slider.CurrentValue;
+                                HighestPriority = slider.CurrentValue;
 
-                                foreach (var Ally in Settings.Heros)
+                                foreach (var ally in Settings.Heros)
                                 {
-                                    if (Slider.VisibleName.Contains(Ally.ChampionName))
+                                    if (slider.VisibleName.Contains(ally.ChampionName))
                                     {
-                                        PriorAllyOrder.Insert(0, Ally);
+                                        PriorAllyOrder.Insert(0, ally);
                                     }
                                 }
                             }
                             else
                             {
-                                foreach (var Ally in Settings.Heros)
+                                foreach (var ally in Settings.Heros)
                                 {
-                                    if (Slider.VisibleName.Contains(Ally.ChampionName))
+                                    if (slider.VisibleName.Contains(ally.ChampionName))
                                     {
-                                        PriorAllyOrder.Add(Ally);
+                                        PriorAllyOrder.Add(ally);
                                     }
                                 }
                             }
                         }
 
-                        foreach (var Ally in PriorAllyOrder.Where(ally => Player.Instance.IsInRange(ally, SpellManager.E.Range)))
+                        foreach (var ally in PriorAllyOrder.Where(ally => Player.Instance.IsInRange(ally, SpellManager.E.Range)))
                         {
-                            if (args.Target == Ally)
+                            if (args.Target == ally)
                             {
-                                SpellManager.E.Cast(Ally);
+                                SpellManager.E.Cast(ally);
                             }
                         }
                     }
@@ -199,61 +196,61 @@ namespace PartyJanna
 
             if (Settings.PriorMode == 1)
             {
-                foreach (var Slider in Settings.Sliders)
+                foreach (var slider in Settings.Sliders)
                 {
-                    if (Slider.CurrentValue >= HighestPriority)
+                    if (slider.CurrentValue >= HighestPriority)
                     {
-                        HighestPriority = Slider.CurrentValue;
+                        HighestPriority = slider.CurrentValue;
 
-                        foreach (var Ally in Settings.Heros)
+                        foreach (var ally in Settings.Heros)
                         {
-                            if (Slider.VisibleName.Contains(Ally.ChampionName))
+                            if (slider.VisibleName.Contains(ally.ChampionName))
                             {
-                                PriorAllyOrder.Insert(0, Ally);
+                                PriorAllyOrder.Insert(0, ally);
                             }
                         }
                     }
                     else
                     {
-                        foreach (var Ally in Settings.Heros)
+                        foreach (var ally in Settings.Heros)
                         {
-                            if (Slider.VisibleName.Contains(Ally.ChampionName))
+                            if (slider.VisibleName.Contains(ally.ChampionName))
                             {
-                                PriorAllyOrder.Add(Ally);
+                                PriorAllyOrder.Add(ally);
                             }
                         }
                     }
                 }
 
-                foreach (var Ally in PriorAllyOrder.Where(ally => Player.Instance.IsInRange(ally, SpellManager.E.Range)))
+                foreach (var ally in PriorAllyOrder.Where(ally => Player.Instance.IsInRange(ally, SpellManager.E.Range)))
                 {
-                    if (Ally.IsInRange(args.End, 200) || PathIsInSpellRange(Ally.RealPath(), args, 200))
+                    if (ally.IsInRange(args.End, 200) || PathIsInSpellRange(ally.RealPath(), args, 200))
                     {
-                        SpellManager.E.Cast(Ally);
+                        SpellManager.E.Cast(ally);
                     }
                 }
 
             }
             else
             {
-                foreach (var Ally in EntityManager.Heroes.Allies)
+                foreach (var ally in EntityManager.Heroes.Allies)
                 {
-                    if (Ally.Health <= LowestHP)
+                    if (ally.Health <= LowestHP)
                     {
-                        LowestHP = Ally.Health;
-                        HpAllyOrder.Insert(0, Ally);
+                        LowestHP = ally.Health;
+                        HpAllyOrder.Insert(0, ally);
                     }
                     else
                     {
-                        HpAllyOrder.Add(Ally);
+                        HpAllyOrder.Add(ally);
                     }
                 }
 
-                foreach (var Ally in HpAllyOrder.Where(ally => Player.Instance.IsInRange(ally, SpellManager.E.Range)))
+                foreach (var ally in HpAllyOrder.Where(ally => Player.Instance.IsInRange(ally, SpellManager.E.Range)))
                 {
-                    if (Ally.IsInRange(args.End, args.SData.CastRadius) || PathIsInSpellRange(Ally.RealPath(), args, 200))
+                    if (ally.IsInRange(args.End, args.SData.CastRadius) || PathIsInSpellRange(ally.RealPath(), args, 200))
                     {
-                        SpellManager.E.Cast(Ally);
+                        SpellManager.E.Cast(ally);
                     }
                 }
             }
