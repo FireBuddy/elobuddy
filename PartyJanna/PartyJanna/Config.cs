@@ -220,11 +220,17 @@ namespace PartyJanna
                     _heros = new List<AIHeroClient>();
                     _shieldAllyList = new List<CheckBox>();
 
+                    foreach (var ally2 in EntityManager.Heroes.Allies)
+                    {
+                        _shieldAllyList.Add(Menu.Add<CheckBox>("Shield " + ally2.ChampionName, new CheckBox(string.Format("Shield {0} ({1})", ally2.ChampionName, ally2.Name))));
+                    }
+
+                    Menu.AddSeparator(13);
+
                     foreach (var ally in EntityManager.Heroes.Allies)
                     {
                         if (ally.ChampionName != Program.ChampName)
                         {
-                            _shieldAllyList.Add(Menu.Add<CheckBox>("Shield " + ally.ChampionName, new CheckBox(string.Format("Shield {0} ({1})", ally.ChampionName, ally.Name))));
                             Slider PrioritySlider = Menu.Add<Slider>(ally.ChampionName, new Slider(string.Format("{0} Priority:", ally.ChampionName, ally.Name), 1, 1, EntityManager.Heroes.Allies.Count - 1));
 
                             Menu.AddSeparator(13);
