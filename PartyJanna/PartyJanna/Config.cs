@@ -205,7 +205,16 @@ namespace PartyJanna
 
                 static AutoShield()
                 {
+                    _shieldAllyList = new List<CheckBox>();
+
                     Menu.AddGroupLabel("AutoShield");
+
+                    foreach (var ally2 in EntityManager.Heroes.Allies)
+                    {
+                        _shieldAllyList.Add(Menu.Add<CheckBox>("Shield " + ally2.ChampionName, new CheckBox(string.Format("Shield {0} ({1})", ally2.ChampionName, ally2.Name))));
+                    }
+
+                    Menu.AddSeparator(13);
 
                     _boostAD = Menu.Add("autoShieldBoostAd", new CheckBox("Use E to boost ally AD"));
                     Menu.AddSeparator(13);
@@ -218,14 +227,6 @@ namespace PartyJanna
 
                     _sliders = new List<Slider>();
                     _heros = new List<AIHeroClient>();
-                    _shieldAllyList = new List<CheckBox>();
-
-                    foreach (var ally2 in EntityManager.Heroes.Allies)
-                    {
-                        _shieldAllyList.Add(Menu.Add<CheckBox>("Shield " + ally2.ChampionName, new CheckBox(string.Format("Shield {0} ({1})", ally2.ChampionName, ally2.Name))));
-                    }
-
-                    Menu.AddSeparator(13);
 
                     foreach (var ally in EntityManager.Heroes.Allies)
                     {
