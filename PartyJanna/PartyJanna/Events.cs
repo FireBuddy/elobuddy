@@ -2,6 +2,7 @@
 using EloBuddy.SDK;
 using EloBuddy.SDK.Enumerations;
 using EloBuddy.SDK.Events;
+using EloBuddy.SDK.Menu.Values;
 using SharpDX;
 using System.Collections.Generic;
 using System.Linq;
@@ -98,9 +99,12 @@ namespace PartyJanna
             {
                 foreach (var ally in EntityManager.Heroes.Allies.Where(ally => ally.CountEnemiesInRange(1000) == 0))
                 {
-                    if (args.Target == ally)
+                    foreach (var shieldThisAlly in Settings.ShieldAllyList.Where(x => x.DisplayName.Contains(ally.ChampionName) && x.CurrentValue))
                     {
-                        SpellManager.E.Cast(sender);
+                        if (args.Target == ally)
+                        {
+                            SpellManager.E.Cast(sender);
+                        }
                     }
                 }
             }
@@ -109,9 +113,12 @@ namespace PartyJanna
             {
                 foreach (var enemy in EntityManager.Heroes.Enemies)
                 {
-                    if (args.Target == enemy)
+                    foreach (var shieldThisAlly in Settings.ShieldAllyList.Where(x => x.DisplayName.Contains(sender.Name) && x.CurrentValue))
                     {
-                        SpellManager.E.Cast(sender);
+                        if (args.Target == enemy)
+                        {
+                            SpellManager.E.Cast(sender);
+                        }
                     }
                 }
             }
@@ -137,9 +144,12 @@ namespace PartyJanna
 
                         foreach (var ally in HpAllyOrder.Where(ally => Player.Instance.IsInRange(ally, SpellManager.E.Range)))
                         {
-                            if (args.Target == ally)
+                            foreach (var shieldThisAlly in Settings.ShieldAllyList.Where(x => x.DisplayName.Contains(ally.ChampionName) && x.CurrentValue))
                             {
-                                SpellManager.E.Cast(ally);
+                                if (args.Target == ally)
+                                {
+                                    SpellManager.E.Cast(ally);
+                                }
                             }
                         }
                     }
@@ -173,9 +183,12 @@ namespace PartyJanna
 
                         foreach (var ally in PriorAllyOrder.Where(ally => Player.Instance.IsInRange(ally, SpellManager.E.Range)))
                         {
-                            if (args.Target == ally)
+                            foreach (var shieldThisAlly in Settings.ShieldAllyList.Where(x => x.DisplayName.Contains(ally.ChampionName) && x.CurrentValue))
                             {
-                                SpellManager.E.Cast(ally);
+                                if (args.Target == ally)
+                                {
+                                    SpellManager.E.Cast(ally);
+                                }
                             }
                         }
                     }
@@ -226,9 +239,17 @@ namespace PartyJanna
 
                 foreach (var ally in PriorAllyOrder.Where(ally => Player.Instance.IsInRange(ally, SpellManager.E.Range)))
                 {
-                    if (ally.IsInRange(args.End, 200) || PathIsInSpellRange(ally.RealPath(), args, 200))
+                    foreach (var shieldThisAlly in Settings.ShieldAllyList.Where(x => x.DisplayName.Contains(ally.ChampionName) && x.CurrentValue))
                     {
-                        SpellManager.E.Cast(ally);
+                        if (args.Target != null && args.Target == ally)
+                        {
+                            SpellManager.E.Cast(ally);
+                        }
+
+                        if (ally.IsInRange(args.End, 200) || PathIsInSpellRange(ally.RealPath(), args, 200))
+                        {
+                            SpellManager.E.Cast(ally);
+                        }
                     }
                 }
 
@@ -250,10 +271,31 @@ namespace PartyJanna
 
                 foreach (var ally in HpAllyOrder.Where(ally => Player.Instance.IsInRange(ally, SpellManager.E.Range)))
                 {
-                    if (ally.IsInRange(args.End, args.SData.CastRadius) || PathIsInSpellRange(ally.RealPath(), args, 200))
+                    foreach (var shieldThisAlly in Settings.ShieldAllyList.Where(x => x.DisplayName.Contains(ally.ChampionName) && x.CurrentValue))
                     {
-                        SpellManager.E.Cast(ally);
+                        if (args.Target != null && args.Target == ally)
+                        {
+                            SpellManager.E.Cast(ally);
+                        }
+
+                        if (ally.IsInRange(args.End, args.SData.CastRadius) || PathIsInSpellRange(ally.RealPath(), args, 200))
+                        {
+                            SpellManager.E.Cast(ally);
+                        }
                     }
+                }
+            }
+
+            if (Settings.SelfShield)
+            {
+                if (args.Target != null && args.Target.IsMe)
+                {
+                    SpellManager.E.Cast(Player.Instance);
+                }
+
+                if (Player.Instance.IsInRange(args.End, args.SData.CastRadius) || PathIsInSpellRange(Player.Instance.RealPath(), args, 200))
+                {
+                    SpellManager.E.Cast(Player.Instance);
                 }
             }
         }

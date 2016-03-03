@@ -172,13 +172,19 @@ namespace PartyJanna
             public static class AutoShield
             {
                 private static readonly CheckBox _boostAD;
+                private static readonly CheckBox _selfShield;
                 private static readonly ComboBox _priorMode;
                 private static readonly List<Slider> _sliders;
                 private static readonly List<AIHeroClient> _heros;
+                private static readonly List<CheckBox> _shieldAllyList;
 
                 public static bool BoostAD
                 {
                     get { return _boostAD.CurrentValue; }
+                }
+                public static bool SelfShield
+                {
+                    get { return _selfShield.CurrentValue; }
                 }
                 public static int PriorMode
                 {
@@ -192,6 +198,10 @@ namespace PartyJanna
                 {
                     get { return _heros; }
                 }
+                public static List<CheckBox> ShieldAllyList
+                {
+                    get { return _shieldAllyList; }
+                }
 
                 static AutoShield()
                 {
@@ -200,27 +210,27 @@ namespace PartyJanna
                     _boostAD = Menu.Add("autoShieldBoostAd", new CheckBox("Use E to boost ally AD"));
                     Menu.AddSeparator(13);
 
+                    _selfShield = Menu.Add("selfShield", new CheckBox("Shield Yourself"));
+                    Menu.AddSeparator(13);
+
                     _priorMode = Menu.Add("autoShieldPriorMode", new ComboBox("AutoShield Priority Mode:", 0, new string[] { "Lowest Health", "Priority Level" }));
                     Menu.AddSeparator(13);
 
                     _sliders = new List<Slider>();
                     _heros = new List<AIHeroClient>();
+                    _shieldAllyList = new List<CheckBox>();
 
                     foreach (var ally in EntityManager.Heroes.Allies)
                     {
                         if (ally.ChampionName != Program.ChampName)
                         {
-                            Slider PrioritySlider = Menu.Add<Slider>(ally.ChampionName, new Slider(string.Format("{0} ({1})", ally.ChampionName, ally.Name), 1, 1, EntityManager.Heroes.Allies.Count - 1));
+                            _shieldAllyList.Add(Menu.Add<CheckBox>("Shield " + ally.ChampionName, new CheckBox(string.Format("Shield {0} ({1})", ally.ChampionName, ally.Name))));
+                            Slider PrioritySlider = Menu.Add<Slider>(ally.ChampionName, new Slider(string.Format("{0} Priority:", ally.ChampionName, ally.Name), 1, 1, EntityManager.Heroes.Allies.Count - 1));
 
                             Menu.AddSeparator(13);
 
                             _sliders.Add(PrioritySlider);
 
-                            _heros.Add(ally);
-                        }
-                        else
-                        {
-                            _sliders.Add(new Slider("Janna"));
                             _heros.Add(ally);
                         }
                     }
