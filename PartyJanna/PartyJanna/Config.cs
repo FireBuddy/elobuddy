@@ -273,7 +273,7 @@ namespace PartyJanna
                     _useW = Menu.Add("comboUseW", new CheckBox("Use W"));
                     Menu.AddSeparator();
 
-                    _qUseRange = Menu.Add<Slider>("qUseRangeCombo", new Slider("Use Q at range:", 1100, 1100, 1700));
+                    _qUseRange = Menu.Add<Slider>("qUseRangeCombo", new Slider("Use Q at range:", 1000, 1000, 1100));
                 }
 
                 public static void Initialize() { }
@@ -312,7 +312,7 @@ namespace PartyJanna
                     //_useR = Menu.Add("comboUseR", new CheckBox("Use R", false));
                     Menu.AddSeparator();
 
-                    _qUseRange = Menu.Add<Slider>("qUseRangeFlee", new Slider("Use Q at range:", 1100, 1100, 1700));
+                    _qUseRange = Menu.Add<Slider>("qUseRangeFlee", new Slider("Use Q at range:", 1000, 1000, 1100));
                 }
 
                 public static void Initialize() { }
@@ -354,7 +354,7 @@ namespace PartyJanna
                     _useQ = Menu.Add("harassUseQ", new CheckBox("Use Q"));
                     Menu.AddSeparator(13);
 
-                    _qUseRange = Menu.Add<Slider>("qUseRangeHarass", new Slider("Use Q at range:", 1100, 1100, 1700));
+                    _qUseRange = Menu.Add<Slider>("qUseRangeHarass", new Slider("Use Q at range:", 1000, 1000, 1100));
                     Menu.AddSeparator();
 
                     _useW = Menu.Add("harassUseW", new CheckBox("Use W"));
