@@ -418,13 +418,13 @@ namespace PartyJanna
                 {
                     Menu.AddGroupLabel("Humanizer Settings");
 
-                    _qCastDelay = Menu.Add<Slider>("qCastDelay", new Slider("Q Cast Delay (1sec = 1000ms):", 500, 250, 1000));
+                    _qCastDelay = Menu.Add<Slider>("qCastDelay", new Slider("Q Cast Delay (1sec = 1000ms):", 500, 250, 2000));
                     Menu.AddSeparator();
 
-                    _eCastDelay = Menu.Add<Slider>("eCastDelay", new Slider("E Cast Delay (1sec = 1000ms):", 500, 250, 1000));
+                    _eCastDelay = Menu.Add<Slider>("eCastDelay", new Slider("E Cast Delay (1sec = 1000ms):", 500, 250, 2000));
                     Menu.AddSeparator();
 
-                    _rCastDelay = Menu.Add<Slider>("rCastDelay", new Slider("R Cast Delay (1sec = 1000ms):", 500, 250, 1000));
+                    _rCastDelay = Menu.Add<Slider>("rCastDelay", new Slider("R Cast Delay (1sec = 1000ms):", 500, 250, 2000));
                     Menu.AddSeparator();
 
                     _qRndmDelay = Menu.Add("qRndmDelay", new CheckBox("Randomize Q Cast Delay"));
