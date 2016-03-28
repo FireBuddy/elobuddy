@@ -29,7 +29,8 @@ namespace PartyJanna.Modes
         public static AIHeroClient GetTarget(Spell.SpellBase spell, DamageType damageType)
         {
             var target = TargetSelector.GetTarget(spell.Range, damageType, Player.Instance.Position);
-            return TargetSelector.SelectedTarget != null && spell.IsInRange(target) ? TargetSelector.SelectedTarget : target != null && spell.IsInRange(target) ? target : null;
+
+            return TargetSelector.SelectedTarget != null && spell.IsInRange(TargetSelector.SelectedTarget) ? TargetSelector.SelectedTarget : target != null ? target : null;
         }
     }
 }
