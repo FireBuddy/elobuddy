@@ -227,7 +227,7 @@ namespace PartyJanna
                     _boostAD = Menu.Add("autoShieldBoostAd", new CheckBox("Use E to boost ally AD"));
                     Menu.AddSeparator(13);
 
-                    _selfShield = Menu.Add("selfShield", new CheckBox("Shield Yourself"));
+                    _selfShield = Menu.Add("selfShield", new CheckBox("Shield Yourself from Basic Attacks"));
                     Menu.AddSeparator(13);
 
                     _turretShield = Menu.Add("turretShield", new CheckBox("Shield Turrets"));
