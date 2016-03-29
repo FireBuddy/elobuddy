@@ -15,7 +15,7 @@ namespace PartyJanna
 
         static SpellManager()
         {
-            Q = new Spell.Skillshot(SpellSlot.Q, 1100, SkillShotType.Linear, Humanizer.QRndmDelay ? new Random().Next(250, Humanizer.QCastDelay) : Humanizer.QCastDelay);
+            Q = new Spell.Skillshot(SpellSlot.Q, 1100, SkillShotType.Linear);
             W = new Spell.Targeted(SpellSlot.W, 600);
             E = new Spell.Targeted(SpellSlot.E, 800);
             R = new Spell.Active(SpellSlot.R, 725);

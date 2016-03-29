@@ -382,6 +382,9 @@ namespace PartyJanna
 
             public static class Humanizer
             {
+                private static readonly CheckBox _qCastDelayEnabled;
+                private static readonly CheckBox _eCastDelayEnabled;
+                private static readonly CheckBox _rCastDelayEnabled;
                 private static readonly Slider _qCastDelay;
                 private static readonly Slider _eCastDelay;
                 private static readonly Slider _rCastDelay;
@@ -389,6 +392,18 @@ namespace PartyJanna
                 private static readonly CheckBox _eRndmDelay;
                 private static readonly CheckBox _rRndmDelay;
 
+                public static bool QCastDelayEnabled
+                {
+                    get { return _qCastDelayEnabled.CurrentValue; }
+                }
+                public static bool ECastDelayEnabled
+                {
+                    get { return _eCastDelayEnabled.CurrentValue; }
+                }
+                public static bool RCastDelayEnabled
+                {
+                    get { return _rCastDelayEnabled.CurrentValue; }
+                }
                 public static int QCastDelay
                 {
                     get { return _qCastDelay.CurrentValue; }
@@ -418,13 +433,16 @@ namespace PartyJanna
                 {
                     Menu.AddGroupLabel("Humanizer Settings");
 
-                    _qCastDelay = Menu.Add<Slider>("qCastDelay", new Slider("Q Cast Delay (1sec = 1000ms):", 500, 250, 2000));
+                    _qCastDelayEnabled = Menu.Add("qCastDelayEnabled", new CheckBox("Enabled", false));
+                    _qCastDelay = Menu.Add<Slider>("qCastDelay", new Slider("Q Cast Delay (1sec = 1000ms):", 500, 250, 1000));
                     Menu.AddSeparator();
 
-                    _eCastDelay = Menu.Add<Slider>("eCastDelay", new Slider("E Cast Delay (1sec = 1000ms):", 500, 250, 2000));
+                    _eCastDelayEnabled = Menu.Add("eCastDelayEnabled", new CheckBox("Enabled", false));
+                    _eCastDelay = Menu.Add<Slider>("eCastDelay", new Slider("E Cast Delay (1sec = 1000ms):", 500, 250, 1000));
                     Menu.AddSeparator();
 
-                    _rCastDelay = Menu.Add<Slider>("rCastDelay", new Slider("R Cast Delay (1sec = 1000ms):", 500, 250, 2000));
+                    _rCastDelayEnabled = Menu.Add("rCastDelayEnabled", new CheckBox("Enabled", false));
+                    _rCastDelay = Menu.Add<Slider>("rCastDelay", new Slider("R Cast Delay (1sec = 1000ms):", 500, 250, 1000));
                     Menu.AddSeparator();
 
                     _qRndmDelay = Menu.Add("qRndmDelay", new CheckBox("Randomize Q Cast Delay"));

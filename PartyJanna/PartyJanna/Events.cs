@@ -2,16 +2,15 @@
 using EloBuddy.SDK;
 using EloBuddy.SDK.Enumerations;
 using EloBuddy.SDK.Events;
-using EloBuddy.SDK.Menu.Values;
 using SharpDX;
-using System.Collections.Generic;
-using System.Linq;
-using System.Diagnostics;
-using AutoShield = PartyJanna.Config.Settings.AutoShield;
-using AntiGapcloser = PartyJanna.Config.Settings.AntiGapcloser;
-using Interrupter = PartyJanna.Config.Settings.Interrupter;
-using Humanizer = PartyJanna.Config.Settings.Humanizer;
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using AntiGapcloser = PartyJanna.Config.Settings.AntiGapcloser;
+using AutoShield = PartyJanna.Config.Settings.AutoShield;
+using Humanizer = PartyJanna.Config.Settings.Humanizer;
+using Interrupter = PartyJanna.Config.Settings.Interrupter;
 
 namespace PartyJanna
 {
@@ -56,7 +55,33 @@ namespace PartyJanna
             {
                 if (e.End.Distance(ally) <= 300 && SpellManager.Q.IsInRange(sender.Position))
                 {
-                    SpellManager.Q.Cast(sender.Position);
+                    if (Humanizer.QCastDelayEnabled)
+                    {
+                        if (Humanizer.QRndmDelay)
+                        {
+                            stopwatch.Start();
+
+                            if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.QCastDelay))
+                            {
+                                SpellManager.Q.Cast(sender.Position);
+                                stopwatch.Reset();
+                            }
+                        }
+                        else
+                        {
+                            stopwatch.Start();
+
+                            if (stopwatch.ElapsedMilliseconds >= Humanizer.QCastDelay)
+                            {
+                                SpellManager.Q.Cast(sender.Position);
+                                stopwatch.Reset();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        SpellManager.Q.Cast(sender.Position);
+                    }
                 }
             }
         }
@@ -70,30 +95,73 @@ namespace PartyJanna
             {
                 if (Interrupter.RInterruptDangerous && SpellManager.R.IsReady() && SpellManager.R.IsInRange(sender) && Player.Instance.Mana >= 100)
                 {
-                    if (Humanizer.RRndmDelay)
+                    if (Humanizer.RCastDelayEnabled)
                     {
-                        stopwatch.Start();
-
-                        if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.RCastDelay))
+                        if (Humanizer.RRndmDelay)
                         {
-                            SpellManager.R.Cast();
-                            stopwatch.Reset();
+                            stopwatch.Start();
+
+                            if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.RCastDelay))
+                            {
+                                SpellManager.R.Cast();
+                                stopwatch.Reset();
+                            }
+                        }
+                        else
+                        {
+                            stopwatch.Start();
+
+                            if (stopwatch.ElapsedMilliseconds >= Humanizer.RCastDelay)
+                            {
+                                SpellManager.R.Cast();
+                                stopwatch.Reset();
+                            }
                         }
                     }
                     else
                     {
-                        stopwatch.Start();
-
-                        if (stopwatch.ElapsedMilliseconds >= Humanizer.RCastDelay)
-                        {
-                            SpellManager.R.Cast();
-                            stopwatch.Reset();
-                        }
+                        SpellManager.R.Cast();
                     }
                 }
                 else
                 {
                     if (Interrupter.QInterruptDangerous && SpellManager.Q.IsReady() && SpellManager.Q.IsInRange(sender))
+                    {
+                        if (Humanizer.QCastDelayEnabled)
+                        {
+                            if (Humanizer.QRndmDelay)
+                            {
+                                stopwatch.Start();
+
+                                if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.QCastDelay))
+                                {
+                                    SpellManager.Q.Cast();
+                                    stopwatch.Reset();
+                                }
+                            }
+                            else
+                            {
+                                stopwatch.Start();
+
+                                if (stopwatch.ElapsedMilliseconds >= Humanizer.QCastDelay)
+                                {
+                                    SpellManager.Q.Cast();
+                                    stopwatch.Reset();
+                                }
+                            }
+                        }
+                        else
+                        {
+                            SpellManager.Q.Cast();
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (Interrupter.QInterrupt && SpellManager.Q.IsReady() && SpellManager.Q.IsInRange(sender))
+                {
+                    if (Humanizer.QCastDelayEnabled)
                     {
                         if (Humanizer.QRndmDelay)
                         {
@@ -116,31 +184,9 @@ namespace PartyJanna
                             }
                         }
                     }
-                }
-            }
-            else
-            {
-                if (Interrupter.QInterrupt && SpellManager.Q.IsReady() && SpellManager.Q.IsInRange(sender))
-                {
-                    if (Humanizer.QRndmDelay)
-                    {
-                        stopwatch.Start();
-
-                        if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.QCastDelay))
-                        {
-                            SpellManager.Q.Cast();
-                            stopwatch.Reset();
-                        }
-                    }
                     else
                     {
-                        stopwatch.Start();
-
-                        if (stopwatch.ElapsedMilliseconds >= Humanizer.QCastDelay)
-                        {
-                            SpellManager.Q.Cast();
-                            stopwatch.Reset();
-                        }
+                        SpellManager.Q.Cast();
                     }
                 }
             }
@@ -164,25 +210,32 @@ namespace PartyJanna
                     {
                         if (args.Target == ally)
                         {
-                            if (Humanizer.ERndmDelay)
+                            if (Humanizer.ECastDelayEnabled)
                             {
-                                stopwatch.Start();
-
-                                if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.ECastDelay))
+                                if (Humanizer.ERndmDelay)
                                 {
-                                    SpellManager.E.Cast(sender);
-                                    stopwatch.Reset();
+                                    stopwatch.Start();
+
+                                    if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.ECastDelay))
+                                    {
+                                        SpellManager.E.Cast(sender);
+                                        stopwatch.Reset();
+                                    }
+                                }
+                                else
+                                {
+                                    stopwatch.Start();
+
+                                    if (stopwatch.ElapsedMilliseconds >= Humanizer.ECastDelay)
+                                    {
+                                        SpellManager.E.Cast(sender);
+                                        stopwatch.Reset();
+                                    }
                                 }
                             }
                             else
                             {
-                                stopwatch.Start();
-
-                                if (stopwatch.ElapsedMilliseconds >= Humanizer.ECastDelay)
-                                {
-                                    SpellManager.E.Cast(sender);
-                                    stopwatch.Reset();
-                                }
+                                SpellManager.E.Cast(sender);
                             }
                         }
                     }
@@ -197,25 +250,32 @@ namespace PartyJanna
                     {
                         if (args.Target == enemy)
                         {
-                            if (Humanizer.ERndmDelay)
+                            if (Humanizer.ECastDelayEnabled)
                             {
-                                stopwatch.Start();
-
-                                if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.ECastDelay))
+                                if (Humanizer.ERndmDelay)
                                 {
-                                    SpellManager.E.Cast(sender);
-                                    stopwatch.Reset();
+                                    stopwatch.Start();
+
+                                    if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.ECastDelay))
+                                    {
+                                        SpellManager.E.Cast(sender);
+                                        stopwatch.Reset();
+                                    }
+                                }
+                                else
+                                {
+                                    stopwatch.Start();
+
+                                    if (stopwatch.ElapsedMilliseconds >= Humanizer.ECastDelay)
+                                    {
+                                        SpellManager.E.Cast(sender);
+                                        stopwatch.Reset();
+                                    }
                                 }
                             }
                             else
                             {
-                                stopwatch.Start();
-
-                                if (stopwatch.ElapsedMilliseconds >= Humanizer.ECastDelay)
-                                {
-                                    SpellManager.E.Cast(sender);
-                                    stopwatch.Reset();
-                                }
+                                SpellManager.E.Cast(sender);
                             }
                         }
                     }
@@ -247,25 +307,32 @@ namespace PartyJanna
                             {
                                 if (args.Target == ally)
                                 {
-                                    if (Humanizer.ERndmDelay)
+                                    if (Humanizer.ECastDelayEnabled)
                                     {
-                                        stopwatch.Start();
-
-                                        if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.ECastDelay))
+                                        if (Humanizer.ERndmDelay)
                                         {
-                                            SpellManager.E.Cast(ally);
-                                            stopwatch.Reset();
+                                            stopwatch.Start();
+
+                                            if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.ECastDelay))
+                                            {
+                                                SpellManager.E.Cast(ally);
+                                                stopwatch.Reset();
+                                            }
+                                        }
+                                        else
+                                        {
+                                            stopwatch.Start();
+
+                                            if (stopwatch.ElapsedMilliseconds >= Humanizer.ECastDelay)
+                                            {
+                                                SpellManager.E.Cast(ally);
+                                                stopwatch.Reset();
+                                            }
                                         }
                                     }
                                     else
                                     {
-                                        stopwatch.Start();
-
-                                        if (stopwatch.ElapsedMilliseconds >= Humanizer.ECastDelay)
-                                        {
-                                            SpellManager.E.Cast(ally);
-                                            stopwatch.Reset();
-                                        }
+                                        SpellManager.E.Cast(ally);
                                     }
                                 }
                             }
@@ -305,25 +372,32 @@ namespace PartyJanna
                             {
                                 if (args.Target == ally)
                                 {
-                                    if (Humanizer.ERndmDelay)
+                                    if (Humanizer.ECastDelayEnabled)
                                     {
-                                        stopwatch.Start();
-
-                                        if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.ECastDelay))
+                                        if (Humanizer.ERndmDelay)
                                         {
-                                            SpellManager.E.Cast(ally);
-                                            stopwatch.Reset();
+                                            stopwatch.Start();
+
+                                            if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.ECastDelay))
+                                            {
+                                                SpellManager.E.Cast(ally);
+                                                stopwatch.Reset();
+                                            }
+                                        }
+                                        else
+                                        {
+                                            stopwatch.Start();
+
+                                            if (stopwatch.ElapsedMilliseconds >= Humanizer.ECastDelay)
+                                            {
+                                                SpellManager.E.Cast(ally);
+                                                stopwatch.Reset();
+                                            }
                                         }
                                     }
                                     else
                                     {
-                                        stopwatch.Start();
-
-                                        if (stopwatch.ElapsedMilliseconds >= Humanizer.ECastDelay)
-                                        {
-                                            SpellManager.E.Cast(ally);
-                                            stopwatch.Reset();
-                                        }
+                                        SpellManager.E.Cast(ally);
                                     }
                                 }
                             }
@@ -337,25 +411,32 @@ namespace PartyJanna
                     {
                         if (args.Target == turret && Player.Instance.IsInRange(turret, SpellManager.E.Range))
                         {
-                            if (Humanizer.ERndmDelay)
+                            if (Humanizer.ECastDelayEnabled)
                             {
-                                stopwatch.Start();
-
-                                if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.ECastDelay))
+                                if (Humanizer.ERndmDelay)
                                 {
-                                    SpellManager.E.Cast(turret);
-                                    stopwatch.Reset();
+                                    stopwatch.Start();
+
+                                    if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.ECastDelay))
+                                    {
+                                        SpellManager.E.Cast(turret);
+                                        stopwatch.Reset();
+                                    }
+                                }
+                                else
+                                {
+                                    stopwatch.Start();
+
+                                    if (stopwatch.ElapsedMilliseconds >= Humanizer.ECastDelay)
+                                    {
+                                        SpellManager.E.Cast(turret);
+                                        stopwatch.Reset();
+                                    }
                                 }
                             }
                             else
                             {
-                                stopwatch.Start();
-
-                                if (stopwatch.ElapsedMilliseconds >= Humanizer.ECastDelay)
-                                {
-                                    SpellManager.E.Cast(turret);
-                                    stopwatch.Reset();
-                                }
+                                SpellManager.E.Cast(turret);
                             }
                         }
                     }
@@ -410,49 +491,63 @@ namespace PartyJanna
                     {
                         if (args.Target != null && args.Target == ally)
                         {
-                            if (Humanizer.ERndmDelay)
+                            if (Humanizer.ECastDelayEnabled)
                             {
-                                stopwatch.Start();
-
-                                if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.ECastDelay))
+                                if (Humanizer.ERndmDelay)
                                 {
-                                    SpellManager.E.Cast(ally);
-                                    stopwatch.Reset();
+                                    stopwatch.Start();
+
+                                    if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.ECastDelay))
+                                    {
+                                        SpellManager.E.Cast(ally);
+                                        stopwatch.Reset();
+                                    }
+                                }
+                                else
+                                {
+                                    stopwatch.Start();
+
+                                    if (stopwatch.ElapsedMilliseconds >= Humanizer.ECastDelay)
+                                    {
+                                        SpellManager.E.Cast(ally);
+                                        stopwatch.Reset();
+                                    }
                                 }
                             }
                             else
                             {
-                                stopwatch.Start();
-
-                                if (stopwatch.ElapsedMilliseconds >= Humanizer.ECastDelay)
-                                {
-                                    SpellManager.E.Cast(ally);
-                                    stopwatch.Reset();
-                                }
+                                SpellManager.E.Cast(ally);
                             }
                         }
 
                         if (ally.IsInRange(args.End, 200) || PathIsInSpellRange(ally.RealPath(), args, 200))
                         {
-                            if (Humanizer.ERndmDelay)
+                            if (Humanizer.ECastDelayEnabled)
                             {
-                                stopwatch.Start();
-
-                                if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.ECastDelay))
+                                if (Humanizer.ERndmDelay)
                                 {
-                                    SpellManager.E.Cast(ally);
-                                    stopwatch.Reset();
+                                    stopwatch.Start();
+
+                                    if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.ECastDelay))
+                                    {
+                                        SpellManager.E.Cast(ally);
+                                        stopwatch.Reset();
+                                    }
+                                }
+                                else
+                                {
+                                    stopwatch.Start();
+
+                                    if (stopwatch.ElapsedMilliseconds >= Humanizer.ECastDelay)
+                                    {
+                                        SpellManager.E.Cast(ally);
+                                        stopwatch.Reset();
+                                    }
                                 }
                             }
                             else
                             {
-                                stopwatch.Start();
-
-                                if (stopwatch.ElapsedMilliseconds >= Humanizer.ECastDelay)
-                                {
-                                    SpellManager.E.Cast(ally);
-                                    stopwatch.Reset();
-                                }
+                                SpellManager.E.Cast(ally);
                             }
                         }
                     }
@@ -480,49 +575,63 @@ namespace PartyJanna
                     {
                         if (args.Target != null && args.Target == ally)
                         {
-                            if (Humanizer.ERndmDelay)
+                            if (Humanizer.ECastDelayEnabled)
                             {
-                                stopwatch.Start();
-
-                                if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.ECastDelay))
+                                if (Humanizer.ERndmDelay)
                                 {
-                                    SpellManager.E.Cast(ally);
-                                    stopwatch.Reset();
+                                    stopwatch.Start();
+
+                                    if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.ECastDelay))
+                                    {
+                                        SpellManager.E.Cast(ally);
+                                        stopwatch.Reset();
+                                    }
+                                }
+                                else
+                                {
+                                    stopwatch.Start();
+
+                                    if (stopwatch.ElapsedMilliseconds >= Humanizer.ECastDelay)
+                                    {
+                                        SpellManager.E.Cast(ally);
+                                        stopwatch.Reset();
+                                    }
                                 }
                             }
                             else
                             {
-                                stopwatch.Start();
-
-                                if (stopwatch.ElapsedMilliseconds >= Humanizer.ECastDelay)
-                                {
-                                    SpellManager.E.Cast(ally);
-                                    stopwatch.Reset();
-                                }
+                                SpellManager.E.Cast(ally);
                             }
                         }
 
                         if (ally.IsInRange(args.End, args.SData.CastRadius) || PathIsInSpellRange(ally.RealPath(), args, 200))
                         {
-                            if (Humanizer.ERndmDelay)
+                            if (Humanizer.ECastDelayEnabled)
                             {
-                                stopwatch.Start();
-
-                                if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.ECastDelay))
+                                if (Humanizer.ERndmDelay)
                                 {
-                                    SpellManager.E.Cast(ally);
-                                    stopwatch.Reset();
+                                    stopwatch.Start();
+
+                                    if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.ECastDelay))
+                                    {
+                                        SpellManager.E.Cast(ally);
+                                        stopwatch.Reset();
+                                    }
+                                }
+                                else
+                                {
+                                    stopwatch.Start();
+
+                                    if (stopwatch.ElapsedMilliseconds >= Humanizer.ECastDelay)
+                                    {
+                                        SpellManager.E.Cast(ally);
+                                        stopwatch.Reset();
+                                    }
                                 }
                             }
                             else
                             {
-                                stopwatch.Start();
-
-                                if (stopwatch.ElapsedMilliseconds >= Humanizer.ECastDelay)
-                                {
-                                    SpellManager.E.Cast(ally);
-                                    stopwatch.Reset();
-                                }
+                                SpellManager.E.Cast(ally);
                             }
                         }
                     }
@@ -533,49 +642,63 @@ namespace PartyJanna
             {
                 if (args.Target != null && args.Target.IsMe)
                 {
-                    if (Humanizer.ERndmDelay)
+                    if (Humanizer.ECastDelayEnabled)
                     {
-                        stopwatch.Start();
-
-                        if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.ECastDelay))
+                        if (Humanizer.ERndmDelay)
                         {
-                            SpellManager.E.Cast(Player.Instance);
-                            stopwatch.Reset();
+                            stopwatch.Start();
+
+                            if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.ECastDelay))
+                            {
+                                SpellManager.E.Cast(Player.Instance);
+                                stopwatch.Reset();
+                            }
+                        }
+                        else
+                        {
+                            stopwatch.Start();
+
+                            if (stopwatch.ElapsedMilliseconds >= Humanizer.ECastDelay)
+                            {
+                                SpellManager.E.Cast(Player.Instance);
+                                stopwatch.Reset();
+                            }
                         }
                     }
                     else
                     {
-                        stopwatch.Start();
-
-                        if (stopwatch.ElapsedMilliseconds >= Humanizer.ECastDelay)
-                        {
-                            SpellManager.E.Cast(Player.Instance);
-                            stopwatch.Reset();
-                        }
+                        SpellManager.E.Cast(Player.Instance);
                     }
                 }
 
                 if (Player.Instance.IsInRange(args.End, args.SData.CastRadius) || PathIsInSpellRange(Player.Instance.RealPath(), args, 200))
                 {
-                    if (Humanizer.ERndmDelay)
+                    if (Humanizer.ECastDelayEnabled)
                     {
-                        stopwatch.Start();
-
-                        if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.ECastDelay))
+                        if (Humanizer.ERndmDelay)
                         {
-                            SpellManager.E.Cast(Player.Instance);
-                            stopwatch.Reset();
+                            stopwatch.Start();
+
+                            if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.ECastDelay))
+                            {
+                                SpellManager.E.Cast(Player.Instance);
+                                stopwatch.Reset();
+                            }
+                        }
+                        else
+                        {
+                            stopwatch.Start();
+
+                            if (stopwatch.ElapsedMilliseconds >= Humanizer.ECastDelay)
+                            {
+                                SpellManager.E.Cast(Player.Instance);
+                                stopwatch.Reset();
+                            }
                         }
                     }
                     else
                     {
-                        stopwatch.Start();
-
-                        if (stopwatch.ElapsedMilliseconds >= Humanizer.ECastDelay)
-                        {
-                            SpellManager.E.Cast(Player.Instance);
-                            stopwatch.Reset();
-                        }
+                        SpellManager.E.Cast(Player.Instance);
                     }
                 }
             }

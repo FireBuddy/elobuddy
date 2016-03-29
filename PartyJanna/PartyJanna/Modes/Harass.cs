@@ -1,6 +1,9 @@
 ﻿using EloBuddy;
 using EloBuddy.SDK;
 using Settings = PartyJanna.Config.Settings.Harass;
+using Humanizer = PartyJanna.Config.Settings.Humanizer;
+using System.Diagnostics;
+using System;
 
 namespace PartyJanna.Modes
 {
@@ -21,6 +24,8 @@ namespace PartyJanna.Modes
             return Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass);
         }
 
+        public static Stopwatch stopwatch = new Stopwatch();
+
         public override void Execute()
         {
             Q.Range = (uint)Settings.QUseRange;
@@ -36,7 +41,33 @@ namespace PartyJanna.Modes
 
             if (target != null && Settings.UseQ)
             {
-                Q.Cast(Q.GetPrediction(target).CastPosition);
+                if (Humanizer.QCastDelayEnabled)
+                {
+                    if (Humanizer.QRndmDelay)
+                    {
+                        stopwatch.Start();
+
+                        if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.QCastDelay))
+                        {
+                            Q.Cast(Q.GetPrediction(target).CastPosition);
+                            stopwatch.Reset();
+                        }
+                    }
+                    else
+                    {
+                        stopwatch.Start();
+
+                        if (stopwatch.ElapsedMilliseconds >= Humanizer.QCastDelay)
+                        {
+                            Q.Cast(Q.GetPrediction(target).CastPosition);
+                            stopwatch.Reset();
+                        }
+                    }
+                }
+                else
+                {
+                    Q.Cast(Q.GetPrediction(target).CastPosition);
+                }
             }
         }
     }
