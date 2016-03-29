@@ -48,7 +48,7 @@ namespace PartyJanna
 
         private static void OnGapcloser(AIHeroClient sender, Gapcloser.GapcloserEventArgs e)
         {
-            if (!sender.IsEnemy || !AntiGapcloser.AntiGap)
+            if (!sender.IsEnemy || !AntiGapcloser.AntiGap || Player.Instance.IsRecalling())
             { return; }
 
             foreach (var ally in EntityManager.Heroes.Allies)
@@ -88,7 +88,7 @@ namespace PartyJanna
 
         private static void OnInterruptableSpell(Obj_AI_Base sender, EloBuddy.SDK.Events.Interrupter.InterruptableSpellEventArgs e)
         {
-            if (!sender.IsEnemy)
+            if (!sender.IsEnemy || Player.Instance.IsRecalling())
             { return; }
 
             if (e.DangerLevel == DangerLevel.High)
@@ -194,6 +194,9 @@ namespace PartyJanna
 
         public static void OnBasicAttack(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
+            if (Player.Instance.IsRecalling())
+            { return; }
+
             PriorAllyOrder = new List<AIHeroClient>();
 
             HpAllyOrder = new List<AIHeroClient>();
@@ -446,7 +449,7 @@ namespace PartyJanna
 
         public static void OnProcessSpellCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            if (!sender.IsEnemy)
+            if (!sender.IsEnemy || Player.Instance.IsRecalling())
             { return; }
 
             PriorAllyOrder = new List<AIHeroClient>();
