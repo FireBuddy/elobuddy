@@ -39,7 +39,7 @@ namespace PartyJanna.Modes
 
             target = GetTarget(Q, DamageType.Magical);
 
-            if (target != null && Settings.UseQ)
+            if (target != null && target.IsTargetable && !target.HasBuffOfType(BuffType.SpellShield) && Settings.UseQ)
             {
                 if (Humanizer.QCastDelayEnabled)
                 {
