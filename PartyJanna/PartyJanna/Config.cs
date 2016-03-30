@@ -489,6 +489,8 @@ namespace PartyJanna
 
                     _skinId.OnValueChange += OnSkinIdChange;
                     _skinHackEnabled.OnValueChange += OnSkinHackToggle;
+
+                    Player.Instance.SetSkinId(SkinID);
                 }
 
                 private static void OnSkinHackToggle(ValueBase<bool> sender, ValueBase<bool>.ValueChangeArgs args)
