@@ -3,6 +3,7 @@ using EloBuddy.SDK;
 using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 using System.Collections.Generic;
+using System;
 
 namespace PartyJanna
 {
@@ -55,6 +56,9 @@ namespace PartyJanna
                 Menu.AddSeparator(13);
 
                 Humanizer.Initialize();
+                Menu.AddSeparator(13);
+
+                SkinHack.Initialize();
                 Menu.AddSeparator(13);
             }
 
@@ -453,6 +457,48 @@ namespace PartyJanna
 
                     _rRndmDelay = Menu.Add("rRndmDelay", new CheckBox("Randomize R Cast Delay"));
                     Menu.AddSeparator();
+                }
+
+                public static void Initialize() { }
+            }
+
+            public static class SkinHack
+            {
+                private static readonly CheckBox _skinHackEnabled;
+                private static readonly Slider _skinId;
+
+                public static bool SkinHackEnabled
+                {
+                    get { return _skinHackEnabled.CurrentValue; }
+                }
+                public static int SkinID
+                {
+                    get { return _skinId.CurrentValue; }
+                }
+
+                static SkinHack()
+                {
+                    Menu.AddGroupLabel("Skin Hack Settings");
+
+                    _skinHackEnabled = Menu.Add("skinHackEnabled", new CheckBox("Enabled", false));
+                    _skinId = Menu.Add<Slider>("skinId", new Slider("Skin ID:", 0, 0, 11));
+
+                    _skinId.OnValueChange += OnSkinIdChange;
+                    _skinHackEnabled.OnValueChange += OnSkinHackToggle;
+                }
+
+                private static void OnSkinHackToggle(ValueBase<bool> sender, ValueBase<bool>.ValueChangeArgs args)
+                {
+                    if (!args.NewValue)
+                        Player.Instance.SetSkinId(0);
+                    else
+                        Player.Instance.SetSkinId(SkinID);
+                }
+
+                private static void OnSkinIdChange(ValueBase<int> sender, ValueBase<int>.ValueChangeArgs args)
+                {
+                    if (SkinHackEnabled)
+                    Player.Instance.SetSkinId(args.NewValue);
                 }
 
                 public static void Initialize() { }
