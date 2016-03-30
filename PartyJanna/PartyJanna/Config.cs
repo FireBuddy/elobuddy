@@ -238,7 +238,7 @@ namespace PartyJanna
                     _selfShield = Menu.Add("selfShield", new CheckBox("Shield Yourself from Basic Attacks"));
                     Menu.AddSeparator(13);
 
-                    _turretShieldMinion = Menu.Add("turretShieldMinion", new CheckBox("Shield Turrets from Enemy Minions"));
+                    _turretShieldMinion = Menu.Add("turretShieldMinion", new CheckBox("Shield Turrets from Enemy Minions", false));
                     Menu.AddSeparator(13);
 
                     _turretShieldChampion = Menu.Add("turretShieldChampion", new CheckBox("Shield Turrets from Enemy Champions"));
