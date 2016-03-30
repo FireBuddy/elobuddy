@@ -35,11 +35,19 @@ namespace PartyJanna.Modes
                 {
                     if (ally.IsFacing(enemy))
                     {
-                        if (ally.HealthPercent <= Settings.AllyHpPercentage && ally.IsInRange(Player.Instance, 750))
+                        if (ally.HealthPercent <= Settings.AllyHpPercentageCC && ally.IsInRange(Player.Instance, 750))
                         {
                             if (mikael.IsOwned() && mikael.IsReady() && (ally.HasBuffOfType(BuffType.Charm) || ally.HasBuffOfType(BuffType.Fear) || ally.HasBuffOfType(BuffType.Poison) || ally.HasBuffOfType(BuffType.Polymorph) || ally.HasBuffOfType(BuffType.Silence) || ally.HasBuffOfType(BuffType.Sleep) || ally.HasBuffOfType(BuffType.Slow) || ally.HasBuffOfType(BuffType.Snare) || ally.HasBuffOfType(BuffType.Stun) || ally.HasBuffOfType(BuffType.Taunt)))
                             {
                                 mikael.Cast(ally);
+                            }
+                        }
+
+                        if (ally.HealthPercent <= Settings.AllyHpPercentageDamage && ally.IsInRange(Player.Instance, 600))
+                        {
+                            if (ironSolari.IsReady())
+                            {
+                                ironSolari.Cast();
                             }
 
                             if (mountain.IsOwned() && mountain.IsReady())
@@ -48,15 +56,7 @@ namespace PartyJanna.Modes
                             }
                         }
 
-                        if (ally.HealthPercent <= Settings.AllyHpPercentage && ally.IsInRange(Player.Instance, 600))
-                        {
-                            if (ironSolari.IsReady())
-                            {
-                                ironSolari.Cast();
-                            }
-                        }
-
-                        if (enemy.HealthPercent <= Settings.AllyHpPercentage && enemy.IsInRange(Player.Instance, 2200))
+                        if (enemy.HealthPercent <= Settings.AllyHpPercentageDamage && enemy.IsInRange(Player.Instance, 2200))
                         {
                             if (talisman.IsOwned() && talisman.IsReady() && ally.IsInRange(Player.Instance, 600))
                             {
@@ -71,11 +71,19 @@ namespace PartyJanna.Modes
                     }
                     else
                     {
-                        if (ally.HealthPercent <= Settings.AllyHpPercentage && ally.IsInRange(Player.Instance, 750))
+                        if (ally.HealthPercent <= Settings.AllyHpPercentageCC && ally.IsInRange(Player.Instance, 750))
                         {
                             if (mikael.IsOwned() && mikael.IsReady() && (ally.HasBuffOfType(BuffType.Charm) || ally.HasBuffOfType(BuffType.Fear) || ally.HasBuffOfType(BuffType.Poison) || ally.HasBuffOfType(BuffType.Polymorph) || ally.HasBuffOfType(BuffType.Silence) || ally.HasBuffOfType(BuffType.Sleep) || ally.HasBuffOfType(BuffType.Slow) || ally.HasBuffOfType(BuffType.Snare) || ally.HasBuffOfType(BuffType.Stun) || ally.HasBuffOfType(BuffType.Taunt)))
                             {
                                 mikael.Cast(ally);
+                            }
+                        }
+
+                        if (ally.HealthPercent <= Settings.AllyHpPercentageDamage && ally.IsInRange(Player.Instance, 600))
+                        {
+                            if (ironSolari.IsReady())
+                            {
+                                ironSolari.Cast();
                             }
 
                             if (mountain.IsOwned() && mountain.IsReady())
@@ -84,15 +92,7 @@ namespace PartyJanna.Modes
                             }
                         }
 
-                        if (ally.HealthPercent <= Settings.AllyHpPercentage && ally.IsInRange(Player.Instance, 600))
-                        {
-                            if (ironSolari.IsReady())
-                            {
-                                ironSolari.Cast();
-                            }
-                        }
-
-                        if (ally.HealthPercent <= Settings.AllyHpPercentage && enemy.IsInRange(Player.Instance, 1650))
+                        if (ally.HealthPercent <= Settings.AllyHpPercentageDamage && enemy.IsInRange(Player.Instance, 1650))
                         {
                             if (talisman.IsOwned() && talisman.IsReady() && ally.IsInRange(Player.Instance, 600))
                             {

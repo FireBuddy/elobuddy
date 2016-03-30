@@ -106,15 +106,19 @@ namespace PartyJanna
             public static class Items
             {
                 private static readonly CheckBox _useItems;
-                private static readonly Slider _allyHpPercentage;
+                private static readonly Slider _allyHpPercentageDamage, _allyHpPercentageCc;
 
                 public static bool UseItems
                 {
                     get { return _useItems.CurrentValue; }
                 }
-                public static int AllyHpPercentage
+                public static int AllyHpPercentageDamage
                 {
-                    get { return _allyHpPercentage.CurrentValue; }
+                    get { return _allyHpPercentageDamage.CurrentValue; }
+                }
+                public static int AllyHpPercentageCC
+                {
+                    get { return _allyHpPercentageCc.CurrentValue; }
                 }
 
                 static Items()
@@ -122,7 +126,8 @@ namespace PartyJanna
                     Menu.AddGroupLabel("Items");
 
                     _useItems = Menu.Add("useItems", new CheckBox("Use Items"));
-                    _allyHpPercentage = Menu.Add("allyHpPercentage", new Slider("Min. Ally Health to use Items (%):", 50, 1));
+                    _allyHpPercentageDamage = Menu.Add("allyHpPercentage", new Slider("Min. Ally Health on Damage (%):", 50, 1));
+                    _allyHpPercentageCc = Menu.Add("allyHpPercentageCc", new Slider("Min. Ally Health on CC (%):", 100, 1));
                 }
 
                 public static void Initialize() { }
