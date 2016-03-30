@@ -52,6 +52,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config.cs" />
+    <Compile Include="EvadePlus\EvadePlus.cs" />
+    <Compile Include="EvadePlus\EvadeSkillshot.cs" />
+    <Compile Include="EvadePlus\SkillshotDatabase.cs" />
+    <Compile Include="EvadePlus\SkillshotDetector.cs" />
+    <Compile Include="EvadePlus\SkillshotTypes\CircularMissileSkillshot.cs" />
+    <Compile Include="EvadePlus\SkillshotTypes\LinearMissileSkillshot.cs" />
+    <Compile Include="EvadePlus\SkillshotTypes\SpecialTypes\SummonerMark.cs" />
+    <Compile Include="EvadePlus\SkillshotTypes\SpecialTypes\YasuoQ.cs" />
+    <Compile Include="EvadePlus\SpellData.cs" />
+    <Compile Include="EvadePlus\Utils.cs" />
     <Compile Include="ModeManager.cs" />
     <Compile Include="Modes\PermaActive.cs" />
     <Compile Include="Modes\Flee.cs" />
@@ -69,6 +79,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

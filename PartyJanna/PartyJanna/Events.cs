@@ -7,10 +7,11 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using EvadePlus;
 using AntiGapcloser = PartyJanna.Config.Settings.AntiGapcloser;
 using AutoShield = PartyJanna.Config.Settings.AutoShield;
 using Humanizer = PartyJanna.Config.Settings.Humanizer;
-using Interrupter = PartyJanna.Config.Settings.Interrupter;
+using _Interrupter = PartyJanna.Config.Settings.Interrupter;
 
 namespace PartyJanna
 {
@@ -21,30 +22,19 @@ namespace PartyJanna
         public static int HighestPriority { get; private set; }
         public static float LowestHP { get; private set; }
         public static Stopwatch stopwatch = new Stopwatch();
+        public static EvadePlus.EvadePlus EvadePlus;
 
         static Events()
         {
             Obj_AI_Base.OnBasicAttack += OnBasicAttack;
             Obj_AI_Base.OnProcessSpellCast += OnProcessSpellCast;
             Gapcloser.OnGapcloser += OnGapcloser;
-            EloBuddy.SDK.Events.Interrupter.OnInterruptableSpell += OnInterruptableSpell;
-        }
+            Interrupter.OnInterruptableSpell += OnInterruptableSpell;
 
+            var SkillshotDetector = new SkillshotDetector(DetectionTeam.EnemyTeam);
+            EvadePlus = new EvadePlus.EvadePlus(SkillshotDetector);
+        }
         public static void Initialize() { }
-
-        public static bool PathIsInSpellRange(Vector3[] pathway, GameObjectProcessSpellCastEventArgs spell, float spellrange)
-        {
-            if (pathway != null)
-            {
-                foreach (var v in pathway)
-                {
-                    if (v.IsInRange(spell.End, spellrange))
-                    { return true; }
-                }
-            }
-
-            return false;
-        }
 
         private static void OnGapcloser(AIHeroClient sender, Gapcloser.GapcloserEventArgs e)
         {
@@ -93,7 +83,7 @@ namespace PartyJanna
 
             if (e.DangerLevel == DangerLevel.High)
             {
-                if (Interrupter.RInterruptDangerous && SpellManager.R.IsReady() && SpellManager.R.IsInRange(sender) && Player.Instance.Mana >= 100)
+                if (_Interrupter.RInterruptDangerous && SpellManager.R.IsReady() && SpellManager.R.IsInRange(sender) && Player.Instance.Mana >= 100)
                 {
                     if (Humanizer.RCastDelayEnabled)
                     {
@@ -125,7 +115,7 @@ namespace PartyJanna
                 }
                 else
                 {
-                    if (Interrupter.QInterruptDangerous && SpellManager.Q.IsReady() && SpellManager.Q.IsInRange(sender))
+                    if (_Interrupter.QInterruptDangerous && SpellManager.Q.IsReady() && SpellManager.Q.IsInRange(sender))
                     {
                         if (Humanizer.QCastDelayEnabled)
                         {
@@ -159,7 +149,7 @@ namespace PartyJanna
             }
             else
             {
-                if (Interrupter.QInterrupt && SpellManager.Q.IsReady() && SpellManager.Q.IsInRange(sender))
+                if (_Interrupter.QInterrupt && SpellManager.Q.IsReady() && SpellManager.Q.IsInRange(sender))
                 {
                     if (Humanizer.QCastDelayEnabled)
                     {
@@ -239,6 +229,43 @@ namespace PartyJanna
                             else
                             {
                                 SpellManager.E.Cast(sender);
+                            }
+                        }
+                    }
+                }
+
+                if (AutoShield.TurretShieldMinion)
+                {
+                    foreach (var turret in EntityManager.Turrets.Allies)
+                    {
+                        if (args.Target == turret && Player.Instance.IsInRange(turret, SpellManager.E.Range))
+                        {
+                            if (Humanizer.ECastDelayEnabled)
+                            {
+                                if (Humanizer.ERndmDelay)
+                                {
+                                    stopwatch.Start();
+
+                                    if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.ECastDelay))
+                                    {
+                                        SpellManager.E.Cast(turret);
+                                        stopwatch.Reset();
+                                    }
+                                }
+                                else
+                                {
+                                    stopwatch.Start();
+
+                                    if (stopwatch.ElapsedMilliseconds >= Humanizer.ECastDelay)
+                                    {
+                                        SpellManager.E.Cast(turret);
+                                        stopwatch.Reset();
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                SpellManager.E.Cast(turret);
                             }
                         }
                     }
@@ -406,42 +433,76 @@ namespace PartyJanna
                             }
                         }
                     }
-                }
 
-                if (AutoShield.TurretShield)
-                {
-                    foreach (var turret in EntityManager.Turrets.Allies)
+                    if (AutoShield.TurretShieldChampion)
                     {
-                        if (args.Target == turret && Player.Instance.IsInRange(turret, SpellManager.E.Range))
+                        foreach (var turret in EntityManager.Turrets.Allies)
                         {
-                            if (Humanizer.ECastDelayEnabled)
+                            if (args.Target == turret && Player.Instance.IsInRange(turret, SpellManager.E.Range))
                             {
-                                if (Humanizer.ERndmDelay)
+                                if (Humanizer.ECastDelayEnabled)
                                 {
-                                    stopwatch.Start();
-
-                                    if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.ECastDelay))
+                                    if (Humanizer.ERndmDelay)
                                     {
-                                        SpellManager.E.Cast(turret);
-                                        stopwatch.Reset();
+                                        stopwatch.Start();
+
+                                        if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.ECastDelay))
+                                        {
+                                            SpellManager.E.Cast(turret);
+                                            stopwatch.Reset();
+                                        }
+                                    }
+                                    else
+                                    {
+                                        stopwatch.Start();
+
+                                        if (stopwatch.ElapsedMilliseconds >= Humanizer.ECastDelay)
+                                        {
+                                            SpellManager.E.Cast(turret);
+                                            stopwatch.Reset();
+                                        }
                                     }
                                 }
                                 else
                                 {
-                                    stopwatch.Start();
-
-                                    if (stopwatch.ElapsedMilliseconds >= Humanizer.ECastDelay)
-                                    {
-                                        SpellManager.E.Cast(turret);
-                                        stopwatch.Reset();
-                                    }
+                                    SpellManager.E.Cast(turret);
                                 }
                             }
-                            else
+                        }
+                    }
+                }
+            }
+
+            if (AutoShield.SelfShield)
+            {
+                if (args.Target != null && args.Target.IsMe)
+                {
+                    if (Humanizer.ECastDelayEnabled)
+                    {
+                        if (Humanizer.ERndmDelay)
+                        {
+                            stopwatch.Start();
+
+                            if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.ECastDelay))
                             {
-                                SpellManager.E.Cast(turret);
+                                SpellManager.E.Cast(Player.Instance);
+                                stopwatch.Reset();
                             }
                         }
+                        else
+                        {
+                            stopwatch.Start();
+
+                            if (stopwatch.ElapsedMilliseconds >= Humanizer.ECastDelay)
+                            {
+                                SpellManager.E.Cast(Player.Instance);
+                                stopwatch.Reset();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        SpellManager.E.Cast(Player.Instance);
                     }
                 }
             }
@@ -492,70 +553,76 @@ namespace PartyJanna
                 {
                     foreach (var shieldThisAlly in AutoShield.ShieldAllyList.Where(x => x.DisplayName.Contains(ally.ChampionName) && x.CurrentValue))
                     {
-                        if (args.Target != null && args.Target == ally)
+                        if (args.Target == ally)
                         {
-                            if (Humanizer.ECastDelayEnabled)
+                            if (args.Target != null)
                             {
-                                if (Humanizer.ERndmDelay)
+                                if (Humanizer.ECastDelayEnabled)
                                 {
-                                    stopwatch.Start();
-
-                                    if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.ECastDelay))
+                                    if (Humanizer.ERndmDelay)
                                     {
-                                        SpellManager.E.Cast(ally);
-                                        stopwatch.Reset();
+                                        stopwatch.Start();
+
+                                        if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.ECastDelay))
+                                        {
+                                            SpellManager.E.Cast(ally);
+                                            stopwatch.Reset();
+                                        }
+                                    }
+                                    else
+                                    {
+                                        stopwatch.Start();
+
+                                        if (stopwatch.ElapsedMilliseconds >= Humanizer.ECastDelay)
+                                        {
+                                            SpellManager.E.Cast(ally);
+                                            stopwatch.Reset();
+                                        }
                                     }
                                 }
                                 else
                                 {
-                                    stopwatch.Start();
-
-                                    if (stopwatch.ElapsedMilliseconds >= Humanizer.ECastDelay)
-                                    {
-                                        SpellManager.E.Cast(ally);
-                                        stopwatch.Reset();
-                                    }
+                                    SpellManager.E.Cast(ally);
                                 }
                             }
                             else
                             {
-                                SpellManager.E.Cast(ally);
-                            }
-                        }
+                                var AllyPath = Prediction.Position.GetRealPath(ally);
 
-                        if (ally.IsInRange(args.End, 200) || PathIsInSpellRange(ally.RealPath(), args, 200))
-                        {
-                            if (Humanizer.ECastDelayEnabled)
-                            {
-                                if (Humanizer.ERndmDelay)
+                                if (EvadePlus.IsHeroInDanger(ally) && !EvadePlus.IsPathSafe(AllyPath))
                                 {
-                                    stopwatch.Start();
+                                    if (Humanizer.ECastDelayEnabled)
+                                    {
+                                        if (Humanizer.ERndmDelay)
+                                        {
+                                            stopwatch.Start();
 
-                                    if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.ECastDelay))
+                                            if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.ECastDelay))
+                                            {
+                                                SpellManager.E.Cast(ally);
+                                                stopwatch.Reset();
+                                            }
+                                        }
+                                        else
+                                        {
+                                            stopwatch.Start();
+
+                                            if (stopwatch.ElapsedMilliseconds >= Humanizer.ECastDelay)
+                                            {
+                                                SpellManager.E.Cast(ally);
+                                                stopwatch.Reset();
+                                            }
+                                        }
+                                    }
+                                    else
                                     {
                                         SpellManager.E.Cast(ally);
-                                        stopwatch.Reset();
                                     }
                                 }
-                                else
-                                {
-                                    stopwatch.Start();
-
-                                    if (stopwatch.ElapsedMilliseconds >= Humanizer.ECastDelay)
-                                    {
-                                        SpellManager.E.Cast(ally);
-                                        stopwatch.Reset();
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                SpellManager.E.Cast(ally);
                             }
                         }
                     }
                 }
-
             }
             else
             {
@@ -576,132 +643,74 @@ namespace PartyJanna
                 {
                     foreach (var shieldThisAlly in AutoShield.ShieldAllyList.Where(x => x.DisplayName.Contains(ally.ChampionName) && x.CurrentValue))
                     {
-                        if (args.Target != null && args.Target == ally)
+                        if (args.Target == ally)
                         {
-                            if (Humanizer.ECastDelayEnabled)
+                            if (args.Target != null)
                             {
-                                if (Humanizer.ERndmDelay)
+                                if (Humanizer.ECastDelayEnabled)
                                 {
-                                    stopwatch.Start();
-
-                                    if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.ECastDelay))
+                                    if (Humanizer.ERndmDelay)
                                     {
-                                        SpellManager.E.Cast(ally);
-                                        stopwatch.Reset();
+                                        stopwatch.Start();
+
+                                        if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.ECastDelay))
+                                        {
+                                            SpellManager.E.Cast(ally);
+                                            stopwatch.Reset();
+                                        }
+                                    }
+                                    else
+                                    {
+                                        stopwatch.Start();
+
+                                        if (stopwatch.ElapsedMilliseconds >= Humanizer.ECastDelay)
+                                        {
+                                            SpellManager.E.Cast(ally);
+                                            stopwatch.Reset();
+                                        }
                                     }
                                 }
                                 else
                                 {
-                                    stopwatch.Start();
-
-                                    if (stopwatch.ElapsedMilliseconds >= Humanizer.ECastDelay)
-                                    {
-                                        SpellManager.E.Cast(ally);
-                                        stopwatch.Reset();
-                                    }
+                                    SpellManager.E.Cast(ally);
                                 }
                             }
                             else
                             {
-                                SpellManager.E.Cast(ally);
-                            }
-                        }
+                                var AllyPath = Prediction.Position.GetRealPath(ally);
 
-                        if (ally.IsInRange(args.End, args.SData.CastRadius) || PathIsInSpellRange(ally.RealPath(), args, 200))
-                        {
-                            if (Humanizer.ECastDelayEnabled)
-                            {
-                                if (Humanizer.ERndmDelay)
+                                if (EvadePlus.IsHeroInDanger(ally) && !EvadePlus.IsPathSafe(AllyPath))
                                 {
-                                    stopwatch.Start();
+                                    if (Humanizer.ECastDelayEnabled)
+                                    {
+                                        if (Humanizer.ERndmDelay)
+                                        {
+                                            stopwatch.Start();
 
-                                    if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.ECastDelay))
+                                            if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.ECastDelay))
+                                            {
+                                                SpellManager.E.Cast(ally);
+                                                stopwatch.Reset();
+                                            }
+                                        }
+                                        else
+                                        {
+                                            stopwatch.Start();
+
+                                            if (stopwatch.ElapsedMilliseconds >= Humanizer.ECastDelay)
+                                            {
+                                                SpellManager.E.Cast(ally);
+                                                stopwatch.Reset();
+                                            }
+                                        }
+                                    }
+                                    else
                                     {
                                         SpellManager.E.Cast(ally);
-                                        stopwatch.Reset();
-                                    }
-                                }
-                                else
-                                {
-                                    stopwatch.Start();
-
-                                    if (stopwatch.ElapsedMilliseconds >= Humanizer.ECastDelay)
-                                    {
-                                        SpellManager.E.Cast(ally);
-                                        stopwatch.Reset();
                                     }
                                 }
                             }
-                            else
-                            {
-                                SpellManager.E.Cast(ally);
-                            }
                         }
-                    }
-                }
-            }
-
-            if (AutoShield.SelfShield)
-            {
-                if (args.Target != null && args.Target.IsMe)
-                {
-                    if (Humanizer.ECastDelayEnabled)
-                    {
-                        if (Humanizer.ERndmDelay)
-                        {
-                            stopwatch.Start();
-
-                            if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.ECastDelay))
-                            {
-                                SpellManager.E.Cast(Player.Instance);
-                                stopwatch.Reset();
-                            }
-                        }
-                        else
-                        {
-                            stopwatch.Start();
-
-                            if (stopwatch.ElapsedMilliseconds >= Humanizer.ECastDelay)
-                            {
-                                SpellManager.E.Cast(Player.Instance);
-                                stopwatch.Reset();
-                            }
-                        }
-                    }
-                    else
-                    {
-                        SpellManager.E.Cast(Player.Instance);
-                    }
-                }
-
-                if (Player.Instance.IsInRange(args.End, args.SData.CastRadius) || PathIsInSpellRange(Player.Instance.RealPath(), args, 200))
-                {
-                    if (Humanizer.ECastDelayEnabled)
-                    {
-                        if (Humanizer.ERndmDelay)
-                        {
-                            stopwatch.Start();
-
-                            if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.ECastDelay))
-                            {
-                                SpellManager.E.Cast(Player.Instance);
-                                stopwatch.Reset();
-                            }
-                        }
-                        else
-                        {
-                            stopwatch.Start();
-
-                            if (stopwatch.ElapsedMilliseconds >= Humanizer.ECastDelay)
-                            {
-                                SpellManager.E.Cast(Player.Instance);
-                                stopwatch.Reset();
-                            }
-                        }
-                    }
-                    else
-                    {
-                        SpellManager.E.Cast(Player.Instance);
                     }
                 }
             }

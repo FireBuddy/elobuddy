@@ -180,7 +180,7 @@ namespace PartyJanna
             {
                 private static readonly CheckBox _boostAD;
                 private static readonly CheckBox _selfShield;
-                private static readonly CheckBox _turretShield;
+                private static readonly CheckBox _turretShieldMinion, _turretShieldChampion;
                 private static readonly ComboBox _priorMode;
                 private static readonly List<Slider> _sliders;
                 private static readonly List<AIHeroClient> _heros;
@@ -194,9 +194,13 @@ namespace PartyJanna
                 {
                     get { return _selfShield.CurrentValue; }
                 }
-                public static bool TurretShield
+                public static bool TurretShieldMinion
                 {
-                    get { return _turretShield.CurrentValue; }
+                    get { return _turretShieldMinion.CurrentValue; }
+                }
+                public static bool TurretShieldChampion
+                {
+                    get { return _turretShieldChampion.CurrentValue; }
                 }
                 public static int PriorMode
                 {
@@ -228,13 +232,16 @@ namespace PartyJanna
 
                     Menu.AddSeparator(13);
 
-                    _boostAD = Menu.Add("autoShieldBoostAd", new CheckBox("Use E to boost ally AD"));
+                    _boostAD = Menu.Add("autoShieldBoostAd", new CheckBox("Boost ally AutoAttack with Shield"));
                     Menu.AddSeparator(13);
 
                     _selfShield = Menu.Add("selfShield", new CheckBox("Shield Yourself from Basic Attacks"));
                     Menu.AddSeparator(13);
 
-                    _turretShield = Menu.Add("turretShield", new CheckBox("Shield Turrets"));
+                    _turretShieldMinion = Menu.Add("turretShieldMinion", new CheckBox("Shield Turrets from Enemy Minions"));
+                    Menu.AddSeparator(13);
+
+                    _turretShieldChampion = Menu.Add("turretShieldChampion", new CheckBox("Shield Turrets from Enemy Champions"));
                     Menu.AddSeparator(13);
 
                     _priorMode = Menu.Add("autoShieldPriorMode", new ComboBox("AutoShield Priority Mode:", 0, new string[] { "Lowest Health", "Priority Level" }));
@@ -245,16 +252,13 @@ namespace PartyJanna
 
                     foreach (var ally in EntityManager.Heroes.Allies)
                     {
-                        if (ally.ChampionName != Program.ChampName)
-                        {
-                            Slider PrioritySlider = Menu.Add<Slider>(ally.ChampionName, new Slider(string.Format("{0} Priority:", ally.ChampionName, ally.Name), 1, 1, EntityManager.Heroes.Allies.Count - 1));
+                        Slider PrioritySlider = Menu.Add<Slider>(ally.ChampionName, new Slider(string.Format("{0} Priority:", ally.ChampionName, ally.Name), 1, 1, EntityManager.Heroes.Allies.Count - 1));
 
-                            Menu.AddSeparator(13);
+                        Menu.AddSeparator(13);
 
-                            _sliders.Add(PrioritySlider);
+                        _sliders.Add(PrioritySlider);
 
-                            _heros.Add(ally);
-                        }
+                        _heros.Add(ally);
                     }
                 }
 
