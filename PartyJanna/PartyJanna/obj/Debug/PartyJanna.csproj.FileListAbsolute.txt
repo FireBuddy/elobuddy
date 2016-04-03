@@ -20,3 +20,4 @@ C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\PartyJanna\PartyJanna\bin\Debu
 C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\PartyJanna\PartyJanna\bin\Debug\SharpDX.Direct3D9.dll
 C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\PartyJanna\PartyJanna\bin\Debug\Newtonsoft.Json.dll
 C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\PartyJanna\PartyJanna\obj\Debug\PartyJanna.csprojResolveAssemblyReference.cache
+C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\PartyJanna\PartyJanna\bin\Debug\EloBuddy.Sandbox.dll
