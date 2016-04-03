@@ -17,10 +17,10 @@ namespace PartyJanna
 
         private static void OnLoadingComplete(EventArgs args)
         {
-            if (Player.Instance.ChampionName != ChampName)
+            /*if (Player.Instance.ChampionName != ChampName)
             {
                 return;
-            }
+            }*/
 
             Config.Initialize();
             SpellManager.Initialize();

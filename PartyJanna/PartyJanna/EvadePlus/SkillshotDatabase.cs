@@ -1313,10 +1313,10 @@ namespace EvadePlus
                         MissileSpeed = 1700,
                         DangerValue = 2,
                         IsDangerous = false,
-                        MissileSpellName = "KarmaQMissile"
+                        MissileSpellName = "KarmaQ"
                     }
                 },
-                new LinearMissileSkillshot
+                /*new LinearMissileSkillshot
                 {
                     SpellData = new SpellData
                     {
@@ -1332,7 +1332,7 @@ namespace EvadePlus
                         IsDangerous = false,
                         MissileSpellName = "KarmaQMissileMantra"
                     }
-                },
+                },*/
                 new CircularMissileSkillshot
                 {
                     SpellData = new SpellData
