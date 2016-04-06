@@ -74,7 +74,7 @@ namespace PartyJanna
 
             foreach (var ally in EntityManager.Heroes.Allies)
             {
-                if (e.End.Distance(ally) <= 300 && SpellManager.Q.IsInRange(sender.Position))
+                if (sender.IsFacing(ally) && SpellManager.Q.IsInRange(sender.Position))
                 {
                     if (Humanizer.QCastDelayEnabled)
                     {
@@ -84,7 +84,7 @@ namespace PartyJanna
 
                             if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.QCastDelay))
                             {
-                                SpellManager.Q.Cast(sender.Position);
+                                SpellManager.Q.Cast(SpellManager.Q.GetPrediction(sender).CastPosition);
                                 stopwatch.Reset();
                             }
                         }
@@ -94,14 +94,14 @@ namespace PartyJanna
 
                             if (stopwatch.ElapsedMilliseconds >= Humanizer.QCastDelay)
                             {
-                                SpellManager.Q.Cast(sender.Position);
+                                SpellManager.Q.Cast(SpellManager.Q.GetPrediction(sender).CastPosition);
                                 stopwatch.Reset();
                             }
                         }
                     }
                     else
                     {
-                        SpellManager.Q.Cast(sender.Position);
+                        SpellManager.Q.Cast(SpellManager.Q.GetPrediction(sender).CastPosition);
                     }
                 }
             }
