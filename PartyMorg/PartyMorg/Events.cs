@@ -114,38 +114,6 @@ namespace PartyMorg
 
             if (e.DangerLevel == DangerLevel.High)
             {
-                if (_Interrupter.RInterruptDangerous && SpellManager.R.IsReady() && SpellManager.R.IsInRange(sender) && Player.Instance.Mana >= 100)
-                {
-                    if (Humanizer.RCastDelayEnabled)
-                    {
-                        if (Humanizer.RRndmDelay)
-                        {
-                            stopwatch.Start();
-
-                            if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.RCastDelay))
-                            {
-                                SpellManager.R.Cast();
-                                stopwatch.Reset();
-                            }
-                        }
-                        else
-                        {
-                            stopwatch.Start();
-
-                            if (stopwatch.ElapsedMilliseconds >= Humanizer.RCastDelay)
-                            {
-                                SpellManager.R.Cast();
-                                stopwatch.Reset();
-                            }
-                        }
-                    }
-                    else
-                    {
-                        SpellManager.R.Cast();
-                    }
-                }
-                else
-                {
                     if (_Interrupter.QInterruptDangerous && SpellManager.Q.IsReady() && SpellManager.Q.IsInRange(sender))
                     {
                         if (Humanizer.QCastDelayEnabled)
@@ -177,7 +145,6 @@ namespace PartyMorg
                         }
                     }
                 }
-            }
             else
             {
                 if (_Interrupter.QInterrupt && SpellManager.Q.IsReady() && SpellManager.Q.IsInRange(sender))
