@@ -1,7 +1,7 @@
-using System.Collections.Generic;
 using EloBuddy;
 using EvadePlus.SkillshotTypes;
 using EvadePlus.SkillshotTypes.SpecialTypes;
+using System.Collections.Generic;
 
 namespace EvadePlus
 {
@@ -2830,7 +2830,7 @@ namespace EvadePlus
                         DangerValue = 3,
                         MissileSpellName = "YasuoQ3Mis"
                     }
-                },             
+                },
                 new YasuoQ
                 {
                     SpellData = new SpellData

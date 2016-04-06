@@ -27,27 +27,29 @@ namespace PartyJanna
             ModeManager.Initialize();
             Events.Initialize();
 
+            Chat.Print("Welcome to PartyJanna, have fun!");
+
             Drawing.OnDraw += OnDraw;
         }
 
         private static void OnDraw(EventArgs args)
         {
-            if (PartyJanna.Config.Settings.Draw.DrawQ)
+            if (Config.Settings.Draw.DrawQ)
             {
                 Circle.Draw(Color.White, SpellManager.Q.Range, Player.Instance.Position);
             }
 
-            if (PartyJanna.Config.Settings.Draw.DrawW)
+            if (Config.Settings.Draw.DrawW)
             {
                 Circle.Draw(Color.White, SpellManager.W.Range, Player.Instance.Position);
             }
 
-            if (PartyJanna.Config.Settings.Draw.DrawE)
+            if (Config.Settings.Draw.DrawE)
             {
                 Circle.Draw(Color.White, SpellManager.E.Range, Player.Instance.Position);
             }
 
-            if (PartyJanna.Config.Settings.Draw.DrawR)
+            if (Config.Settings.Draw.DrawR)
             {
                 Circle.Draw(Color.White, SpellManager.R.Range, Player.Instance.Position);
             }

@@ -18,7 +18,7 @@ namespace PartyJanna.Modes
 
         public override void Execute()
         {
-            Q.Range = (uint)Settings.QUseRange;
+            //Q.Range = (uint)Settings.QUseRange;
 
             var target = GetTarget(W, DamageType.Magical);
 

@@ -48,12 +48,12 @@ namespace EvadePlus
 
         public static int WalkingTime(this Obj_AI_Base unit, Vector2 point)
         {
-            return (int) (1000 * unit.ServerPosition.Distance(point) / unit.MoveSpeed);
+            return (int)(1000 * unit.ServerPosition.Distance(point) / unit.MoveSpeed);
         }
 
         public static int WalkingTime(this Obj_AI_Base unit, Vector2 start, Vector2 end)
         {
-            return (int) (1000 * start.Distance(end) / unit.MoveSpeed);
+            return (int)(1000 * start.Distance(end) / unit.MoveSpeed);
         }
 
         public static bool IsMovingTowards(this Obj_AI_Base unit, Vector3 position)
@@ -134,8 +134,8 @@ namespace EvadePlus
 
                 if (lineStart.Distance(lineEnd, true) > tolerance.Pow())
                 {
-                    var condition = (int) lineStart.Distance(lineEnd) / tolerance;
-                   
+                    var condition = (int)lineStart.Distance(lineEnd) / tolerance;
+
                     for (var u = 0; u < condition; u++)
                     {
                         list.Add(lineStart.Extend(lineEnd, u * tolerance));
@@ -261,7 +261,7 @@ namespace EvadePlus
             var det = b * b - 4 * a * c;
             if ((a <= 0.0000001) || (det < 0))
             {
-                return new Vector2[] {};
+                return new Vector2[] { };
             }
             if (det == 0)
             {
@@ -269,8 +269,8 @@ namespace EvadePlus
                 return new[]
                 {new Vector2(segmentStart.X + t * dx, segmentStart.Y + t * dy)};
             }
-            t = (float) ((-b + Math.Sqrt(det)) / (2 * a));
-            var t2 = (float) ((-b - Math.Sqrt(det)) / (2 * a));
+            t = (float)((-b + Math.Sqrt(det)) / (2 * a));
+            var t2 = (float)((-b - Math.Sqrt(det)) / (2 * a));
             return new[]
             {
                 new Vector2(segmentStart.X + t * dx, segmentStart.Y + t * dy),
@@ -289,13 +289,13 @@ namespace EvadePlus
                     (-Math.Sqrt(a.Pow() * d - a.Pow() * point.X - 2 * a * b * point.X + 2 * a * point.X * point.Y -
                                 b.Pow() +
                                 2 * b * point.Y + d - point.Y.Pow()) - a * b + a * point.Y + point.X) / (a.Pow() + 1);
-            var y = (float) (-a *
+            var y = (float)(-a *
                              Math.Sqrt(a.Pow() * d - a.Pow() * point.X.Pow() - 2 * a * b * point.X +
                                        2 * a * point.X * point.Y - b.Pow() +
                                        2 * b * point.Y + d - point.Y.Pow()) + a.Pow() * point.Y + a * point.X + b) /
                     (a.Pow() + 1);
 
-            return new[] {new Vector2(x, y), new Vector2(-x, -y)};
+            return new[] { new Vector2(x, y), new Vector2(-x, -y) };
             //.Where(p => p.IsInLineSegment(segmentStart, segmentEnd)).ToArray()
         }
 

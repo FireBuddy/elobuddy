@@ -3,7 +3,6 @@ using EloBuddy.SDK;
 using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 using System.Collections.Generic;
-using System;
 
 namespace PartyJanna
 {
@@ -25,41 +24,39 @@ namespace PartyJanna
 
         public static class Settings
         {
-            private static readonly Menu Menu;
+            private static readonly Menu Menu0, Menu1, Menu2, Menu3, Menu4, Menu5, Menu6, Menu7, Menu8, Menu9;
 
             static Settings()
             {
-                Menu = Config.Menu.AddSubMenu("Settings");
-
+                Menu0 = Config.Menu.AddSubMenu("Draw");
                 Draw.Initialize();
-                Menu.AddSeparator(13);
 
+                Menu1 = Config.Menu.AddSubMenu("Anti-Gapcloser");
                 AntiGapcloser.Initialize();
-                Menu.AddSeparator(13);
 
+                Menu2 = Config.Menu.AddSubMenu("Interrupter");
                 Interrupter.Initialize();
-                Menu.AddSeparator(13);
 
+                Menu3 = Config.Menu.AddSubMenu("Items");
                 Items.Initialize();
-                Menu.AddSeparator(13);
 
+                Menu4 = Config.Menu.AddSubMenu("Auto-Shield");
                 AutoShield.Initialize();
-                Menu.AddSeparator(13);
 
+                Menu5 = Config.Menu.AddSubMenu("Combo");
                 Combo.Initialize();
-                Menu.AddSeparator(13);
 
+                Menu6 = Config.Menu.AddSubMenu("Flee");
                 Flee.Initialize();
-                Menu.AddSeparator(13);
 
+                Menu7 = Config.Menu.AddSubMenu("Harass");
                 Harass.Initialize();
-                Menu.AddSeparator(13);
 
+                Menu8 = Config.Menu.AddSubMenu("Humanizer");
                 Humanizer.Initialize();
-                Menu.AddSeparator(13);
 
+                Menu9 = Config.Menu.AddSubMenu("Skin Hack");
                 SkinHack.Initialize();
-                Menu.AddSeparator(13);
             }
 
             public static void Initialize()
@@ -92,12 +89,12 @@ namespace PartyJanna
 
                 static Draw()
                 {
-                    Menu.AddGroupLabel("Draw Settings");
+                    Menu0.AddGroupLabel("Draw Settings");
 
-                    _drawQ = Menu.Add("drawQ", new CheckBox("Draw Q Range"));
-                    _drawW = Menu.Add("drawW", new CheckBox("Draw W Range"));
-                    _drawE = Menu.Add("drawE", new CheckBox("Draw E Range"));
-                    _drawR = Menu.Add("drawR", new CheckBox("Draw R Range"));
+                    _drawQ = Menu0.Add("drawQ", new CheckBox("Draw Q Range"));
+                    _drawW = Menu0.Add("drawW", new CheckBox("Draw W Range"));
+                    _drawE = Menu0.Add("drawE", new CheckBox("Draw E Range"));
+                    _drawR = Menu0.Add("drawR", new CheckBox("Draw R Range"));
                 }
 
                 public static void Initialize() { }
@@ -123,11 +120,11 @@ namespace PartyJanna
 
                 static Items()
                 {
-                    Menu.AddGroupLabel("Items");
+                    Menu3.AddGroupLabel("Items");
 
-                    _useItems = Menu.Add("useItems", new CheckBox("Use Items"));
-                    _allyHpPercentageDamage = Menu.Add("allyHpPercentage", new Slider("Min. Ally Health on Damage (%):", 50, 1));
-                    _allyHpPercentageCc = Menu.Add("allyHpPercentageCc", new Slider("Min. Ally Health on CC (%):", 100, 1));
+                    _useItems = Menu3.Add("useItems", new CheckBox("Use Items"));
+                    _allyHpPercentageDamage = Menu3.Add("allyHpPercentage", new Slider("Min. Ally Health on Damage (%):", 50, 1));
+                    _allyHpPercentageCc = Menu3.Add("allyHpPercentageCc", new Slider("Min. Ally Health on CC (%):", 100, 1));
                 }
 
                 public static void Initialize() { }
@@ -144,9 +141,9 @@ namespace PartyJanna
 
                 static AntiGapcloser()
                 {
-                    Menu.AddGroupLabel("Anti-Gapcloser Settings");
+                    Menu1.AddGroupLabel("Anti-Gapcloser Settings");
 
-                    _antiGapcloser = Menu.Add("antiGapcloser", new CheckBox("Anti-Gapcloser"));
+                    _antiGapcloser = Menu1.Add("antiGapcloser", new CheckBox("Anti-Gapcloser"));
                 }
 
                 public static void Initialize() { }
@@ -173,15 +170,15 @@ namespace PartyJanna
 
                 static Interrupter()
                 {
-                    Menu.AddGroupLabel("Interrupter Settings");
+                    Menu2.AddGroupLabel("Interrupter Settings");
 
-                    _qInterrupt = Menu.Add("qInterrupt", new CheckBox("Interrupt low/med-danger spells with Q"));
-                    Menu.AddSeparator(13);
+                    _qInterrupt = Menu2.Add("qInterrupt", new CheckBox("Interrupt low/med-danger spells with Q"));
+                    Menu2.AddSeparator(13);
 
-                    _qInterruptDangerous = Menu.Add("rInterrupt", new CheckBox("Interrupt high-danger spells with Q"));
-                    Menu.AddSeparator(13);
+                    _qInterruptDangerous = Menu2.Add("rInterrupt", new CheckBox("Interrupt high-danger spells with Q"));
+                    Menu2.AddSeparator(13);
 
-                    _rInterruptDangerous = Menu.Add("rInterruptDangerous", new CheckBox("Interrupt high-danger spells with R"));
+                    _rInterruptDangerous = Menu2.Add("rInterruptDangerous", new CheckBox("Interrupt high-danger spells with R"));
                 }
 
                 public static void Initialize() { }
@@ -234,38 +231,38 @@ namespace PartyJanna
                 {
                     _shieldAllyList = new List<CheckBox>();
 
-                    Menu.AddGroupLabel("AutoShield Settings");
+                    Menu4.AddGroupLabel("Auto-Shield Settings");
 
                     foreach (var ally2 in EntityManager.Heroes.Allies)
                     {
-                        _shieldAllyList.Add(Menu.Add<CheckBox>("Shield " + ally2.ChampionName, new CheckBox(string.Format("Shield {0} ({1})", ally2.ChampionName, ally2.Name))));
+                        _shieldAllyList.Add(Menu4.Add<CheckBox>("Shield " + ally2.ChampionName, new CheckBox(string.Format("Shield {0} ({1})", ally2.ChampionName, ally2.Name))));
                     }
 
-                    Menu.AddSeparator(13);
+                    Menu4.AddSeparator(13);
 
-                    _boostAD = Menu.Add("autoShieldBoostAd", new CheckBox("Boost ally AutoAttack with Shield"));
-                    Menu.AddSeparator(13);
+                    _boostAD = Menu4.Add("autoShieldBoostAd", new CheckBox("Boost ADCarry Basic Attacks with Shield"));
+                    Menu4.AddSeparator(13);
 
-                    _selfShield = Menu.Add("selfShield", new CheckBox("Shield Yourself from Basic Attacks"));
-                    Menu.AddSeparator(13);
+                    _selfShield = Menu4.Add("selfShield", new CheckBox("Shield Yourself from Basic Attacks"));
+                    Menu4.AddSeparator(13);
 
-                    _turretShieldMinion = Menu.Add("turretShieldMinion", new CheckBox("Shield Turrets from Enemy Minions", false));
-                    Menu.AddSeparator(13);
+                    _turretShieldMinion = Menu4.Add("turretShieldMinion", new CheckBox("Shield Turrets from Enemy Minions", false));
+                    Menu4.AddSeparator(13);
 
-                    _turretShieldChampion = Menu.Add("turretShieldChampion", new CheckBox("Shield Turrets from Enemy Champions"));
-                    Menu.AddSeparator(13);
+                    _turretShieldChampion = Menu4.Add("turretShieldChampion", new CheckBox("Shield Turrets from Enemy Champions"));
+                    Menu4.AddSeparator(13);
 
-                    _priorMode = Menu.Add("autoShieldPriorMode", new ComboBox("AutoShield Priority Mode:", 0, new string[] { "Lowest Health", "Priority Level" }));
-                    Menu.AddSeparator(13);
+                    _priorMode = Menu4.Add("autoShieldPriorMode", new ComboBox("AutoShield Priority Mode:", 0, new string[] { "Lowest Health", "Priority Level" }));
+                    Menu4.AddSeparator(13);
 
                     _sliders = new List<Slider>();
                     _heros = new List<AIHeroClient>();
 
                     foreach (var ally in EntityManager.Heroes.Allies)
                     {
-                        Slider PrioritySlider = Menu.Add<Slider>(ally.ChampionName, new Slider(string.Format("{0} Priority:", ally.ChampionName, ally.Name), 1, 1, EntityManager.Heroes.Allies.Count - 1));
+                        Slider PrioritySlider = Menu4.Add<Slider>(ally.ChampionName, new Slider(string.Format("{0} Priority:", ally.ChampionName, ally.Name), 1, 1, EntityManager.Heroes.Allies.Count));
 
-                        Menu.AddSeparator(13);
+                        Menu4.AddSeparator(13);
 
                         _sliders.Add(PrioritySlider);
 
@@ -280,7 +277,7 @@ namespace PartyJanna
             {
                 private static readonly CheckBox _useQ;
                 private static readonly CheckBox _useW;
-                private static readonly Slider _qUseRange;
+                //private static readonly Slider _qUseRange;
 
                 public static bool UseQ
                 {
@@ -290,20 +287,20 @@ namespace PartyJanna
                 {
                     get { return _useW.CurrentValue; }
                 }
-                public static int QUseRange
+                /*public static int QUseRange
                 {
                     get { return _qUseRange.CurrentValue; }
-                }
+                }*/
 
                 static Combo()
                 {
-                    Menu.AddGroupLabel("Combo Settings");
+                    Menu5.AddGroupLabel("Combo Settings");
 
-                    _useQ = Menu.Add("comboUseQ", new CheckBox("Use Q"));
-                    _useW = Menu.Add("comboUseW", new CheckBox("Use W"));
-                    Menu.AddSeparator();
+                    _useQ = Menu5.Add("comboUseQ", new CheckBox("Use Q"));
+                    _useW = Menu5.Add("comboUseW", new CheckBox("Use W"));
+                    //Menu5.AddSeparator();
 
-                    _qUseRange = Menu.Add<Slider>("qUseRangeCombo", new Slider("Use Q at range:", 1000, 1000, 1100));
+                    //_qUseRange = Menu5.Add<Slider>("qUseRangeCombo", new Slider("Use Q at range:", 1000, 1000, 1100));
                 }
 
                 public static void Initialize() { }
@@ -314,7 +311,7 @@ namespace PartyJanna
                 private static readonly CheckBox _useQ;
                 private static readonly CheckBox _useW;
                 //private static readonly CheckBox _useR;
-                private static readonly Slider _qUseRange;
+                //private static readonly Slider _qUseRange;
 
                 public static bool UseQ
                 {
@@ -328,21 +325,21 @@ namespace PartyJanna
                 {
                     get { return _useR.CurrentValue; }
                 }*/
-                public static int QUseRange
+                /*public static int QUseRange
                 {
                     get { return _qUseRange.CurrentValue; }
-                }
+                }*/
 
                 static Flee()
                 {
-                    Menu.AddGroupLabel("Flee Settings");
+                    Menu6.AddGroupLabel("Flee Settings");
 
-                    _useQ = Menu.Add("fleeUseQ", new CheckBox("Use Q"));
-                    _useW = Menu.Add("fleeUseW", new CheckBox("Use W"));
-                    //_useR = Menu.Add("comboUseR", new CheckBox("Use R", false));
-                    Menu.AddSeparator();
+                    _useQ = Menu6.Add("fleeUseQ", new CheckBox("Use Q"));
+                    _useW = Menu6.Add("fleeUseW", new CheckBox("Use W"));
+                    //_useR = Menu6.Add("comboUseR", new CheckBox("Use R", false));
+                    //Menu6.AddSeparator();
 
-                    _qUseRange = Menu.Add<Slider>("qUseRangeFlee", new Slider("Use Q at range:", 1000, 1000, 1100));
+                    //_qUseRange = Menu6.Add<Slider>("qUseRangeFlee", new Slider("Use Q at range:", 1000, 1000, 1100));
                 }
 
                 public static void Initialize() { }
@@ -354,7 +351,7 @@ namespace PartyJanna
                 private static readonly CheckBox _useW;
                 private static readonly CheckBox _autoHarass;
                 private static readonly Slider _autoHarassManaPercent;
-                private static readonly Slider _qUseRange;
+                //private static readonly Slider _qUseRange;
 
                 public static bool UseQ
                 {
@@ -372,28 +369,28 @@ namespace PartyJanna
                 {
                     get { return _autoHarassManaPercent.CurrentValue; }
                 }
-                public static int QUseRange
+                /*public static int QUseRange
                 {
                     get { return _qUseRange.CurrentValue; }
-                }
+                }*/
 
                 static Harass()
                 {
-                    Menu.AddGroupLabel("Harass Settings");
+                    Menu7.AddGroupLabel("Harass Settings");
 
-                    _useQ = Menu.Add("harassUseQ", new CheckBox("Use Q"));
-                    Menu.AddSeparator(13);
+                    _useQ = Menu7.Add("harassUseQ", new CheckBox("Use Q"));
+                    Menu7.AddSeparator(13);
 
-                    _qUseRange = Menu.Add<Slider>("qUseRangeHarass", new Slider("Use Q at range:", 1000, 1000, 1100));
-                    Menu.AddSeparator();
+                    //_qUseRange = Menu7.Add<Slider>("qUseRangeHarass", new Slider("Use Q at range:", 1000, 1000, 1100));
+                    //Menu7.AddSeparator();
 
-                    _useW = Menu.Add("harassUseW", new CheckBox("Use W"));
-                    Menu.AddSeparator();
+                    _useW = Menu7.Add("harassUseW", new CheckBox("Use W"));
+                    Menu7.AddSeparator();
 
-                    _autoHarass = Menu.Add("autoHarass", new CheckBox("Auto Harass with W at mana %"));
-                    Menu.AddSeparator(13);
+                    _autoHarass = Menu7.Add("autoHarass", new CheckBox("Auto Harass with W at mana %"));
+                    Menu7.AddSeparator(13);
 
-                    _autoHarassManaPercent = Menu.Add<Slider>("autoHarassManaPercent", new Slider("Auto Harass min. mana %:", 75, 1));
+                    _autoHarassManaPercent = Menu7.Add<Slider>("autoHarassManaPercent", new Slider("Auto Harass min. mana %:", 75, 1));
                 }
 
                 public static void Initialize() { }
@@ -450,28 +447,28 @@ namespace PartyJanna
 
                 static Humanizer()
                 {
-                    Menu.AddGroupLabel("Humanizer Settings");
+                    Menu8.AddGroupLabel("Humanizer Settings");
 
-                    _qCastDelayEnabled = Menu.Add("qCastDelayEnabled", new CheckBox("Enabled", false));
-                    _qCastDelay = Menu.Add<Slider>("qCastDelay", new Slider("Q Cast Delay (1sec = 1000ms):", 500, 250, 1000));
-                    Menu.AddSeparator();
+                    _qCastDelayEnabled = Menu8.Add("qCastDelayEnabled", new CheckBox("Enabled", false));
+                    _qCastDelay = Menu8.Add<Slider>("qCastDelay", new Slider("Q Cast Delay (1sec = 1000ms):", 500, 250, 1000));
+                    Menu8.AddSeparator();
 
-                    _eCastDelayEnabled = Menu.Add("eCastDelayEnabled", new CheckBox("Enabled", false));
-                    _eCastDelay = Menu.Add<Slider>("eCastDelay", new Slider("E Cast Delay (1sec = 1000ms):", 500, 250, 1000));
-                    Menu.AddSeparator();
+                    _eCastDelayEnabled = Menu8.Add("eCastDelayEnabled", new CheckBox("Enabled", false));
+                    _eCastDelay = Menu8.Add<Slider>("eCastDelay", new Slider("E Cast Delay (1sec = 1000ms):", 500, 250, 1000));
+                    Menu8.AddSeparator();
 
-                    _rCastDelayEnabled = Menu.Add("rCastDelayEnabled", new CheckBox("Enabled", false));
-                    _rCastDelay = Menu.Add<Slider>("rCastDelay", new Slider("R Cast Delay (1sec = 1000ms):", 500, 250, 1000));
-                    Menu.AddSeparator();
+                    _rCastDelayEnabled = Menu8.Add("rCastDelayEnabled", new CheckBox("Enabled", false));
+                    _rCastDelay = Menu8.Add<Slider>("rCastDelay", new Slider("R Cast Delay (1sec = 1000ms):", 500, 250, 1000));
+                    Menu8.AddSeparator();
 
-                    _qRndmDelay = Menu.Add("qRndmDelay", new CheckBox("Randomize Q Cast Delay"));
-                    Menu.AddSeparator();
+                    _qRndmDelay = Menu8.Add("qRndmDelay", new CheckBox("Randomize Q Cast Delay"));
+                    Menu8.AddSeparator();
 
-                    _eRndmDelay = Menu.Add("eRndmDelay", new CheckBox("Randomize E Cast Delay"));
-                    Menu.AddSeparator();
+                    _eRndmDelay = Menu8.Add("eRndmDelay", new CheckBox("Randomize E Cast Delay"));
+                    Menu8.AddSeparator();
 
-                    _rRndmDelay = Menu.Add("rRndmDelay", new CheckBox("Randomize R Cast Delay"));
-                    Menu.AddSeparator();
+                    _rRndmDelay = Menu8.Add("rRndmDelay", new CheckBox("Randomize R Cast Delay"));
+                    Menu8.AddSeparator();
                 }
 
                 public static void Initialize() { }
@@ -493,10 +490,10 @@ namespace PartyJanna
 
                 static SkinHack()
                 {
-                    Menu.AddGroupLabel("Skin Hack Settings");
+                    Menu9.AddGroupLabel("Skin Hack Settings");
 
-                    _skinHackEnabled = Menu.Add("skinHackEnabled", new CheckBox("Enabled", false));
-                    _skinId = Menu.Add<Slider>("skinId", new Slider("Skin ID:", 0, 0, 11));
+                    _skinHackEnabled = Menu9.Add("skinHackEnabled", new CheckBox("Enabled", false));
+                    _skinId = Menu9.Add<Slider>("skinId", new Slider("Skin ID:", 0, 0, 11));
 
                     _skinId.OnValueChange += OnSkinIdChange;
                     _skinHackEnabled.OnValueChange += OnSkinHackToggle;
@@ -515,7 +512,7 @@ namespace PartyJanna
                 private static void OnSkinIdChange(ValueBase<int> sender, ValueBase<int>.ValueChangeArgs args)
                 {
                     if (SkinHackEnabled)
-                    Player.Instance.SetSkinId(args.NewValue);
+                        Player.Instance.SetSkinId(args.NewValue);
                 }
 
                 public static void Initialize() { }
