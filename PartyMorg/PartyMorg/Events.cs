@@ -7,12 +7,12 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using _Interrupter = PartyJanna.Config.Settings.Interrupter;
-using AntiGapcloser = PartyJanna.Config.Settings.AntiGapcloser;
-using AutoShield = PartyJanna.Config.Settings.AutoShield;
-using Humanizer = PartyJanna.Config.Settings.Humanizer;
+using _Interrupter = PartyMorg.Config.Settings.Interrupter;
+using AntiGapcloser = PartyMorg.Config.Settings.AntiGapcloser;
+using AutoShield = PartyMorg.Config.Settings.AutoShield;
+using Humanizer = PartyMorg.Config.Settings.Humanizer;
 
-namespace PartyJanna
+namespace PartyMorg
 {
     public static class Events
     {
@@ -71,7 +71,7 @@ namespace PartyJanna
         {
             if (!sender.IsEnemy || !AntiGapcloser.AntiGap || Player.Instance.IsRecalling())
             { return; }
-
+            
             foreach (var ally in EntityManager.Heroes.Allies)
             {
                 if (sender.IsFacing(ally) && SpellManager.Q.IsInRange(sender.Position))
@@ -156,7 +156,7 @@ namespace PartyJanna
 
                                 if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.QCastDelay))
                                 {
-                                    SpellManager.Q.Cast(SpellManager.Q.GetPrediction(sender).CastPosition);
+                                    SpellManager.Q.Cast();
                                     stopwatch.Reset();
                                 }
                             }
@@ -166,14 +166,14 @@ namespace PartyJanna
 
                                 if (stopwatch.ElapsedMilliseconds >= Humanizer.QCastDelay)
                                 {
-                                    SpellManager.Q.Cast(SpellManager.Q.GetPrediction(sender).CastPosition);
+                                    SpellManager.Q.Cast();
                                     stopwatch.Reset();
                                 }
                             }
                         }
                         else
                         {
-                            SpellManager.Q.Cast(SpellManager.Q.GetPrediction(sender).CastPosition);
+                            SpellManager.Q.Cast();
                         }
                     }
                 }
@@ -190,7 +190,7 @@ namespace PartyJanna
 
                             if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.QCastDelay))
                             {
-                                SpellManager.Q.Cast(SpellManager.Q.GetPrediction(sender).CastPosition);
+                                SpellManager.Q.Cast();
                                 stopwatch.Reset();
                             }
                         }
@@ -200,14 +200,14 @@ namespace PartyJanna
 
                             if (stopwatch.ElapsedMilliseconds >= Humanizer.QCastDelay)
                             {
-                                SpellManager.Q.Cast(SpellManager.Q.GetPrediction(sender).CastPosition);
+                                SpellManager.Q.Cast();
                                 stopwatch.Reset();
                             }
                         }
                     }
                     else
                     {
-                        SpellManager.Q.Cast(SpellManager.Q.GetPrediction(sender).CastPosition);
+                        SpellManager.Q.Cast();
                     }
                 }
             }
