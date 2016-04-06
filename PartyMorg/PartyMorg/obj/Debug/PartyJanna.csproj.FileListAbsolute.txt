@@ -1,0 +1,26 @@
+c:\users\lucca vinicius\documents\visual studio 2015\Projects\PartyJanna\PartyJanna\bin\Debug\PartyJanna.exe.config
+c:\users\lucca vinicius\documents\visual studio 2015\Projects\PartyJanna\PartyJanna\bin\Debug\PartyJanna.exe
+c:\users\lucca vinicius\documents\visual studio 2015\Projects\PartyJanna\PartyJanna\bin\Debug\PartyJanna.pdb
+c:\users\lucca vinicius\documents\visual studio 2015\Projects\PartyJanna\PartyJanna\bin\Debug\EloBuddy.dll
+c:\users\lucca vinicius\documents\visual studio 2015\Projects\PartyJanna\PartyJanna\bin\Debug\EloBuddy.SDK.dll
+c:\users\lucca vinicius\documents\visual studio 2015\Projects\PartyJanna\PartyJanna\bin\Debug\SharpDX.dll
+c:\users\lucca vinicius\documents\visual studio 2015\Projects\PartyJanna\PartyJanna\bin\Debug\SharpDX.Direct3D9.dll
+c:\users\lucca vinicius\documents\visual studio 2015\Projects\PartyJanna\PartyJanna\bin\Debug\Newtonsoft.Json.dll
+c:\users\lucca vinicius\documents\visual studio 2015\Projects\PartyJanna\PartyJanna\obj\Debug\PartyJanna.csprojResolveAssemblyReference.cache
+c:\users\lucca vinicius\documents\visual studio 2015\Projects\PartyJanna\PartyJanna\obj\Debug\PartyJanna.exe
+c:\users\lucca vinicius\documents\visual studio 2015\Projects\PartyJanna\PartyJanna\obj\Debug\PartyJanna.pdb
+C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\PartyJanna\PartyJanna\bin\Debug\PartyJanna.exe.config
+C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\PartyJanna\PartyJanna\obj\Debug\PartyJanna.exe
+C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\PartyJanna\PartyJanna\obj\Debug\PartyJanna.pdb
+C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\PartyJanna\PartyJanna\bin\Debug\PartyJanna.exe
+C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\PartyJanna\PartyJanna\bin\Debug\PartyJanna.pdb
+C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\PartyJanna\PartyJanna\bin\Debug\EloBuddy.dll
+C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\PartyJanna\PartyJanna\bin\Debug\EloBuddy.SDK.dll
+C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\PartyJanna\PartyJanna\bin\Debug\SharpDX.dll
+C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\PartyJanna\PartyJanna\bin\Debug\SharpDX.Direct3D9.dll
+C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\PartyJanna\PartyJanna\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\PartyJanna\PartyJanna\obj\Debug\PartyJanna.csprojResolveAssemblyReference.cache
+C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\PartyJanna\PartyJanna\bin\Debug\EloBuddy.Sandbox.dll
+C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\PartyMorg\PartyJanna\bin\Debug\PartyJanna.exe.config
+C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\PartyMorg\PartyJanna\obj\Debug\PartyJanna.exe
+C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\PartyMorg\PartyJanna\obj\Debug\PartyJanna.pdb
