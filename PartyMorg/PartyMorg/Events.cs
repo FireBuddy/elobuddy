@@ -2,7 +2,6 @@
 using EloBuddy.SDK;
 using EloBuddy.SDK.Enumerations;
 using EloBuddy.SDK.Events;
-using EvadePlus;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -21,7 +20,6 @@ namespace PartyMorg
         public static int highestPriority { get; private set; }
         public static float lowestHP { get; private set; }
         public static Stopwatch stopwatch = new Stopwatch();
-        public static EvadePlus.EvadePlus evadePlus;
 
         static Events()
         {
@@ -188,9 +186,6 @@ namespace PartyMorg
             highestPriority = 0;
 
             lowestHP = int.MaxValue;
-
-            var SkillshotDetector = new SkillshotDetector(DetectionTeam.EnemyTeam);
-            evadePlus = new EvadePlus.EvadePlus(SkillshotDetector);
 
             if (AutoShield.PriorMode == 1)
             {
