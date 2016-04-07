@@ -21,6 +21,13 @@ namespace PartyMorg.Modes
 
         public static Stopwatch stopwatch = new Stopwatch();
 
+        public static bool Immobile(Obj_AI_Base target)
+        {
+            return target.HasBuffOfType(BuffType.Charm) || target.HasBuffOfType(BuffType.Stun) ||
+                   target.HasBuffOfType(BuffType.Knockup) || target.HasBuffOfType(BuffType.Snare) ||
+                   target.HasBuffOfType(BuffType.Taunt) || target.HasBuffOfType(BuffType.Suppression);
+        }
+
         public override void Execute()
         {
             //Q.Range = (uint)Settings.QUseRange;
@@ -74,15 +81,13 @@ namespace PartyMorg.Modes
                     if (pred.HitChancePercent >= Settings.QMinHitChance)
                     {
                         Q.Cast(pred.CastPosition);
-
-target = GetTarget(W, DamageType.Magical);
-
-            if (target != null && Settings.UseW)
-            {
-                W.Cast(target.Position);
-            }
                     }
                 }
+            }
+
+            if (Immobile(target) && Player.Instance.IsInRange(target, W.Range))
+            {
+                W.Cast(target.Position);
             }
 
             target = GetTarget(R, DamageType.Magical);
