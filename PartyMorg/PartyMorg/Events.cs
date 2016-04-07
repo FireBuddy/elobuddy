@@ -28,9 +28,6 @@ namespace PartyMorg
             Obj_AI_Base.OnProcessSpellCast += OnProcessSpellCast;
             Gapcloser.OnGapcloser += OnGapcloser;
             Interrupter.OnInterruptableSpell += OnInterruptableSpell;
-
-            var SkillshotDetector = new SkillshotDetector(DetectionTeam.EnemyTeam);
-            evadePlus = new EvadePlus.EvadePlus(SkillshotDetector);
         }
 
         public static void Initialize() { }
@@ -70,7 +67,7 @@ namespace PartyMorg
         {
             if (!sender.IsEnemy || !AntiGapcloser.AntiGap || Player.Instance.IsRecalling())
             { return; }
-            
+
             foreach (var ally in EntityManager.Heroes.Allies)
             {
                 if (sender.IsFacing(ally) && SpellManager.Q.IsInRange(sender.Position))
@@ -113,37 +110,37 @@ namespace PartyMorg
 
             if (e.DangerLevel == DangerLevel.High)
             {
-                    if (_Interrupter.QInterruptDangerous && SpellManager.Q.IsReady() && SpellManager.Q.IsInRange(sender))
+                if (_Interrupter.QInterruptDangerous && SpellManager.Q.IsReady() && SpellManager.Q.IsInRange(sender))
+                {
+                    if (Humanizer.QCastDelayEnabled)
                     {
-                        if (Humanizer.QCastDelayEnabled)
+                        if (Humanizer.QRndmDelay)
                         {
-                            if (Humanizer.QRndmDelay)
-                            {
-                                stopwatch.Start();
+                            stopwatch.Start();
 
-                                if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.QCastDelay))
-                                {
-                                    SpellManager.Q.Cast(SpellManager.Q.GetPrediction(sender).CastPosition);
-                                    stopwatch.Reset();
-                                }
-                            }
-                            else
+                            if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.QCastDelay))
                             {
-                                stopwatch.Start();
-
-                                if (stopwatch.ElapsedMilliseconds >= Humanizer.QCastDelay)
-                                {
-                                    SpellManager.Q.Cast(SpellManager.Q.GetPrediction(sender).CastPosition);
-                                    stopwatch.Reset();
-                                }
+                                SpellManager.Q.Cast(SpellManager.Q.GetPrediction(sender).CastPosition);
+                                stopwatch.Reset();
                             }
                         }
                         else
                         {
-                            SpellManager.Q.Cast(SpellManager.Q.GetPrediction(sender).CastPosition);
+                            stopwatch.Start();
+
+                            if (stopwatch.ElapsedMilliseconds >= Humanizer.QCastDelay)
+                            {
+                                SpellManager.Q.Cast(SpellManager.Q.GetPrediction(sender).CastPosition);
+                                stopwatch.Reset();
+                            }
                         }
                     }
+                    else
+                    {
+                        SpellManager.Q.Cast(SpellManager.Q.GetPrediction(sender).CastPosition);
+                    }
                 }
+            }
             else
             {
                 if (_Interrupter.QInterrupt && SpellManager.Q.IsReady() && SpellManager.Q.IsInRange(sender))
@@ -192,6 +189,9 @@ namespace PartyMorg
 
             lowestHP = int.MaxValue;
 
+            var SkillshotDetector = new SkillshotDetector(DetectionTeam.EnemyTeam);
+            evadePlus = new EvadePlus.EvadePlus(SkillshotDetector);
+
             if (AutoShield.PriorMode == 1)
             {
                 foreach (var slider in AutoShield.Sliders)
@@ -226,34 +226,24 @@ namespace PartyMorg
                     {
                         if (args.Target == ally)
                         {
-                            if (args.SData.DisplayNameTranslated == "Disintegrate" && sender.HasBuff("pyromania_particle"))
-                            {
-                                CastShield(ally);
-                            }
-                            else if (args.SData.DisplayNameTranslated == "Dazzle" || args.SData.DisplayNameTranslated == "Aegis of Zeonia" || args.SData.DisplayNameTranslated == "Heroic Charge" || args.SData.DisplayNameTranslated == "Pick A Card" || args.SData.DisplayNameTranslated == "Aethereal Chains" || args.SData.DisplayNameTranslated == "Mimic: Aethereal Chains" || args.SData.DisplayNameTranslated == "Rune Prison" || args.SData.DisplayNameTranslated == "Equilibrium Strike" || args.SData.DisplayNameTranslated == "Reckoning" || args.SData.DisplayNameTranslated == "Seismic Shard" || args.SData.DisplayNameTranslated == "Wither" || args.SData.DisplayNameTranslated == "Ice Blast" || args.SData.DisplayNameTranslated == "Two-Shiv Poison" || args.SData.DisplayNameTranslated == "Fling" || args.SData.DisplayNameTranslated == "Buster Shot" || args.SData.DisplayNameTranslated == "Chomp" || args.SData.DisplayNameTranslated == "Mocking Shout" || args.SData.DisplayNameTranslated == "Hyper-Kinetic Position Reverser" || args.SData.DisplayNameTranslated == "Three Talon Strike" || args.SData.DisplayNameTranslated == "Audacious Charge" || args.SData.DisplayNameTranslated == "Time Warp" || args.SData.DisplayNameTranslated == "Puncturing Taunt" || args.SData.DisplayNameTranslated == "Terrify" || args.SData.DisplayNameTranslated == "Null Sphere" || args.SData.DisplayNameTranslated == "Nether Grasp" || args.SData.DisplayNameTranslated == "Infinite Duress" || args.SData.DisplayNameTranslated == "Zephyr")
-                            {
-                                CastShield(ally);
-                            }
+                            CastShield(ally);
                         }
                         else
                         {
-                            foreach (var shieldThisSpell in AutoShield.ShieldSpellList.Where(x => x.DisplayName.Contains(args.SData.DisplayNameTranslated) && x.CurrentValue))
-                            {
-                                var allyPath = Prediction.Position.GetRealPath(ally);
+                            var allyPath = Prediction.Position.GetRealPath(ally);
 
-                                if (evadePlus.IsHeroInDanger(ally) && !evadePlus.IsPathSafe(allyPath))
+                            if (evadePlus.IsHeroInDanger(ally) && !evadePlus.IsPathSafe(allyPath))
+                            {
+                                if (args.SData.Name == "DariusAxeGrabCone" || args.SData.Name == "Volley" || args.SData.Name == "CassiopeiaPetrifyingGaze" || args.SData.Name == "FeralScream")
                                 {
-                                    if (args.SData.Name == "DariusAxeGrabCone" || args.SData.Name == "Volley" || args.SData.Name == "CassiopeiaPetrifyingGaze" || args.SData.Name == "FeralScream")
-                                    {
-                                        if (sender.IsFacing(ally))
-                                        {
-                                            CastShield(ally);
-                                        }
-                                    }
-                                    else
+                                    if (sender.IsFacing(ally))
                                     {
                                         CastShield(ally);
                                     }
+                                }
+                                else
+                                {
+                                    CastShield(ally);
                                 }
                             }
                         }
@@ -281,34 +271,24 @@ namespace PartyMorg
                     {
                         if (args.Target == ally)
                         {
-                            if (args.SData.DisplayNameTranslated == "Disintegrate" && sender.HasBuff("pyromania_particle"))
-                            {
-                                CastShield(ally);
-                            }
-                            else if (args.SData.DisplayNameTranslated == "Dazzle" || args.SData.DisplayNameTranslated == "Aegis of Zeonia" || args.SData.DisplayNameTranslated == "Heroic Charge" || args.SData.DisplayNameTranslated == "Pick A Card" || args.SData.DisplayNameTranslated == "Aethereal Chains" || args.SData.DisplayNameTranslated == "Mimic: Aethereal Chains" || args.SData.DisplayNameTranslated == "Rune Prison" || args.SData.DisplayNameTranslated == "Equilibrium Strike" || args.SData.DisplayNameTranslated == "Reckoning" || args.SData.DisplayNameTranslated == "Seismic Shard" || args.SData.DisplayNameTranslated == "Wither" || args.SData.DisplayNameTranslated == "Ice Blast" || args.SData.DisplayNameTranslated == "Two-Shiv Poison" || args.SData.DisplayNameTranslated == "Fling" || args.SData.DisplayNameTranslated == "Buster Shot" || args.SData.DisplayNameTranslated == "Chomp" || args.SData.DisplayNameTranslated == "Mocking Shout" || args.SData.DisplayNameTranslated == "Hyper-Kinetic Position Reverser" || args.SData.DisplayNameTranslated == "Three Talon Strike" || args.SData.DisplayNameTranslated == "Audacious Charge" || args.SData.DisplayNameTranslated == "Time Warp" || args.SData.DisplayNameTranslated == "Puncturing Taunt" || args.SData.DisplayNameTranslated == "Terrify" || args.SData.DisplayNameTranslated == "Null Sphere" || args.SData.DisplayNameTranslated == "Nether Grasp" || args.SData.DisplayNameTranslated == "Infinite Duress" || args.SData.DisplayNameTranslated == "Zephyr")
-                            {
-                                CastShield(ally);
-                            }
+                            CastShield(ally);
                         }
                         else
                         {
-                            foreach (var shieldThisSpell in AutoShield.ShieldSpellList.Where(x => x.DisplayName.Contains(args.SData.DisplayNameTranslated) && x.CurrentValue))
-                            {
-                                var allyPath = Prediction.Position.GetRealPath(ally);
+                            var allyPath = Prediction.Position.GetRealPath(ally);
 
-                                if (evadePlus.IsHeroInDanger(ally) && !evadePlus.IsPathSafe(allyPath))
+                            if (evadePlus.IsHeroInDanger(ally) && !evadePlus.IsPathSafe(allyPath))
+                            {
+                                if (args.SData.Name == "DariusAxeGrabCone" || args.SData.Name == "Volley" || args.SData.Name == "CassiopeiaPetrifyingGaze" || args.SData.Name == "FeralScream")
                                 {
-                                    if (args.SData.Name == "DariusAxeGrabCone" || args.SData.Name == "Volley" || args.SData.Name == "CassiopeiaPetrifyingGaze" || args.SData.Name == "FeralScream")
-                                    {
-                                        if (sender.IsFacing(ally))
-                                        {
-                                            CastShield(ally);
-                                        }
-                                    }
-                                    else
+                                    if (sender.IsFacing(ally))
                                     {
                                         CastShield(ally);
                                     }
+                                }
+                                else
+                                {
+                                    CastShield(ally);
                                 }
                             }
                         }

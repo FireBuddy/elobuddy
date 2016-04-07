@@ -228,25 +228,19 @@ namespace PartyMorg
 
                     foreach (var ally in EntityManager.Heroes.Allies)
                     {
-                        _shieldAllyList.Add(Menu4.Add<CheckBox>("shield" + ally.ChampionName, new CheckBox(string.Format("Shield {0} ({1})", ally.ChampionName, ally.Name))));
+                        _shieldAllyList.Add(Menu4.Add<CheckBox>("Shield " + ally.ChampionName, new CheckBox(string.Format("Shield {0} ({1})", ally.ChampionName, ally.Name))));
                     }
 
                     Menu4.AddSeparator(13);
-
-                    int k = 0;
 
                     foreach (var enemy in EntityManager.Heroes.Enemies)
                     {
                         foreach (var spell in EvadePlus.SkillshotDatabase.Database.Where(x => x.SpellData.ChampionName == enemy.ChampionName))
                         {
-                            _shieldSpellList.Add(Menu4.Add<CheckBox>(spell.SpellData.DisplayName + k.ToString(), new CheckBox(string.Format("Shield Allies from {0}'s {1} ({2})", spell.SpellData.ChampionName, spell.SpellData.Slot.ToString(), spell.SpellData.DisplayName))));
-                            k++;
+                            _shieldSpellList.Add(Menu4.Add<CheckBox>(spell.SpellData.ChampionName + spell.SpellData.Slot.ToString() + spell.SpellData.DisplayName + spell.SpellData.MissileSpellName, new CheckBox(string.Format("Shield from {0}'s {1} ({2})                                   {3}", spell.SpellData.ChampionName, spell.SpellData.Slot.ToString(), spell.SpellData.DisplayName, spell.SpellData.MissileSpellName))));
                         }
                     }
 
-                    Menu4.AddSeparator(13);
-
-                    _boostAD = Menu4.Add("autoShieldBoostAd", new CheckBox("Boost ADCarry Basic Attacks with Shield"));
                     Menu4.AddSeparator(13);
 
                     _priorMode = Menu4.Add("autoShieldPriorMode", new ComboBox("AutoShield Priority Mode:", 0, new string[] { "Lowest Health", "Priority Level" }));
