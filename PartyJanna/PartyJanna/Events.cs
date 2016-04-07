@@ -2,7 +2,6 @@
 using EloBuddy.SDK;
 using EloBuddy.SDK.Enumerations;
 using EloBuddy.SDK.Events;
-using EvadePlus;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -21,7 +20,6 @@ namespace PartyJanna
         public static int highestPriority { get; private set; }
         public static float lowestHP { get; private set; }
         public static Stopwatch stopwatch = new Stopwatch();
-        public static EvadePlus.EvadePlus evadePlus;
 
         static Events()
         {
@@ -29,9 +27,6 @@ namespace PartyJanna
             Obj_AI_Base.OnProcessSpellCast += OnProcessSpellCast;
             Gapcloser.OnGapcloser += OnGapcloser;
             Interrupter.OnInterruptableSpell += OnInterruptableSpell;
-
-            var SkillshotDetector = new SkillshotDetector(DetectionTeam.EnemyTeam);
-            evadePlus = new EvadePlus.EvadePlus(SkillshotDetector);
         }
 
         public static void Initialize() { }
@@ -408,9 +403,7 @@ namespace PartyJanna
                         }
                         else
                         {
-                            var AllyPath = Prediction.Position.GetRealPath(ally);
-
-                            if (evadePlus.IsHeroInDanger(ally) && !evadePlus.IsPathSafe(AllyPath))
+                            if (ally.ServerPosition.IsInRange(args.End, 350))
                             {
                                 if (args.SData.Name == "DariusAxeGrabCone" || args.SData.Name == "Volley" || args.SData.Name == "CassiopeiaPetrifyingGaze" || args.SData.Name == "FeralScream")
                                 {
@@ -425,7 +418,6 @@ namespace PartyJanna
                                 }
                             }
                         }
-
                     }
                 }
             }
@@ -454,9 +446,7 @@ namespace PartyJanna
                         }
                         else
                         {
-                            var allyPath = Prediction.Position.GetRealPath(ally);
-
-                            if (evadePlus.IsHeroInDanger(ally) && !evadePlus.IsPathSafe(allyPath))
+                            if (ally.ServerPosition.IsInRange(args.End, 350))
                             {
                                 if (args.SData.Name == "DariusAxeGrabCone" || args.SData.Name == "Volley" || args.SData.Name == "CassiopeiaPetrifyingGaze" || args.SData.Name == "FeralScream")
                                 {
