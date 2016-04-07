@@ -231,7 +231,7 @@ namespace PartyMorg
                         _shieldAllyList.Add(Menu4.Add<CheckBox>("shield" + ally.ChampionName, new CheckBox(string.Format("Shield {0} ({1})", ally.ChampionName, ally.Name))));
                     }
 
-                    Menu4.AddSeparator(13);
+                    /*Menu4.AddSeparator(13);
 
                     foreach (var enemy in EntityManager.Heroes.Enemies)
                     {
@@ -239,7 +239,7 @@ namespace PartyMorg
                         {
                             _shieldSpellList.Add(Menu4.Add<CheckBox>(spell.SpellData.ChampionName + spell.SpellData.Slot.ToString() + spell.SpellData.DisplayName + spell.SpellData.MissileSpellName, new CheckBox(string.Format("Shield from {0}'s {1} ({2})                                   {3}", spell.SpellData.ChampionName, spell.SpellData.Slot.ToString(), spell.SpellData.DisplayName, spell.SpellData.MissileSpellName))));
                         }
-                    }
+                    }*/
 
                     Menu4.AddSeparator(13);
 
