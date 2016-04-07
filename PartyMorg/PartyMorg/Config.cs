@@ -2,7 +2,9 @@
 using EloBuddy.SDK;
 using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace PartyMorg
 {
@@ -143,7 +145,7 @@ namespace PartyMorg
                 {
                     Menu1.AddGroupLabel("Anti-Gapcloser Settings");
 
-                    _antiGapcloser = Menu1.Add("antiGapcloser", new CheckBox("Anti-Gapcloser"));
+                    _antiGapcloser = Menu1.Add("antiGapcloser", new CheckBox("Use Q on Gapclosers"));
                 }
 
                 public static void Initialize() { }
@@ -187,28 +189,14 @@ namespace PartyMorg
             public static class AutoShield
             {
                 private static readonly CheckBox _boostAD;
-                private static readonly CheckBox _selfShield;
-                private static readonly CheckBox _turretShieldMinion, _turretShieldChampion;
                 private static readonly ComboBox _priorMode;
                 private static readonly List<Slider> _sliders;
                 private static readonly List<AIHeroClient> _heros;
-                private static readonly List<CheckBox> _shieldAllyList;
+                private static readonly List<CheckBox> _shieldAllyList, _shieldSpellList;
 
                 public static bool BoostAD
                 {
                     get { return _boostAD.CurrentValue; }
-                }
-                public static bool SelfShield
-                {
-                    get { return _selfShield.CurrentValue; }
-                }
-                public static bool TurretShieldMinion
-                {
-                    get { return _turretShieldMinion.CurrentValue; }
-                }
-                public static bool TurretShieldChampion
-                {
-                    get { return _turretShieldChampion.CurrentValue; }
                 }
                 public static int PriorMode
                 {
@@ -226,30 +214,39 @@ namespace PartyMorg
                 {
                     get { return _shieldAllyList; }
                 }
+                public static List<CheckBox> ShieldSpellList
+                {
+                    get { return _shieldSpellList; }
+                }
 
                 static AutoShield()
                 {
                     _shieldAllyList = new List<CheckBox>();
+                    _shieldSpellList = new List<CheckBox>();
 
                     Menu4.AddGroupLabel("Auto-Shield Settings");
 
-                    foreach (var ally2 in EntityManager.Heroes.Allies)
+                    foreach (var ally in EntityManager.Heroes.Allies)
                     {
-                        _shieldAllyList.Add(Menu4.Add<CheckBox>("Shield " + ally2.ChampionName, new CheckBox(string.Format("Shield {0} ({1})", ally2.ChampionName, ally2.Name))));
+                        _shieldAllyList.Add(Menu4.Add<CheckBox>("shield" + ally.ChampionName, new CheckBox(string.Format("Shield {0} ({1})", ally.ChampionName, ally.Name))));
+                    }
+
+                    Menu4.AddSeparator(13);
+
+                    int k = 0;
+
+                    foreach (var enemy in EntityManager.Heroes.Enemies)
+                    {
+                        foreach (var spell in EvadePlus.SkillshotDatabase.Database.Where(x => x.SpellData.ChampionName == enemy.ChampionName))
+                        {
+                            _shieldSpellList.Add(Menu4.Add<CheckBox>(spell.SpellData.DisplayName + k.ToString(), new CheckBox(string.Format("Shield Allies from {0}'s {1} ({2})", spell.SpellData.ChampionName, spell.SpellData.Slot.ToString(), spell.SpellData.DisplayName))));
+                            k++;
+                        }
                     }
 
                     Menu4.AddSeparator(13);
 
                     _boostAD = Menu4.Add("autoShieldBoostAd", new CheckBox("Boost ADCarry Basic Attacks with Shield"));
-                    Menu4.AddSeparator(13);
-
-                    _selfShield = Menu4.Add("selfShield", new CheckBox("Shield Yourself from Basic Attacks"));
-                    Menu4.AddSeparator(13);
-
-                    _turretShieldMinion = Menu4.Add("turretShieldMinion", new CheckBox("Shield Turrets from Enemy Minions", false));
-                    Menu4.AddSeparator(13);
-
-                    _turretShieldChampion = Menu4.Add("turretShieldChampion", new CheckBox("Shield Turrets from Enemy Champions"));
                     Menu4.AddSeparator(13);
 
                     _priorMode = Menu4.Add("autoShieldPriorMode", new ComboBox("AutoShield Priority Mode:", 0, new string[] { "Lowest Health", "Priority Level" }));
@@ -277,7 +274,12 @@ namespace PartyMorg
             {
                 private static readonly CheckBox _useQ;
                 private static readonly CheckBox _useW;
-                //private static readonly Slider _qUseRange;
+                private static readonly CheckBox _useR;
+                private static readonly CheckBox _flashUlt;
+                private static readonly CheckBox _ultZhonya;
+                private static readonly Slider _qMinHitChance;
+                private static readonly Slider _rMinEnemies;
+                private static readonly Slider _ultMinRange;
 
                 public static bool UseQ
                 {
@@ -287,10 +289,30 @@ namespace PartyMorg
                 {
                     get { return _useW.CurrentValue; }
                 }
-                /*public static int QUseRange
+                public static bool UseR
                 {
-                    get { return _qUseRange.CurrentValue; }
-                }*/
+                    get { return _useR.CurrentValue; }
+                }
+                public static bool FlashUlt
+                {
+                    get { return _flashUlt.CurrentValue; }
+                }
+                public static bool UltZhonya
+                {
+                    get { return _ultZhonya.CurrentValue; }
+                }
+                public static int QMinHitChance
+                {
+                    get { return _qMinHitChance.CurrentValue; }
+                }
+                public static int RMinEnemies
+                {
+                    get { return _rMinEnemies.CurrentValue; }
+                }
+                public static int UltMinRange
+                {
+                    get { return _ultMinRange.CurrentValue; }
+                }
 
                 static Combo()
                 {
@@ -298,9 +320,18 @@ namespace PartyMorg
 
                     _useQ = Menu5.Add("comboUseQ", new CheckBox("Use Q"));
                     _useW = Menu5.Add("comboUseW", new CheckBox("Use W"));
-                    //Menu5.AddSeparator();
+                    _useR = Menu5.Add("comboUseR", new CheckBox("Use R"));
+                    Menu5.AddSeparator();
 
-                    //_qUseRange = Menu5.Add<Slider>("qUseRangeCombo", new Slider("Use Q at range:", 1000, 1000, 1100));
+                    _qMinHitChance = Menu5.Add<Slider>("comboQMinHitChance", new Slider("Q Min. Hit Chance (%):", 75, 50));
+                    Menu5.AddSeparator();
+
+                    _flashUlt = Menu5.Add("flashUlt", new CheckBox("Use Flash + Ultimate (NOT WORKING)", false));
+                    _ultZhonya = Menu5.Add("ultZhonya", new CheckBox("Use Zhonya with Ultimate"));
+                    Menu5.AddSeparator();
+
+                    _rMinEnemies = Menu5.Add<Slider>("rMinEnemies", new Slider("Min. Enemies Around to use Ultimate:", 1, 1, EntityManager.Heroes.Enemies.Count));
+                    _ultMinRange = Menu5.Add<Slider>("ultMinRange", new Slider("Min. Range from Enemy to use Ultimate:", 470, 1, Convert.ToInt32(SpellManager.R.Range)));
                 }
 
                 public static void Initialize() { }
@@ -311,6 +342,7 @@ namespace PartyMorg
                 private static readonly CheckBox _useQ;
                 private static readonly CheckBox _useW;
                 //private static readonly CheckBox _useR;
+                private static readonly Slider _qMinHitChance;
                 //private static readonly Slider _qUseRange;
 
                 public static bool UseQ
@@ -320,6 +352,10 @@ namespace PartyMorg
                 public static bool UseW
                 {
                     get { return _useW.CurrentValue; }
+                }
+                public static int QMinHitChance
+                {
+                    get { return _qMinHitChance.CurrentValue; }
                 }
                 /*public static bool UseR
                 {
@@ -336,6 +372,9 @@ namespace PartyMorg
 
                     _useQ = Menu6.Add("fleeUseQ", new CheckBox("Use Q"));
                     _useW = Menu6.Add("fleeUseW", new CheckBox("Use W"));
+                    Menu6.AddSeparator();
+
+                    _qMinHitChance = Menu6.Add<Slider>("fleeQMinHitChance", new Slider("Q Min. Hit Chance (%):", 75, 50));
                     //_useR = Menu6.Add("comboUseR", new CheckBox("Use R", false));
                     //Menu6.AddSeparator();
 
@@ -349,8 +388,9 @@ namespace PartyMorg
             {
                 private static readonly CheckBox _useQ;
                 private static readonly CheckBox _useW;
-                private static readonly CheckBox _autoHarass;
-                private static readonly Slider _autoHarassManaPercent;
+                //private static readonly CheckBox _autoHarass;
+                private static readonly Slider _qMinHitChance;
+                //private static readonly Slider _autoHarassManaPercent;
                 //private static readonly Slider _qUseRange;
 
                 public static bool UseQ
@@ -361,14 +401,18 @@ namespace PartyMorg
                 {
                     get { return _useW.CurrentValue; }
                 }
-                public static bool AutoHarass
+                public static int QMinHitChance
+                {
+                    get { return _qMinHitChance.CurrentValue; }
+                }
+                /*public static bool AutoHarass
                 {
                     get { return _autoHarass.CurrentValue; }
                 }
                 public static int AutoHarassManaPercent
                 {
                     get { return _autoHarassManaPercent.CurrentValue; }
-                }
+                }*/
                 /*public static int QUseRange
                 {
                     get { return _qUseRange.CurrentValue; }
@@ -387,10 +431,11 @@ namespace PartyMorg
                     _useW = Menu7.Add("harassUseW", new CheckBox("Use W"));
                     Menu7.AddSeparator();
 
-                    _autoHarass = Menu7.Add("autoHarass", new CheckBox("Auto Harass with W at mana %"));
+                    _qMinHitChance = Menu7.Add<Slider>("harassQMinHitChance", new Slider("Q Min. Hit Chance (%):", 75, 50));
+                    /*_autoHarass = Menu7.Add("autoHarass", new CheckBox("Auto Harass with W at mana %"));
                     Menu7.AddSeparator(13);
 
-                    _autoHarassManaPercent = Menu7.Add<Slider>("autoHarassManaPercent", new Slider("Auto Harass min. mana %:", 75, 1));
+                    _autoHarassManaPercent = Menu7.Add<Slider>("autoHarassManaPercent", new Slider("Auto Harass min. mana %:", 75, 1));*/
                 }
 
                 public static void Initialize() { }

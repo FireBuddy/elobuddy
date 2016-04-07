@@ -16,7 +16,7 @@ namespace PartyMorg
             Q = new Spell.Skillshot(SpellSlot.Q, 1300, SkillShotType.Linear, 250, 1200, 80);
             W = new Spell.Skillshot(SpellSlot.W, 900, SkillShotType.Circular);
             E = new Spell.Targeted(SpellSlot.E, 750);
-            R = new Spell.Active(SpellSlot.R, 1000);
+            R = new Spell.Active(SpellSlot.R, 625);
         }
 
         public static void Initialize() { }

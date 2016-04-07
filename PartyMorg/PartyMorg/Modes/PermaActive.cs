@@ -23,7 +23,7 @@ namespace PartyMorg.Modes
             { return; }
 
             ironSolari = new Item(3190, 600);
-            mountain = new Item(3401);
+            mountain = new Item(3401, 600);
             mikael = new Item(3222, 750);
             frostQueen = new Item(3092, 4500);
             talisman = new Item(3069, 600);

@@ -15,7 +15,7 @@ namespace PartyMorg.Modes
         {
             var farmLocation = EntityManager.MinionsAndMonsters.GetCircularFarmLocation(EntityManager.MinionsAndMonsters.GetLaneMinions(), 500, Convert.ToInt32(W.Range));
 
-            if (farmLocation.HitNumber > 3)
+            if (farmLocation.HitNumber >= 3)
             {
                 W.Cast(farmLocation.CastPosition);
             }

@@ -11,7 +11,7 @@ namespace PartyMorg.Modes
     {
         public override bool ShouldBeExecuted()
         {
-            if (Settings.AutoHarass && Player.Instance.ManaPercent >= Settings.AutoHarassManaPercent)
+            /*if (Settings.AutoHarass && Player.Instance.ManaPercent >= Settings.AutoHarassManaPercent)
             {
                 var target = GetTarget(W, DamageType.Magical);
 
@@ -19,7 +19,7 @@ namespace PartyMorg.Modes
                 {
                     W.Cast(target);
                 }
-            }
+            }*/
 
             return Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass);
         }
@@ -30,14 +30,7 @@ namespace PartyMorg.Modes
         {
             //Q.Range = (uint)Settings.QUseRange;
 
-            var target = GetTarget(W, DamageType.Magical);
-
-            if (target != null && Settings.UseW)
-            {
-                W.Cast(target);
-            }
-
-            target = GetTarget(Q, DamageType.Magical);
+            var target = GetTarget(Q, DamageType.Magical);
 
             if (target != null && target.IsTargetable && !target.HasBuffOfType(BuffType.SpellImmunity) && Settings.UseQ)
             {
@@ -49,7 +42,13 @@ namespace PartyMorg.Modes
 
                         if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.QCastDelay))
                         {
-                            Q.Cast(Q.GetPrediction(target).CastPosition);
+                            var pred = Q.GetPrediction(target);
+
+                            if (pred.HitChancePercent >= Settings.QMinHitChance)
+                            {
+                                Q.Cast(pred.CastPosition);
+                            }
+
                             stopwatch.Reset();
                         }
                     }
@@ -59,15 +58,33 @@ namespace PartyMorg.Modes
 
                         if (stopwatch.ElapsedMilliseconds >= Humanizer.QCastDelay)
                         {
-                            Q.Cast(Q.GetPrediction(target).CastPosition);
+                            var pred = Q.GetPrediction(target);
+
+                            if (pred.HitChancePercent >= Settings.QMinHitChance)
+                            {
+                                Q.Cast(pred.CastPosition);
+                            }
+
                             stopwatch.Reset();
                         }
                     }
                 }
                 else
                 {
-                    Q.Cast(Q.GetPrediction(target).CastPosition);
+                    var pred = Q.GetPrediction(target);
+
+                    if (pred.HitChancePercent >= Settings.QMinHitChance)
+                    {
+                        Q.Cast(pred.CastPosition);
+                    }
                 }
+            }
+
+            target = GetTarget(W, DamageType.Magical);
+
+            if (target != null && Settings.UseW)
+            {
+                W.Cast(target.Position);
             }
         }
     }

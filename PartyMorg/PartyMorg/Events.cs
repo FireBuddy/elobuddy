@@ -25,7 +25,6 @@ namespace PartyMorg
 
         static Events()
         {
-            Obj_AI_Base.OnBasicAttack += OnBasicAttack;
             Obj_AI_Base.OnProcessSpellCast += OnProcessSpellCast;
             Gapcloser.OnGapcloser += OnGapcloser;
             Interrupter.OnInterruptableSpell += OnInterruptableSpell;
@@ -107,7 +106,7 @@ namespace PartyMorg
             }
         }
 
-        private static void OnInterruptableSpell(Obj_AI_Base sender, EloBuddy.SDK.Events.Interrupter.InterruptableSpellEventArgs e)
+        private static void OnInterruptableSpell(Obj_AI_Base sender, Interrupter.InterruptableSpellEventArgs e)
         {
             if (!sender.IsEnemy || Player.Instance.IsRecalling())
             { return; }
@@ -124,7 +123,7 @@ namespace PartyMorg
 
                                 if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.QCastDelay))
                                 {
-                                    SpellManager.Q.Cast();
+                                    SpellManager.Q.Cast(SpellManager.Q.GetPrediction(sender).CastPosition);
                                     stopwatch.Reset();
                                 }
                             }
@@ -134,14 +133,14 @@ namespace PartyMorg
 
                                 if (stopwatch.ElapsedMilliseconds >= Humanizer.QCastDelay)
                                 {
-                                    SpellManager.Q.Cast();
+                                    SpellManager.Q.Cast(SpellManager.Q.GetPrediction(sender).CastPosition);
                                     stopwatch.Reset();
                                 }
                             }
                         }
                         else
                         {
-                            SpellManager.Q.Cast();
+                            SpellManager.Q.Cast(SpellManager.Q.GetPrediction(sender).CastPosition);
                         }
                     }
                 }
@@ -157,7 +156,7 @@ namespace PartyMorg
 
                             if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.QCastDelay))
                             {
-                                SpellManager.Q.Cast();
+                                SpellManager.Q.Cast(SpellManager.Q.GetPrediction(sender).CastPosition);
                                 stopwatch.Reset();
                             }
                         }
@@ -167,159 +166,15 @@ namespace PartyMorg
 
                             if (stopwatch.ElapsedMilliseconds >= Humanizer.QCastDelay)
                             {
-                                SpellManager.Q.Cast();
+                                SpellManager.Q.Cast(SpellManager.Q.GetPrediction(sender).CastPosition);
                                 stopwatch.Reset();
                             }
                         }
                     }
                     else
                     {
-                        SpellManager.Q.Cast();
+                        SpellManager.Q.Cast(SpellManager.Q.GetPrediction(sender).CastPosition);
                     }
-                }
-            }
-        }
-
-        public static void OnBasicAttack(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
-        {
-            if (Player.Instance.IsRecalling())
-            { return; }
-
-            priorAllyOrder = new List<AIHeroClient>();
-
-            hpAllyOrder = new List<AIHeroClient>();
-
-            highestPriority = 0;
-
-            lowestHP = int.MaxValue;
-
-            if (sender.IsEnemy && sender.IsMinion)
-            {
-                foreach (var ally in EntityManager.Heroes.Allies.Where(ally => ally.CountEnemiesInRange(1000) == 0))
-                {
-                    foreach (var shieldThisAlly in AutoShield.ShieldAllyList.Where(x => x.DisplayName.Contains(ally.ChampionName) && x.CurrentValue))
-                    {
-                        if (args.Target == ally)
-                        {
-                            CastShield(sender);
-                        }
-                    }
-                }
-
-                if (AutoShield.TurretShieldMinion)
-                {
-                    foreach (var turret in EntityManager.Turrets.Allies)
-                    {
-                        if (args.Target == turret && Player.Instance.IsInRange(turret, SpellManager.E.Range))
-                        {
-                            CastShield(turret);
-                        }
-                    }
-                }
-            }
-
-            if (sender.IsAlly && sender.IsRanged && !sender.IsMinion && AutoShield.BoostAD)
-            {
-                foreach (var enemy in EntityManager.Heroes.Enemies)
-                {
-                    foreach (var shieldThisAlly in AutoShield.ShieldAllyList.Where(x => x.DisplayName.Contains(sender.Name) && x.CurrentValue))
-                    {
-                        if (args.Target == enemy)
-                        {
-                            CastShield(sender);
-                        }
-                    }
-                }
-            }
-
-            if (sender.IsEnemy)
-            {
-                if (!sender.IsMinion)
-                {
-                    if (AutoShield.PriorMode == 0)
-                    {
-                        foreach (var ally in EntityManager.Heroes.Allies)
-                        {
-                            if (ally.Health <= lowestHP)
-                            {
-                                lowestHP = ally.Health;
-                                hpAllyOrder.Insert(0, ally);
-                            }
-                            else
-                            {
-                                hpAllyOrder.Add(ally);
-                            }
-                        }
-
-                        foreach (var ally in hpAllyOrder.Where(ally => Player.Instance.IsInRange(ally, SpellManager.E.Range)))
-                        {
-                            foreach (var shieldThisAlly in AutoShield.ShieldAllyList.Where(x => x.DisplayName.Contains(ally.ChampionName) && x.CurrentValue))
-                            {
-                                if (args.Target == ally)
-                                {
-                                    CastShield(ally);
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        foreach (var slider in AutoShield.Sliders)
-                        {
-                            if (slider.CurrentValue >= highestPriority)
-                            {
-                                highestPriority = slider.CurrentValue;
-
-                                foreach (var ally in AutoShield.Heros)
-                                {
-                                    if (slider.VisibleName.Contains(ally.ChampionName))
-                                    {
-                                        priorAllyOrder.Insert(0, ally);
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                foreach (var ally in AutoShield.Heros)
-                                {
-                                    if (slider.VisibleName.Contains(ally.ChampionName))
-                                    {
-                                        priorAllyOrder.Add(ally);
-                                    }
-                                }
-                            }
-                        }
-
-                        foreach (var ally in priorAllyOrder.Where(ally => Player.Instance.IsInRange(ally, SpellManager.E.Range)))
-                        {
-                            foreach (var shieldThisAlly in AutoShield.ShieldAllyList.Where(x => x.DisplayName.Contains(ally.ChampionName) && x.CurrentValue))
-                            {
-                                if (args.Target == ally)
-                                {
-                                    CastShield(ally);
-                                }
-                            }
-                        }
-                    }
-
-                    if (AutoShield.TurretShieldChampion)
-                    {
-                        foreach (var turret in EntityManager.Turrets.Allies)
-                        {
-                            if (args.Target == turret && Player.Instance.IsInRange(turret, SpellManager.E.Range))
-                            {
-                                CastShield(turret);
-                            }
-                        }
-                    }
-                }
-            }
-
-            if (AutoShield.SelfShield)
-            {
-                if (args.Target != null && args.Target.IsMe)
-                {
-                    CastShield(Player.Instance);
                 }
             }
         }
@@ -371,28 +226,37 @@ namespace PartyMorg
                     {
                         if (args.Target == ally)
                         {
-                            CastShield(ally);
+                            if (args.SData.DisplayNameTranslated == "Disintegrate" && sender.HasBuff("pyromania_particle"))
+                            {
+                                CastShield(ally);
+                            }
+                            else if (args.SData.DisplayNameTranslated == "Dazzle" || args.SData.DisplayNameTranslated == "Aegis of Zeonia" || args.SData.DisplayNameTranslated == "Heroic Charge" || args.SData.DisplayNameTranslated == "Pick A Card" || args.SData.DisplayNameTranslated == "Aethereal Chains" || args.SData.DisplayNameTranslated == "Mimic: Aethereal Chains" || args.SData.DisplayNameTranslated == "Rune Prison" || args.SData.DisplayNameTranslated == "Equilibrium Strike" || args.SData.DisplayNameTranslated == "Reckoning" || args.SData.DisplayNameTranslated == "Seismic Shard" || args.SData.DisplayNameTranslated == "Wither" || args.SData.DisplayNameTranslated == "Ice Blast" || args.SData.DisplayNameTranslated == "Two-Shiv Poison" || args.SData.DisplayNameTranslated == "Fling" || args.SData.DisplayNameTranslated == "Buster Shot" || args.SData.DisplayNameTranslated == "Chomp" || args.SData.DisplayNameTranslated == "Mocking Shout" || args.SData.DisplayNameTranslated == "Hyper-Kinetic Position Reverser" || args.SData.DisplayNameTranslated == "Three Talon Strike" || args.SData.DisplayNameTranslated == "Audacious Charge" || args.SData.DisplayNameTranslated == "Time Warp" || args.SData.DisplayNameTranslated == "Puncturing Taunt" || args.SData.DisplayNameTranslated == "Terrify" || args.SData.DisplayNameTranslated == "Null Sphere" || args.SData.DisplayNameTranslated == "Nether Grasp" || args.SData.DisplayNameTranslated == "Infinite Duress" || args.SData.DisplayNameTranslated == "Zephyr")
+                            {
+                                CastShield(ally);
+                            }
                         }
                         else
                         {
-                            var AllyPath = Prediction.Position.GetRealPath(ally);
-
-                            if (evadePlus.IsHeroInDanger(ally) && !evadePlus.IsPathSafe(AllyPath))
+                            foreach (var shieldThisSpell in AutoShield.ShieldSpellList.Where(x => x.DisplayName.Contains(args.SData.DisplayNameTranslated) && x.CurrentValue))
                             {
-                                if (args.SData.Name == "DariusAxeGrabCone" || args.SData.Name == "Volley" || args.SData.Name == "CassiopeiaPetrifyingGaze" || args.SData.Name == "FeralScream")
+                                var allyPath = Prediction.Position.GetRealPath(ally);
+
+                                if (evadePlus.IsHeroInDanger(ally) && !evadePlus.IsPathSafe(allyPath))
                                 {
-                                    if (sender.IsFacing(ally))
+                                    if (args.SData.Name == "DariusAxeGrabCone" || args.SData.Name == "Volley" || args.SData.Name == "CassiopeiaPetrifyingGaze" || args.SData.Name == "FeralScream")
+                                    {
+                                        if (sender.IsFacing(ally))
+                                        {
+                                            CastShield(ally);
+                                        }
+                                    }
+                                    else
                                     {
                                         CastShield(ally);
                                     }
                                 }
-                                else
-                                {
-                                    CastShield(ally);
-                                }
                             }
                         }
-
                     }
                 }
             }
@@ -417,24 +281,34 @@ namespace PartyMorg
                     {
                         if (args.Target == ally)
                         {
-                            CastShield(ally);
+                            if (args.SData.DisplayNameTranslated == "Disintegrate" && sender.HasBuff("pyromania_particle"))
+                            {
+                                CastShield(ally);
+                            }
+                            else if (args.SData.DisplayNameTranslated == "Dazzle" || args.SData.DisplayNameTranslated == "Aegis of Zeonia" || args.SData.DisplayNameTranslated == "Heroic Charge" || args.SData.DisplayNameTranslated == "Pick A Card" || args.SData.DisplayNameTranslated == "Aethereal Chains" || args.SData.DisplayNameTranslated == "Mimic: Aethereal Chains" || args.SData.DisplayNameTranslated == "Rune Prison" || args.SData.DisplayNameTranslated == "Equilibrium Strike" || args.SData.DisplayNameTranslated == "Reckoning" || args.SData.DisplayNameTranslated == "Seismic Shard" || args.SData.DisplayNameTranslated == "Wither" || args.SData.DisplayNameTranslated == "Ice Blast" || args.SData.DisplayNameTranslated == "Two-Shiv Poison" || args.SData.DisplayNameTranslated == "Fling" || args.SData.DisplayNameTranslated == "Buster Shot" || args.SData.DisplayNameTranslated == "Chomp" || args.SData.DisplayNameTranslated == "Mocking Shout" || args.SData.DisplayNameTranslated == "Hyper-Kinetic Position Reverser" || args.SData.DisplayNameTranslated == "Three Talon Strike" || args.SData.DisplayNameTranslated == "Audacious Charge" || args.SData.DisplayNameTranslated == "Time Warp" || args.SData.DisplayNameTranslated == "Puncturing Taunt" || args.SData.DisplayNameTranslated == "Terrify" || args.SData.DisplayNameTranslated == "Null Sphere" || args.SData.DisplayNameTranslated == "Nether Grasp" || args.SData.DisplayNameTranslated == "Infinite Duress" || args.SData.DisplayNameTranslated == "Zephyr")
+                            {
+                                CastShield(ally);
+                            }
                         }
                         else
                         {
-                            var allyPath = Prediction.Position.GetRealPath(ally);
-
-                            if (evadePlus.IsHeroInDanger(ally) && !evadePlus.IsPathSafe(allyPath))
+                            foreach (var shieldThisSpell in AutoShield.ShieldSpellList.Where(x => x.DisplayName.Contains(args.SData.DisplayNameTranslated) && x.CurrentValue))
                             {
-                                if (args.SData.Name == "DariusAxeGrabCone" || args.SData.Name == "Volley" || args.SData.Name == "CassiopeiaPetrifyingGaze" || args.SData.Name == "FeralScream")
+                                var allyPath = Prediction.Position.GetRealPath(ally);
+
+                                if (evadePlus.IsHeroInDanger(ally) && !evadePlus.IsPathSafe(allyPath))
                                 {
-                                    if (sender.IsFacing(ally))
+                                    if (args.SData.Name == "DariusAxeGrabCone" || args.SData.Name == "Volley" || args.SData.Name == "CassiopeiaPetrifyingGaze" || args.SData.Name == "FeralScream")
+                                    {
+                                        if (sender.IsFacing(ally))
+                                        {
+                                            CastShield(ally);
+                                        }
+                                    }
+                                    else
                                     {
                                         CastShield(ally);
                                     }
-                                }
-                                else
-                                {
-                                    CastShield(ally);
                                 }
                             }
                         }
