@@ -230,9 +230,7 @@ namespace PartyMorg
                         }
                         else
                         {
-                            var allyPath = Prediction.Position.GetRealPath(ally);
-
-                            if (evadePlus.IsHeroInDanger(ally) && !evadePlus.IsPathSafe(allyPath))
+                            if (ally.ServerPosition.IsInRange(args.End, 350))
                             {
                                 if (args.SData.Name == "DariusAxeGrabCone" || args.SData.Name == "Volley" || args.SData.Name == "CassiopeiaPetrifyingGaze" || args.SData.Name == "FeralScream")
                                 {
@@ -275,9 +273,7 @@ namespace PartyMorg
                         }
                         else
                         {
-                            var allyPath = Prediction.Position.GetRealPath(ally);
-
-                            if (evadePlus.IsHeroInDanger(ally) && !evadePlus.IsPathSafe(allyPath))
+                            if (ally.ServerPosition.IsInRange(args.End, 350))
                             {
                                 if (args.SData.Name == "DariusAxeGrabCone" || args.SData.Name == "Volley" || args.SData.Name == "CassiopeiaPetrifyingGaze" || args.SData.Name == "FeralScream")
                                 {

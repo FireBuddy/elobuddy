@@ -228,7 +228,7 @@ namespace PartyMorg
 
                     foreach (var ally in EntityManager.Heroes.Allies)
                     {
-                        _shieldAllyList.Add(Menu4.Add<CheckBox>("Shield " + ally.ChampionName, new CheckBox(string.Format("Shield {0} ({1})", ally.ChampionName, ally.Name))));
+                        _shieldAllyList.Add(Menu4.Add<CheckBox>("shield" + ally.ChampionName, new CheckBox(string.Format("Shield {0} ({1})", ally.ChampionName, ally.Name))));
                     }
 
                     Menu4.AddSeparator(13);
