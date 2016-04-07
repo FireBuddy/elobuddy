@@ -74,15 +74,15 @@ namespace PartyMorg.Modes
                     if (pred.HitChancePercent >= Settings.QMinHitChance)
                     {
                         Q.Cast(pred.CastPosition);
-                    }
-                }
-            }
 
-            target = GetTarget(W, DamageType.Magical);
+target = GetTarget(W, DamageType.Magical);
 
             if (target != null && Settings.UseW)
             {
                 W.Cast(target.Position);
+            }
+                    }
+                }
             }
 
             target = GetTarget(R, DamageType.Magical);
