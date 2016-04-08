@@ -4,6 +4,7 @@ using Settings = PartyMorg.Config.Settings.Flee;
 using Humanizer = PartyMorg.Config.Settings.Humanizer;
 using System.Diagnostics;
 using System;
+using System.Linq;
 
 namespace PartyMorg.Modes
 {
@@ -32,7 +33,7 @@ namespace PartyMorg.Modes
                         {
                             var pred = Q.GetPrediction(target);
 
-                            if (pred.HitChancePercent >= Settings.QMinHitChance)
+                            if (pred.HitChancePercent >= Settings.QMinHitChance && !pred.CollisionObjects.Contains(new Obj_AI_Minion()))
                             {
                                 Q.Cast(pred.CastPosition);
                             }
@@ -48,7 +49,7 @@ namespace PartyMorg.Modes
                         {
                             var pred = Q.GetPrediction(target);
 
-                            if (pred.HitChancePercent >= Settings.QMinHitChance)
+                            if (pred.HitChancePercent >= Settings.QMinHitChance && !pred.CollisionObjects.Contains(new Obj_AI_Minion()))
                             {
                                 Q.Cast(pred.CastPosition);
                             }
