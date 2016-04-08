@@ -69,11 +69,9 @@ namespace PartyMorg.Modes
                 }
             }
 
-            target = GetTarget(W, DamageType.Magical);
-
-            if (target != null && Settings.UseW)
+            if (target != null && Immobile(target) && Player.Instance.IsInRange(target, W.Range))
             {
-                W.Cast(target.Position);
+                W.Cast(W.GetPrediction(target).CastPosition);
             }
         }
     }

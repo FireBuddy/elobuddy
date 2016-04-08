@@ -83,7 +83,7 @@ namespace PartyMorg.Modes
 
             if (target != null && Settings.UseW)
             {
-                W.Cast(target.Position);
+                W.Cast(W.GetPrediction(target).CastPosition);
             }
         }
     }

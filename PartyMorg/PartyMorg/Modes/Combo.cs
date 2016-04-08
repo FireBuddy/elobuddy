@@ -21,13 +21,6 @@ namespace PartyMorg.Modes
 
         public static Stopwatch stopwatch = new Stopwatch();
 
-        public static bool Immobile(Obj_AI_Base target)
-        {
-            return target.HasBuffOfType(BuffType.Charm) || target.HasBuffOfType(BuffType.Stun) ||
-                   target.HasBuffOfType(BuffType.Knockup) || target.HasBuffOfType(BuffType.Snare) ||
-                   target.HasBuffOfType(BuffType.Taunt) || target.HasBuffOfType(BuffType.Suppression);
-        }
-
         public override void Execute()
         {
             zhonyasHourglass = new Item(3157);
@@ -85,7 +78,7 @@ namespace PartyMorg.Modes
 
             if (target != null && Immobile(target) && Player.Instance.IsInRange(target, W.Range))
             {
-                W.Cast(target.Position);
+                W.Cast(W.GetPrediction(target).CastPosition);
             }
 
             target = GetTarget(R, DamageType.Magical);

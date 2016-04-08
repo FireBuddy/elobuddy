@@ -32,5 +32,12 @@ namespace PartyMorg.Modes
 
             return TargetSelector.SelectedTarget != null && spell.IsInRange(TargetSelector.SelectedTarget) ? TargetSelector.SelectedTarget : target != null ? target : null;
         }
+
+        public static bool Immobile(Obj_AI_Base target)
+        {
+            return target.HasBuffOfType(BuffType.Charm) || target.HasBuffOfType(BuffType.Stun) ||
+                   target.HasBuffOfType(BuffType.Knockup) || target.HasBuffOfType(BuffType.Snare) ||
+                   target.HasBuffOfType(BuffType.Taunt) || target.HasBuffOfType(BuffType.Suppression);
+        }
     }
 }
