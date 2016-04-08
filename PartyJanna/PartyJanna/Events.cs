@@ -102,7 +102,7 @@ namespace PartyJanna
             }
         }
 
-        private static void OnInterruptableSpell(Obj_AI_Base sender, EloBuddy.SDK.Events.Interrupter.InterruptableSpellEventArgs e)
+        private static void OnInterruptableSpell(Obj_AI_Base sender, Interrupter.InterruptableSpellEventArgs e)
         {
             if (!sender.IsEnemy || Player.Instance.IsRecalling())
             { return; }
@@ -448,6 +448,8 @@ namespace PartyJanna
                         {
                             if (ally.ServerPosition.IsInRange(args.End, 350))
                             {
+                                Chat.Print(args.SData.Name);
+
                                 if (args.SData.Name == "DariusAxeGrabCone" || args.SData.Name == "Volley" || args.SData.Name == "CassiopeiaPetrifyingGaze" || args.SData.Name == "FeralScream")
                                 {
                                     if (sender.IsFacing(ally))

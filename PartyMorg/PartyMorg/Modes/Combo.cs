@@ -30,8 +30,6 @@ namespace PartyMorg.Modes
 
         public override void Execute()
         {
-            //Q.Range = (uint)Settings.QUseRange;
-
             zhonyasHourglass = new Item(3157);
             flashSpell = new Spell.Targeted(Player.Instance.GetSpellSlotFromName("summonerflash"), uint.MaxValue);
 
@@ -85,7 +83,7 @@ namespace PartyMorg.Modes
                 }
             }
 
-            if (Immobile(target) && Player.Instance.IsInRange(target, W.Range))
+            if (target != null && Immobile(target) && Player.Instance.IsInRange(target, W.Range))
             {
                 W.Cast(target.Position);
             }
@@ -98,28 +96,25 @@ namespace PartyMorg.Modes
                 {
                     foreach (var enemy in EntityManager.Heroes.Enemies)
                     {
-                        //for (int i = 0; i < EntityManager.Heroes.Enemies.Count; i++)
-                        //{
-                            if (Player.Instance.IsFacing(enemy))
-                            {
-                                enemiesFaced++;
-                            }
-                        //}
-
-                    if (enemiesFaced >= Settings.RMinEnemies && Player.Instance.CountEnemiesInRange(Settings.UltMinRange + 400) >= Settings.RMinEnemies)
-                    {
-                        flashSpell.Cast(enemy.Position);
-
-                        R.Cast();
-
-                        if (Settings.UltZhonya)
+                        if (Player.Instance.IsFacing(enemy))
                         {
-                            zhonyasHourglass.Cast();
+                            enemiesFaced++;
                         }
 
-                        enemiesFaced = 0;
+                        if (enemiesFaced >= Settings.RMinEnemies && Player.Instance.CountEnemiesInRange(Settings.UltMinRange + 400) >= Settings.RMinEnemies)
+                        {
+                            flashSpell.Cast(enemy.Position);
+
+                            R.Cast();
+
+                            if (Settings.UltZhonya)
+                            {
+                                zhonyasHourglass.Cast();
+                            }
+
+                            enemiesFaced = 0;
+                        }
                     }
-                }
                 }
                 else
                 {

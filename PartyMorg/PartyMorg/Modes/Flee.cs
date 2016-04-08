@@ -18,8 +18,6 @@ namespace PartyMorg.Modes
 
         public override void Execute()
         {
-            //Q.Range = (uint)Settings.QUseRange;
-
             var target = GetTarget(Q, DamageType.Magical);
 
             if (target != null && target.IsTargetable && !target.HasBuffOfType(BuffType.SpellImmunity) && Settings.UseQ)
