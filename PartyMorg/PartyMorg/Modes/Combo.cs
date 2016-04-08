@@ -90,7 +90,7 @@ namespace PartyMorg.Modes
 
             target = GetTarget(R, DamageType.Magical);
 
-            if (R.IsReady())
+            if (R.IsReady() && Settings.UseR)
             {
                 if (Player.Instance.CountEnemiesInRange(Settings.UltMinRange) == 0 && Settings.FlashUlt)
                 {
