@@ -47,7 +47,7 @@ namespace PartyMorg.Modes
                         {
                             var pred = Q.GetPrediction(target);
 
-                            if (pred.HitChancePercent >= Settings.QMinHitChance && !pred.CollisionObjects.Contains(new Obj_AI_Minion()))
+                            if (pred.HitChancePercent >= Settings.QMinHitChance)
                             {
                                 Q.Cast(pred.CastPosition);
                             }
@@ -63,7 +63,7 @@ namespace PartyMorg.Modes
                         {
                             var pred = Q.GetPrediction(target);
 
-                            if (pred.HitChancePercent >= Settings.QMinHitChance && !pred.CollisionObjects.Contains(new Obj_AI_Minion()))
+                            if (pred.HitChancePercent >= Settings.QMinHitChance)
                             {
                                 Q.Cast(pred.CastPosition);
                             }
@@ -76,7 +76,7 @@ namespace PartyMorg.Modes
                 {
                     var pred = Q.GetPrediction(target);
 
-                    if (pred.HitChancePercent >= Settings.QMinHitChance && !pred.CollisionObjects.Contains(new Obj_AI_Minion()))
+                    if (pred.HitChancePercent >= Settings.QMinHitChance)
                     {
                         Q.Cast(pred.CastPosition);
                     }

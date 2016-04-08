@@ -26,7 +26,7 @@ namespace PartyMorg
 
         public static class Settings
         {
-            private static readonly Menu Menu0, Menu1, Menu2, Menu3, Menu4, Menu5, Menu6, Menu7, Menu8, Menu9;
+            private static readonly Menu Menu0, Menu1, Menu2, Menu3, Menu4, Menu5, Menu6, Menu7, Menu8, Menu9, Menu10;
 
             static Settings()
             {
@@ -53,6 +53,9 @@ namespace PartyMorg
 
                 Menu7 = Config.Menu.AddSubMenu("Harass");
                 Harass.Initialize();
+
+                Menu10 = Config.Menu.AddSubMenu("Lane Clear");
+                LaneClear.Initialize();
 
                 Menu8 = Config.Menu.AddSubMenu("Humanizer");
                 Humanizer.Initialize();
@@ -430,6 +433,33 @@ namespace PartyMorg
                     Menu7.AddSeparator(13);
 
                     _autoHarassManaPercent = Menu7.Add<Slider>("autoHarassManaPercent", new Slider("Auto Harass min. mana %:", 75, 1));*/
+                }
+
+                public static void Initialize() { }
+            }
+
+            public static class LaneClear
+            {
+                private static readonly CheckBox _useW;
+                private static readonly Slider _minionsToUseW;
+
+                public static bool UseW
+                {
+                    get { return _useW.CurrentValue; }
+                }
+                public static int MinionsToUseW
+                {
+                    get { return _minionsToUseW.CurrentValue; }
+                }
+
+                static LaneClear()
+                {
+                    Menu10.AddGroupLabel("Lane Clear Settings");
+
+                    _useW = Menu10.Add("laneClearUseW", new CheckBox("Use W"));
+                    Menu10.AddSeparator();
+
+                    _minionsToUseW = Menu10.Add<Slider>("minionsToUseW", new Slider("Minions to use W:", 3, 1, 7));
                 }
 
                 public static void Initialize() { }
