@@ -4,7 +4,6 @@ using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PartyMorg
 {
@@ -191,16 +190,11 @@ namespace PartyMorg
 
             public static class AutoShield
             {
-                private static readonly CheckBox _boostAD;
                 private static readonly ComboBox _priorMode;
                 private static readonly List<Slider> _sliders;
                 private static readonly List<AIHeroClient> _heros;
                 private static readonly List<CheckBox> _shieldAllyList, _shieldSpellList;
 
-                public static bool BoostAD
-                {
-                    get { return _boostAD.CurrentValue; }
-                }
                 public static int PriorMode
                 {
                     get { return _priorMode.SelectedIndex; }

@@ -2,7 +2,6 @@
 using EloBuddy.SDK;
 using EloBuddy.SDK.Enumerations;
 using EloBuddy.SDK.Events;
-using SharpDX;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

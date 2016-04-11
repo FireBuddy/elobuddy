@@ -1,5 +1,4 @@
-﻿using EloBuddy;
-using EloBuddy.SDK;
+﻿using EloBuddy.SDK;
 using System;
 using Settings = PartyMorg.Config.Settings.LaneClear;
 

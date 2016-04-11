@@ -1,10 +1,9 @@
 ﻿using EloBuddy;
 using EloBuddy.SDK;
-using Settings = PartyMorg.Config.Settings.Combo;
-using Humanizer = PartyMorg.Config.Settings.Humanizer;
-using System.Diagnostics;
 using System;
-using System.Linq;
+using System.Diagnostics;
+using Humanizer = PartyMorg.Config.Settings.Humanizer;
+using Settings = PartyMorg.Config.Settings.Combo;
 
 namespace PartyMorg.Modes
 {
