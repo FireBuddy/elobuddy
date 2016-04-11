@@ -234,15 +234,16 @@ namespace PartyMorg
                         _shieldAllyList.Add(Menu4.Add<CheckBox>("shield" + ally.ChampionName, new CheckBox(string.Format("Shield {0} ({1})", ally.ChampionName, ally.Name))));
                     }
 
-                    /*Menu4.AddSeparator(13);
+                    Menu4.AddSeparator(13);
 
                     foreach (var enemy in EntityManager.Heroes.Enemies)
                     {
-                        foreach (var spell in EvadePlus.SkillshotDatabase.Database.Where(x => x.SpellData.ChampionName == enemy.ChampionName))
+                        for (int i = 0; i <= 186; i++)
                         {
-                            _shieldSpellList.Add(Menu4.Add<CheckBox>(spell.SpellData.ChampionName + spell.SpellData.Slot.ToString() + spell.SpellData.DisplayName + spell.SpellData.MissileSpellName, new CheckBox(string.Format("Shield from {0}'s {1} ({2})                                   {3}", spell.SpellData.ChampionName, spell.SpellData.Slot.ToString(), spell.SpellData.DisplayName, spell.SpellData.MissileSpellName))));
+                            if (MissileDatabase.missileDatabase[i, 2] == enemy.ChampionName)
+                                _shieldSpellList.Add(Menu4.Add<CheckBox>(MissileDatabase.missileDatabase[i, 0] + i, new CheckBox(string.Format("Shield from {0}'s {1}                                                 {2}{3}", MissileDatabase.missileDatabase[i, 2], MissileDatabase.missileDatabase[i, 1], MissileDatabase.missileDatabase[i, 0], i))));
                         }
-                    }*/
+                    }
 
                     Menu4.AddSeparator(13);
 

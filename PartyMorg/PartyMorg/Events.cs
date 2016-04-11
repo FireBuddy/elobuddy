@@ -2,9 +2,11 @@
 using EloBuddy.SDK;
 using EloBuddy.SDK.Enumerations;
 using EloBuddy.SDK.Events;
+using SharpDX;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using _Interrupter = PartyMorg.Config.Settings.Interrupter;
 using AntiGapcloser = PartyMorg.Config.Settings.AntiGapcloser;
@@ -174,6 +176,18 @@ namespace PartyMorg
             }
         }
 
+        public static System.Drawing.RectangleF GetRectangle(PointF p1, PointF p2)
+        {
+            float top = Math.Min(p1.Y, p2.Y);
+            float bottom = Math.Max(p1.Y, p2.Y);
+            float left = Math.Min(p1.X, p2.X);
+            float right = Math.Max(p1.X, p2.X);
+
+            System.Drawing.RectangleF rect = System.Drawing.RectangleF.FromLTRB(left, top, right, bottom);
+
+            return rect;
+        }
+
         public static void OnProcessSpellCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             if (!sender.IsEnemy || Player.Instance.IsRecalling())
@@ -219,22 +233,20 @@ namespace PartyMorg
                 {
                     foreach (var shieldThisAlly in AutoShield.ShieldAllyList.Where(x => x.DisplayName.Contains(ally.ChampionName) && x.CurrentValue))
                     {
-                        if (args.Target == ally)
+                        foreach (var shieldThisSpell in AutoShield.ShieldSpellList.Where(s => s.DisplayName.Contains(args.SData.Name) && s.CurrentValue))
                         {
-                            CastShield(ally);
-                        }
-                        else
-                        {
-                            if (ally.ServerPosition.IsInRange(args.End, 350))
+                            if (args.Target == ally)
                             {
-                                if (args.SData.Name == "DariusAxeGrabCone" || args.SData.Name == "Volley" || args.SData.Name == "CassiopeiaPetrifyingGaze" || args.SData.Name == "FeralScream")
+                                CastShield(ally);
+                            }
+                            else
+                            {
+                                if (ally.Position.IsInRange(args.End, MissileDatabase.rangeRadiusDatabase[shieldThisSpell.DisplayName.Last(), 1]))
                                 {
-                                    if (sender.IsFacing(ally))
-                                    {
-                                        CastShield(ally);
-                                    }
+                                    CastShield(ally);
                                 }
-                                else
+
+                                if (sender.IsFacing(ally) && ally.IsInRange(sender, MissileDatabase.rangeRadiusDatabase[shieldThisSpell.DisplayName.Last(), 0]))
                                 {
                                     CastShield(ally);
                                 }
@@ -260,24 +272,22 @@ namespace PartyMorg
 
                 foreach (var ally in hpAllyOrder.Where(ally => Player.Instance.IsInRange(ally, SpellManager.E.Range)))
                 {
-                    foreach (var shieldThisAlly in AutoShield.ShieldAllyList.Where(x => x.DisplayName.Contains(ally.ChampionName) && x.CurrentValue))
+                    foreach (var shieldThisAlly in AutoShield.ShieldAllyList.Where(a => a.DisplayName.Contains(ally.ChampionName) && a.CurrentValue))
                     {
-                        if (args.Target == ally)
+                        foreach (var shieldThisSpell in AutoShield.ShieldSpellList.Where(s => s.DisplayName.Contains(args.SData.Name) && s.CurrentValue))
                         {
-                            CastShield(ally);
-                        }
-                        else
-                        {
-                            if (ally.ServerPosition.IsInRange(args.End, 350))
+                            if (args.Target == ally)
                             {
-                                if (args.SData.Name == "DariusAxeGrabCone" || args.SData.Name == "Volley" || args.SData.Name == "CassiopeiaPetrifyingGaze" || args.SData.Name == "FeralScream")
+                                CastShield(ally);
+                            }
+                            else
+                            {
+                                if (ally.Position.IsInRange(args.End, MissileDatabase.rangeRadiusDatabase[shieldThisSpell.DisplayName.Last(), 1]))
                                 {
-                                    if (sender.IsFacing(ally))
-                                    {
-                                        CastShield(ally);
-                                    }
+                                    CastShield(ally);
                                 }
-                                else
+
+                                if (sender.IsFacing(ally) && ally.IsInRange(sender, MissileDatabase.rangeRadiusDatabase[shieldThisSpell.DisplayName.Last(), 0]))
                                 {
                                     CastShield(ally);
                                 }
