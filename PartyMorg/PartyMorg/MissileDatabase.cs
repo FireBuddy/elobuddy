@@ -204,7 +204,7 @@ namespace PartyMorg
                 { "JhinRShotMis", "R", "Jhin" },
             };
 
-            rangeRadiusDatabase = new int[,]
+            rangeRadiusDatabase = new int[187, 2]
             {
                 { 1600, 60 },
                 { 650, 285 },

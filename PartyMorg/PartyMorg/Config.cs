@@ -238,7 +238,7 @@ namespace PartyMorg
 
                     foreach (var enemy in EntityManager.Heroes.Enemies)
                     {
-                        for (int i = 0; i <= 186; i++)
+                        for (int i = 0; i <= 187; i++)
                         {
                             if (MissileDatabase.missileDatabase[i, 2] == enemy.ChampionName)
                                 _shieldSpellList.Add(Menu4.Add<CheckBox>(MissileDatabase.missileDatabase[i, 0] + i, new CheckBox(string.Format("Shield from {0}'s {1}                                                 {2}{3}", MissileDatabase.missileDatabase[i, 2], MissileDatabase.missileDatabase[i, 1], MissileDatabase.missileDatabase[i, 0], i))));
