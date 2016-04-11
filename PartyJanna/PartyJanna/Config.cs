@@ -192,7 +192,7 @@ namespace PartyJanna
                 private static readonly ComboBox _priorMode;
                 private static readonly List<Slider> _sliders;
                 private static readonly List<AIHeroClient> _heros;
-                private static readonly List<CheckBox> _shieldAllyList;
+                private static readonly List<CheckBox> _shieldAllyList, _shieldSpellList;
 
                 public static bool BoostAD
                 {
@@ -226,6 +226,10 @@ namespace PartyJanna
                 {
                     get { return _shieldAllyList; }
                 }
+                public static List<CheckBox> ShieldSpellList
+                {
+                    get { return _shieldSpellList; }
+                }
 
                 static AutoShield()
                 {
@@ -236,6 +240,17 @@ namespace PartyJanna
                     foreach (var ally2 in EntityManager.Heroes.Allies)
                     {
                         _shieldAllyList.Add(Menu4.Add<CheckBox>("Shield " + ally2.ChampionName, new CheckBox(string.Format("Shield {0} ({1})", ally2.ChampionName, ally2.Name))));
+                    }
+
+                    Menu4.AddSeparator(13);
+
+                    foreach (var enemy in EntityManager.Heroes.Enemies)
+                    {
+                        for (int i = 0; i <= 187; i++)
+                        {
+                            if (MissileDatabase.missileDatabase[i, 2] == enemy.ChampionName)
+                                _shieldSpellList.Add(Menu4.Add<CheckBox>(MissileDatabase.missileDatabase[i, 0] + i, new CheckBox(string.Format("Shield from {0}'s {1}                                                 {2}{3}", MissileDatabase.missileDatabase[i, 2], MissileDatabase.missileDatabase[i, 1], MissileDatabase.missileDatabase[i, 0], i))));
+                        }
                     }
 
                     Menu4.AddSeparator(13);

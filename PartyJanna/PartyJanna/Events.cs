@@ -397,22 +397,20 @@ namespace PartyJanna
                 {
                     foreach (var shieldThisAlly in AutoShield.ShieldAllyList.Where(x => x.DisplayName.Contains(ally.ChampionName) && x.CurrentValue))
                     {
-                        if (args.Target == ally)
+                        foreach (var shieldThisSpell in AutoShield.ShieldSpellList.Where(s => s.DisplayName.Contains(args.SData.Name) && s.CurrentValue))
                         {
-                            CastShield(ally);
-                        }
-                        else
-                        {
-                            if (ally.ServerPosition.IsInRange(args.End, 350))
+                            if (args.Target == ally)
                             {
-                                if (args.SData.Name == "DariusAxeGrabCone" || args.SData.Name == "Volley" || args.SData.Name == "CassiopeiaPetrifyingGaze" || args.SData.Name == "FeralScream")
+                                CastShield(ally);
+                            }
+                            else
+                            {
+                                if (ally.Position.IsInRange(args.End, MissileDatabase.rangeRadiusDatabase[shieldThisSpell.DisplayName.Last(), 1]))
                                 {
-                                    if (sender.IsFacing(ally))
-                                    {
-                                        CastShield(ally);
-                                    }
+                                    CastShield(ally);
                                 }
-                                else
+
+                                if (sender.IsFacing(ally) && ally.IsInRange(sender, MissileDatabase.rangeRadiusDatabase[shieldThisSpell.DisplayName.Last(), 0]))
                                 {
                                     CastShield(ally);
                                 }
@@ -440,24 +438,20 @@ namespace PartyJanna
                 {
                     foreach (var shieldThisAlly in AutoShield.ShieldAllyList.Where(x => x.DisplayName.Contains(ally.ChampionName) && x.CurrentValue))
                     {
-                        if (args.Target == ally)
+                        foreach (var shieldThisSpell in AutoShield.ShieldSpellList.Where(s => s.DisplayName.Contains(args.SData.Name) && s.CurrentValue))
                         {
-                            CastShield(ally);
-                        }
-                        else
-                        {
-                            if (ally.ServerPosition.IsInRange(args.End, 350))
+                            if (args.Target == ally)
                             {
-                                Chat.Print(args.SData.Name);
-
-                                if (args.SData.Name == "DariusAxeGrabCone" || args.SData.Name == "Volley" || args.SData.Name == "CassiopeiaPetrifyingGaze" || args.SData.Name == "FeralScream")
+                                CastShield(ally);
+                            }
+                            else
+                            {
+                                if (ally.Position.IsInRange(args.End, MissileDatabase.rangeRadiusDatabase[shieldThisSpell.DisplayName.Last(), 1]))
                                 {
-                                    if (sender.IsFacing(ally))
-                                    {
-                                        CastShield(ally);
-                                    }
+                                    CastShield(ally);
                                 }
-                                else
+
+                                if (sender.IsFacing(ally) && ally.IsInRange(sender, MissileDatabase.rangeRadiusDatabase[shieldThisSpell.DisplayName.Last(), 0]))
                                 {
                                     CastShield(ally);
                                 }

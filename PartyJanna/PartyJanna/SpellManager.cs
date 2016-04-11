@@ -1,8 +1,6 @@
 ﻿using EloBuddy;
 using EloBuddy.SDK;
 using EloBuddy.SDK.Enumerations;
-using System;
-using Humanizer = PartyJanna.Config.Settings.Humanizer;
 
 namespace PartyJanna
 {

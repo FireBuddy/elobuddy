@@ -1,9 +1,9 @@
 ﻿using EloBuddy;
 using EloBuddy.SDK;
-using Settings = PartyJanna.Config.Settings.Harass;
-using Humanizer = PartyJanna.Config.Settings.Humanizer;
-using System.Diagnostics;
 using System;
+using System.Diagnostics;
+using Humanizer = PartyJanna.Config.Settings.Humanizer;
+using Settings = PartyJanna.Config.Settings.Harass;
 
 namespace PartyJanna.Modes
 {
