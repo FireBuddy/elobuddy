@@ -29,9 +29,12 @@ namespace PartyMorg.Modes
         public override void Execute()
         {
             var target = GetTarget(Q, DamageType.Magical);
+            PredictionResult pred;
 
-            if (target != null && target.IsTargetable && !target.HasBuffOfType(BuffType.SpellImmunity) && Settings.UseQ)
+            if (target != null && target.IsTargetable && !target.HasBuffOfType(BuffType.SpellImmunity) && Settings.UseQ && !target.IsDead)
             {
+                pred = Q.GetPrediction(target);
+
                 if (Humanizer.QCastDelayEnabled)
                 {
                     if (Humanizer.QRndmDelay)
@@ -40,8 +43,6 @@ namespace PartyMorg.Modes
 
                         if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.QCastDelay))
                         {
-                            var pred = Q.GetPrediction(target);
-
                             if (pred.HitChancePercent >= Settings.QMinHitChance)
                             {
                                 Q.Cast(pred.CastPosition);
@@ -56,8 +57,6 @@ namespace PartyMorg.Modes
 
                         if (stopwatch.ElapsedMilliseconds >= Humanizer.QCastDelay)
                         {
-                            var pred = Q.GetPrediction(target);
-
                             if (pred.HitChancePercent >= Settings.QMinHitChance)
                             {
                                 Q.Cast(pred.CastPosition);
@@ -69,8 +68,6 @@ namespace PartyMorg.Modes
                 }
                 else
                 {
-                    var pred = Q.GetPrediction(target);
-
                     if (pred.HitChancePercent >= Settings.QMinHitChance)
                     {
                         Q.Cast(pred.CastPosition);
@@ -80,9 +77,21 @@ namespace PartyMorg.Modes
 
             target = GetTarget(W, DamageType.Magical);
 
-            if (target != null && Settings.UseW)
+            if (Settings.WImmobileOnly)
             {
-                W.Cast(W.GetPrediction(target).CastPosition);
+                if (target != null && Immobile(target) && Player.Instance.IsInRange(target, W.Range) && !target.IsDead)
+                {
+                    W.Cast(W.GetPrediction(target).CastPosition);
+                }
+            }
+            else
+            {
+                pred = W.GetPrediction(target);
+
+                if (target != null && Player.Instance.IsInRange(target, W.Range) && !target.IsDead)
+                {
+                    W.Cast(W.GetPrediction(target).CastPosition);
+                }
             }
         }
     }

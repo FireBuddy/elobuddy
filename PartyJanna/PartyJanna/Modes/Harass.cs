@@ -32,15 +32,17 @@ namespace PartyJanna.Modes
 
             var target = GetTarget(W, DamageType.Magical);
 
-            if (target != null && Settings.UseW)
+            if (target != null && target.IsTargetable && !target.HasBuffOfType(BuffType.SpellImmunity) && Settings.UseW)
             {
                 W.Cast(target);
             }
 
             target = GetTarget(Q, DamageType.Magical);
 
-            if (target != null && target.IsTargetable && !target.HasBuffOfType(BuffType.SpellImmunity) && Settings.UseQ)
+            if (target != null && target.IsTargetable && !target.HasBuffOfType(BuffType.SpellImmunity) && Settings.UseQ && !target.IsDead)
             {
+                var pred = Q.GetPrediction(target);
+
                 if (Humanizer.QCastDelayEnabled)
                 {
                     if (Humanizer.QRndmDelay)
@@ -49,7 +51,8 @@ namespace PartyJanna.Modes
 
                         if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.QCastDelay))
                         {
-                            Q.Cast(Q.GetPrediction(target).CastPosition);
+                            Q.Cast(pred.CastPosition);
+
                             stopwatch.Reset();
                         }
                     }
@@ -59,14 +62,15 @@ namespace PartyJanna.Modes
 
                         if (stopwatch.ElapsedMilliseconds >= Humanizer.QCastDelay)
                         {
-                            Q.Cast(Q.GetPrediction(target).CastPosition);
+                            Q.Cast(pred.CastPosition);
+
                             stopwatch.Reset();
                         }
                     }
                 }
                 else
                 {
-                    Q.Cast(Q.GetPrediction(target).CastPosition);
+                    Q.Cast(pred.CastPosition);
                 }
             }
         }
