@@ -1,6 +1,8 @@
 ﻿using EloBuddy;
 using EloBuddy.SDK;
 using Settings = PartyJanna.Config.Settings.Items;
+using AutoShield = PartyJanna.Config.Settings.AutoShield;
+using System.Linq;
 
 namespace PartyJanna.Modes
 {
@@ -17,13 +19,18 @@ namespace PartyJanna.Modes
             return true;
         }
 
+        public void JannaStop()
+        {
+            Player.IssueOrder(GameObjectOrder.Stop, Player.Instance.Position);
+        }
+
         public override void Execute()
         {
             if (!Settings.UseItems || Player.Instance.CountEnemiesInRange(2200) == 0)
             { return; }
 
             ironSolari = new Item(3190, 600);
-            mountain = new Item(3401);
+            mountain = new Item(3401, 600);
             mikael = new Item(3222, 750);
             frostQueen = new Item(3092, 4500);
             talisman = new Item(3069, 600);
@@ -32,6 +39,24 @@ namespace PartyJanna.Modes
             {
                 foreach (var ally in EntityManager.Heroes.Allies)
                 {
+                    if (R.IsLearned && R.IsReady() && AutoShield.AutoUltimate)
+                    {
+                        foreach (var ultThisAlly in AutoShield.UltAllyList.Where(a => a.DisplayName.Contains(ally.ChampionName) && Player.Instance.IsInRange(ally, R.Range) && a.CurrentValue))
+                        {
+                            foreach (var slider in AutoShield.UltSliders)
+                            {
+                                if (ally.HealthPercent <= slider.CurrentValue)
+                                {
+                                    var js = new System.Action(JannaStop);
+
+                                    R.Cast();
+
+                                    Core.RepeatAction(js, 250, 3000);
+                                }
+                            }
+                        }
+                    }
+
                     if (ally.IsFacing(enemy))
                     {
                         if (ally.HealthPercent <= Settings.AllyHpPercentageCC && ally.IsInRange(Player.Instance, 750))

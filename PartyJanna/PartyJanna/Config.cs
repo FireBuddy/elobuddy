@@ -123,7 +123,13 @@ namespace PartyJanna
                     Menu3.AddGroupLabel("Items");
 
                     _useItems = Menu3.Add("useItems", new CheckBox("Use Items"));
+
+                    Menu3.AddSeparator(13);
+
                     _allyHpPercentageDamage = Menu3.Add("allyHpPercentage", new Slider("Min. Ally Health on Damage (%):", 50, 1));
+
+                    Menu3.AddSeparator(13);
+
                     _allyHpPercentageCc = Menu3.Add("allyHpPercentageCc", new Slider("Min. Ally Health on CC (%):", 100, 1));
                 }
 
@@ -189,10 +195,12 @@ namespace PartyJanna
                 private static readonly CheckBox _boostAD;
                 private static readonly CheckBox _selfShield;
                 private static readonly CheckBox _turretShieldMinion, _turretShieldChampion;
+                private static readonly CheckBox _autoUltimate;
                 private static readonly ComboBox _priorMode;
-                private static readonly List<Slider> _sliders;
+                private static readonly List<Slider> _sliders, _ultSliders;
                 private static readonly List<AIHeroClient> _heros;
-                private static readonly List<CheckBox> _shieldAllyList, _shieldSpellList;
+                private static readonly List<CheckBox> _shieldAllyList, _shieldSpellList, _ultAllyList;
+
 
                 public static bool BoostAD
                 {
@@ -218,6 +226,10 @@ namespace PartyJanna
                 {
                     get { return _sliders; }
                 }
+                public static List<Slider> UltSliders
+                {
+                    get { return _ultSliders; }
+                }
                 public static List<AIHeroClient> Heros
                 {
                     get { return _heros; }
@@ -230,31 +242,22 @@ namespace PartyJanna
                 {
                     get { return _shieldSpellList; }
                 }
+                public static List<CheckBox> UltAllyList
+                {
+                    get { return _ultAllyList; }
+                }
+                public static bool AutoUltimate
+                {
+                    get { return _autoUltimate.CurrentValue; }
+                }
 
                 static AutoShield()
                 {
                     _shieldAllyList = new List<CheckBox>();
                     _shieldSpellList = new List<CheckBox>();
+                    _ultAllyList = new List<CheckBox>();
 
                     Menu4.AddGroupLabel("Auto-Shield Settings");
-
-                    foreach (var ally2 in EntityManager.Heroes.Allies)
-                    {
-                        _shieldAllyList.Add(Menu4.Add<CheckBox>("Shield " + ally2.ChampionName, new CheckBox(string.Format("Shield {0} ({1})", ally2.ChampionName, ally2.Name))));
-                    }
-
-                    Menu4.AddSeparator(13);
-
-                    foreach (var enemy in EntityManager.Heroes.Enemies)
-                    {
-                        for (int i = 0; i <= 185; i++)
-                        {
-                            if (MissileDatabase.missileDatabase[i, 2] == enemy.ChampionName)
-                                _shieldSpellList.Add(Menu4.Add<CheckBox>(MissileDatabase.missileDatabase[i, 0] + i, new CheckBox(string.Format("Shield from {0}'s {1}                                                 {2}{3}", MissileDatabase.missileDatabase[i, 2], MissileDatabase.missileDatabase[i, 1], MissileDatabase.missileDatabase[i, 0], i))));
-                        }
-                    }
-
-                    Menu4.AddSeparator(13);
 
                     _boostAD = Menu4.Add("autoShieldBoostAd", new CheckBox("Boost ADCarry Basic Attacks with Shield"));
                     Menu4.AddSeparator(13);
@@ -271,18 +274,58 @@ namespace PartyJanna
                     _priorMode = Menu4.Add("autoShieldPriorMode", new ComboBox("AutoShield Priority Mode:", 0, new string[] { "Lowest Health", "Priority Level" }));
                     Menu4.AddSeparator(13);
 
+                    Menu4.AddGroupLabel("Janna Shield");
+
+                    foreach (var ally in EntityManager.Heroes.Allies)
+                    {
+                        _shieldAllyList.Add(Menu4.Add<CheckBox>("shield" + ally.ChampionName, new CheckBox(string.Format("Shield {0} ({1})", ally.ChampionName, ally.Name))));
+                    }
+
+                    Menu4.AddSeparator(13);
+
                     _sliders = new List<Slider>();
                     _heros = new List<AIHeroClient>();
 
                     foreach (var ally in EntityManager.Heroes.Allies)
                     {
-                        Slider PrioritySlider = Menu4.Add<Slider>(ally.ChampionName, new Slider(string.Format("{0} Priority:", ally.ChampionName, ally.Name), 1, 1, EntityManager.Heroes.Allies.Count));
+                        _sliders.Add(Menu4.Add<Slider>("prior" + ally.ChampionName, new Slider(string.Format("{0}'s Priority:", ally.ChampionName), 1, 1, EntityManager.Heroes.Allies.Count)));
 
                         Menu4.AddSeparator(13);
 
-                        _sliders.Add(PrioritySlider);
+                        //_sliders.Add(PrioritySlider);
 
                         _heros.Add(ally);
+                    }
+
+                    foreach (var enemy in EntityManager.Heroes.Enemies)
+                    {
+                        for (int i = 0; i <= 185; i++)
+                        {
+                            if (MissileDatabase.missileDatabase[i, 2] == enemy.ChampionName)
+                                _shieldSpellList.Add(Menu4.Add<CheckBox>(MissileDatabase.missileDatabase[i, 0] + i, new CheckBox(string.Format("Shield from {0}'s {1} ({2})                                                 {3}", MissileDatabase.missileDatabase[i, 2], MissileDatabase.missileDatabase[i, 1], MissileDatabase.missileDatabase[i, 0], i))));
+                        }
+                    }
+
+                    Menu4.AddGroupLabel("Janna Ultimate");
+
+                    _autoUltimate = Menu4.Add("autoUltimate", new CheckBox("Auto-Ult Enabled", false));
+
+                    foreach (var ally in EntityManager.Heroes.Allies)
+                    {
+                        _ultAllyList.Add(Menu4.Add<CheckBox>("autoUlt" + ally.ChampionName, new CheckBox(string.Format("Ultimate on {0} ({1})", ally.ChampionName, ally.Name))));
+                    }
+
+                    Menu4.AddSeparator(13);
+
+                    _ultSliders = new List<Slider>();
+
+                    foreach (var ally in EntityManager.Heroes.Allies)
+                    {
+                        _ultSliders.Add(Menu4.Add<Slider>("ultHealth" + ally.ChampionName, new Slider(string.Format("{0}'s Health (%):", ally.ChampionName), 50, 1)));
+
+                        Menu4.AddSeparator(13);
+
+                        //_ultSliders.Add(UltSlider);
                     }
                 }
 
@@ -509,6 +552,9 @@ namespace PartyJanna
                     Menu9.AddGroupLabel("Skin Hack Settings");
 
                     _skinHackEnabled = Menu9.Add("skinHackEnabled", new CheckBox("Enabled", false));
+
+                    Menu4.AddSeparator(13);
+
                     _skinId = Menu9.Add<Slider>("skinId", new Slider("Skin ID:", 0, 0, 11));
 
                     _skinId.OnValueChange += OnSkinIdChange;
