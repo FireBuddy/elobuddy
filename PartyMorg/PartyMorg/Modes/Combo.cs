@@ -74,6 +74,8 @@ namespace PartyMorg.Modes
 
             if (Settings.WImmobileOnly)
             {
+                pred = W.GetPrediction(target);
+
                 if (target != null && Immobile(target) && Player.Instance.IsInRange(target, W.Range) && !target.IsDead)
                 {
                     W.Cast(W.GetPrediction(target).CastPosition);
@@ -81,12 +83,24 @@ namespace PartyMorg.Modes
             }
             else
             {
-                target = GetTarget(W, DamageType.Magical);
                 pred = W.GetPrediction(target);
 
-                if (target != null && Player.Instance.IsInRange(target, W.Range) && !target.IsDead)
+                if (Settings.UseQBeforeW)
                 {
-                    W.Cast(W.GetPrediction(target).CastPosition);
+                    if (Q.IsOnCooldown)
+                    {
+                        if (target != null && Player.Instance.IsInRange(target, W.Range) && !target.IsDead)
+                        {
+                            W.Cast(pred.CastPosition);
+                        }
+                    }
+                }
+                else
+                {
+                    if (target != null && Player.Instance.IsInRange(target, W.Range) && !target.IsDead)
+                    {
+                        W.Cast(pred.CastPosition);
+                    }
                 }
             }
 

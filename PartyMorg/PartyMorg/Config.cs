@@ -267,6 +267,7 @@ namespace PartyMorg
                 private static readonly CheckBox _useQ;
                 private static readonly CheckBox _useW;
                 private static readonly CheckBox _useR;
+                private static readonly CheckBox _useQBeforeW;
                 private static readonly CheckBox _flashUlt;
                 private static readonly CheckBox _ultZhonya;
                 private static readonly CheckBox _wImmobileOnly;
@@ -285,6 +286,10 @@ namespace PartyMorg
                 public static bool UseR
                 {
                     get { return _useR.CurrentValue; }
+                }
+                public static bool UseQBeforeW
+                {
+                    get { return _useQBeforeW.CurrentValue; }
                 }
                 public static bool FlashUlt
                 {
@@ -323,6 +328,7 @@ namespace PartyMorg
                     _qMinHitChance = Menu5.Add<Slider>("comboQMinHitChance", new Slider("Q Min. Hit Chance (%):", 75, 50));
                     Menu5.AddSeparator();
 
+                    _useQBeforeW = Menu5.Add("comboUseQBeforeW", new CheckBox("Always Use Q Before W"));
                     _flashUlt = Menu5.Add("flashUlt", new CheckBox("Use Flash + Ultimate (NOT WORKING)", false));
                     _ultZhonya = Menu5.Add("ultZhonya", new CheckBox("Use Zhonya with Ultimate"));
                     _wImmobileOnly = Menu5.Add("comboWImmobileOnly", new CheckBox("W Only Immobile Enemies"));
@@ -340,6 +346,7 @@ namespace PartyMorg
                 private static readonly CheckBox _useQ;
                 private static readonly CheckBox _useW;
                 //private static readonly CheckBox _useR;
+                private static readonly CheckBox _useQBeforeW;
                 private static readonly Slider _qMinHitChance;
                 private static readonly CheckBox _wImmobileOnly;
                 //private static readonly Slider _qUseRange;
@@ -351,6 +358,10 @@ namespace PartyMorg
                 public static bool UseW
                 {
                     get { return _useW.CurrentValue; }
+                }
+                public static bool UseQBeforeW
+                {
+                    get { return _useQBeforeW.CurrentValue; }
                 }
                 public static int QMinHitChance
                 {
@@ -377,6 +388,7 @@ namespace PartyMorg
                     _useW = Menu6.Add("fleeUseW", new CheckBox("Use W"));
                     Menu6.AddSeparator();
 
+                    _useQBeforeW = Menu6.Add("fleeUseQBeforeW", new CheckBox("Always Use Q Before W"));
                     _wImmobileOnly = Menu6.Add("fleeWImmobileOnly", new CheckBox("W Only Immobile Enemies"));
                     Menu6.AddSeparator();
 
@@ -395,6 +407,7 @@ namespace PartyMorg
                 private static readonly CheckBox _useQ;
                 private static readonly CheckBox _useW;
                 //private static readonly CheckBox _autoHarass;
+                private static readonly CheckBox _useQBeforeW;
                 private static readonly Slider _qMinHitChance;
                 private static readonly CheckBox _wImmobileOnly;
                 //private static readonly Slider _autoHarassManaPercent;
@@ -407,6 +420,10 @@ namespace PartyMorg
                 public static bool UseW
                 {
                     get { return _useW.CurrentValue; }
+                }
+                public static bool UseQBeforeW
+                {
+                    get { return _useQBeforeW.CurrentValue; }
                 }
                 public static int QMinHitChance
                 {
@@ -442,6 +459,7 @@ namespace PartyMorg
                     _useW = Menu7.Add("harassUseW", new CheckBox("Use W"));
                     Menu7.AddSeparator();
 
+                    _useQBeforeW = Menu7.Add("harassUseQBeforeW", new CheckBox("Always Use Q Before W"));
                     _wImmobileOnly = Menu7.Add("harassWImmobileOnly", new CheckBox("W Only Immobile Enemies"));
                     Menu7.AddSeparator();
 
