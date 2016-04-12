@@ -7,7 +7,7 @@
 
         static MissileDatabase()
         {
-            missileDatabase = new string[187, 3]
+            missileDatabase = new string[186, 3]
             {
                 { "disabled/TestCubeRender", "Summoner", "Any" },
                 { "AatroxQ", "Q", "Aatrox" },
@@ -95,9 +95,9 @@
                 { "KogMawQMis", "Q", "KogMaw" },
                 { "KogMawVoidOozeMissile", "E", "KogMaw" },
                 { "KogMawLivingArtillery", "R", "KogMaw" },
-                { "LeblancSoulShackleM", "R", "Leblanc" },
+                { "LeblancSoulShackleM", "R Mimic", "Leblanc" },
                 { "LeblancSoulShackle", "E", "Leblanc" },
-                { "LeblancSlideM", "R", "Leblanc" },
+                { "LeblancSlideM", "R Mimic", "Leblanc" },
                 { "LeblancSlide", "W", "Leblanc" },
                 { "BlindMonkQOne", "Q", "LeeSin" },
                 { "LeonaSolarFlare", "R", "Leona" },
@@ -163,22 +163,22 @@
                 { "VeigarEventHorizon", "E", "Veigar" },
                 { "VelkozEMissile", "E", "Velkoz" },
                 { "VelkozW", "W", "Velkoz" },
-                { "VelkozQMissileSplit", "Q", "Velkoz" },
+                { "VelkozQMissileSplit", "Q Splited", "Velkoz" },
                 { "VelkozQMissile", "Q", "Velkoz" },
                 { "ViQMissile", "Q", "Vi" },
-                { "ViktorDeathRayMissile", "E", "Viktor" },
-                { "ViktorDeathRay3", "E", "Viktor" },
-                { "ViktorDeathRayMissile2", "E", "Viktor" },
+                { "ViktorDeathRayMissile", "E1", "Viktor" },
+                { "ViktorDeathRay3", "E3", "Viktor" },
+                { "ViktorDeathRayMissile2", "E2", "Viktor" },
                 { "ViktorGravitonField", "W", "Viktor" },
                 { "VladimirHemoplague", "R", "Vladimir" },
                 { "XerathArcaneBarrage2", "W", "Xerath" },
                 { "xeratharcanopulse2", "Q", "Xerath" },
                 { "xerathrmissilewrapper", "R", "Xerath" },
                 { "XerathMageSpearMissile", "E", "Xerath" },
-                { "YasuoQ3Mis", "Q", "Yasuo" },
-                { "YasuoQ3Mis/disabled", "Q", "Yasuo" },
-                { "yasuoq", "Q", "Yasuo" },
-                { "yasuoq2", "Q", "Yasuo" },
+                { "YasuoQ3Mis", "Q Tornado", "Yasuo" },
+                //{ "YasuoQ3Mis/disabled", "Q", "Yasuo" },
+                { "yasuoq", "Q1", "Yasuo" },
+                { "yasuoq2", "Q2", "Yasuo" },
                 { "ZedQMissile", "Q", "Zed" },
                 { "ZedPBAOEDummy", "E", "Zed" },
                 { "ZiggsE", "E", "Ziggs" },
@@ -198,7 +198,7 @@
                 { "JhinRShotMis", "R", "Jhin" },
             };
 
-            rangeRadiusDatabase = new int[187, 2]
+            rangeRadiusDatabase = new int[186, 2]
             {
                 { 1600, 60 },
                 { 650, 285 },
@@ -367,7 +367,7 @@
                 { 1125, 60 },
                 { 1150, 90 },
                 { 1150, 90 },
-                { 1150, 90 },
+                //{ 1150, 90 },
                 { 550, 40 },
                 { 550, 40 },
                 { 925, 50 },
