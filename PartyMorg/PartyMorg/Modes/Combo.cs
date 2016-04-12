@@ -81,6 +81,7 @@ namespace PartyMorg.Modes
             }
             else
             {
+                target = GetTarget(W, DamageType.Magical);
                 pred = W.GetPrediction(target);
 
                 if (target != null && Player.Instance.IsInRange(target, W.Range) && !target.IsDead)
