@@ -1,0 +1,11 @@
+C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\PartyJanna\PartyJanna\bin\Release\PartyJanna.exe.config
+C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\PartyJanna\PartyJanna\bin\Release\PartyJanna.exe
+C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\PartyJanna\PartyJanna\bin\Release\PartyJanna.pdb
+C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\PartyJanna\PartyJanna\bin\Release\EloBuddy.dll
+C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\PartyJanna\PartyJanna\bin\Release\EloBuddy.SDK.dll
+C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\PartyJanna\PartyJanna\bin\Release\SharpDX.dll
+C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\PartyJanna\PartyJanna\bin\Release\SharpDX.Direct3D9.dll
+C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\PartyJanna\PartyJanna\bin\Release\Newtonsoft.Json.dll
+C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\PartyJanna\PartyJanna\bin\Release\EloBuddy.Sandbox.dll
+C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\PartyJanna\PartyJanna\obj\Release\PartyJanna.exe
+C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\PartyJanna\PartyJanna\obj\Release\PartyJanna.pdb
