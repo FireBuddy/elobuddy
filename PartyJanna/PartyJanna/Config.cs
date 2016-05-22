@@ -103,12 +103,17 @@ namespace PartyJanna
 
             public static class Items
             {
-                private static readonly CheckBox _useItems;
+                private static readonly CheckBox _useItems, _useItemsComboOnly;
                 private static readonly Slider _allyHpPercentageDamage, _allyHpPercentageCc;
+                private static readonly List<CheckBox> _isAllyList, _fotmAllyList, _mcAllyList, _fqcAllyList, _toaAllyList;
 
                 public static bool UseItems
                 {
                     get { return _useItems.CurrentValue; }
+                }
+                public static bool UseItemsComboOnly
+                {
+                    get { return _useItemsComboOnly.CurrentValue; }
                 }
                 public static int AllyHpPercentageDamage
                 {
@@ -118,12 +123,87 @@ namespace PartyJanna
                 {
                     get { return _allyHpPercentageCc.CurrentValue; }
                 }
+                public static List<CheckBox> ISAllyList
+                {
+                    get { return _isAllyList; }
+                }
+                public static List<CheckBox> FOTMAllyList
+                {
+                    get { return _fotmAllyList; }
+                }
+                public static List<CheckBox> MCAllyList
+                {
+                    get { return _mcAllyList; }
+                }
+                public static List<CheckBox> FQCAllyList
+                {
+                    get { return _fqcAllyList; }
+                }
+                public static List<CheckBox> TOAAllyList
+                {
+                    get { return _toaAllyList; }
+                }
 
                 static Items()
                 {
+                    _isAllyList = new List<CheckBox>();
+                    _fotmAllyList = new List<CheckBox>();
+                    _mcAllyList = new List<CheckBox>();
+                    _fqcAllyList = new List<CheckBox>();
+                    _toaAllyList = new List<CheckBox>();
+
                     Menu3.AddGroupLabel("Items");
 
                     _useItems = Menu3.Add("useItems", new CheckBox("Use Items"));
+
+                    Menu3.AddSeparator(13);
+
+                    _useItems = Menu3.Add("useItemsComboOnly", new CheckBox("Use Items only in Combo Mode", false));
+
+                    Menu3.AddSeparator(13);
+
+                    Menu3.AddGroupLabel("Locket of the Iron Solari");
+
+                    foreach (var ally in EntityManager.Heroes.Allies)
+                    {
+                        _isAllyList.Add(Menu3.Add<CheckBox>("ironSolari" + ally.ChampionName, new CheckBox(string.Format("Use on {0} ({1})", ally.ChampionName, ally.Name))));
+                    }
+
+                    Menu3.AddSeparator(13);
+
+                    Menu3.AddGroupLabel("Face of the Mountain");
+
+                    foreach (var ally in EntityManager.Heroes.Allies)
+                    {
+                        _fotmAllyList.Add(Menu3.Add<CheckBox>("mountain" + ally.ChampionName, new CheckBox(string.Format("Use on {0} ({1})", ally.ChampionName, ally.Name))));
+                    }
+
+                    Menu3.AddSeparator(13);
+
+                    Menu3.AddGroupLabel("Mikael's Crucible");
+
+                    foreach (var ally in EntityManager.Heroes.Allies)
+                    {
+                        _mcAllyList.Add(Menu3.Add<CheckBox>("mikael" + ally.ChampionName, new CheckBox(string.Format("Use on {0} ({1})", ally.ChampionName, ally.Name))));
+                    }
+
+                    Menu3.AddSeparator(13);
+
+                    Menu3.AddGroupLabel("Frost Queen's Claim");
+
+                    foreach (var ally in EntityManager.Heroes.Allies)
+                    {
+                        _fqcAllyList.Add(Menu3.Add<CheckBox>("frostQueen" + ally.ChampionName, new CheckBox(string.Format("Use on {0} ({1})", ally.ChampionName, ally.Name))));
+                    }
+
+                    Menu3.AddSeparator(13);
+
+                    Menu3.AddGroupLabel("Talisman of Ascension");
+
+                    foreach (var ally in EntityManager.Heroes.Allies)
+                    {
+                        _toaAllyList.Add(Menu3.Add<CheckBox>("talisman" + ally.ChampionName, new CheckBox(string.Format("Use on {0} ({1})", ally.ChampionName, ally.Name))));
+                    }
 
                     Menu3.AddSeparator(13);
 
@@ -303,8 +383,6 @@ namespace PartyJanna
 
                         Menu4.AddSeparator(13);
 
-                        //_sliders.Add(PrioritySlider);
-
                         _heros.Add(ally);
                     }
 
@@ -335,8 +413,6 @@ namespace PartyJanna
                         _ultSliders.Add(Menu4.Add<Slider>("ultHealth" + ally.ChampionName, new Slider(string.Format("{0}'s Health (%):", ally.ChampionName), 50, 1)));
 
                         Menu4.AddSeparator(13);
-
-                        //_ultSliders.Add(UltSlider);
                     }
                 }
 
@@ -357,10 +433,6 @@ namespace PartyJanna
                 {
                     get { return _useW.CurrentValue; }
                 }
-                /*public static int QUseRange
-                {
-                    get { return _qUseRange.CurrentValue; }
-                }*/
 
                 static Combo()
                 {
@@ -368,9 +440,6 @@ namespace PartyJanna
 
                     _useQ = Menu5.Add("comboUseQ", new CheckBox("Use Q"));
                     _useW = Menu5.Add("comboUseW", new CheckBox("Use W"));
-                    //Menu5.AddSeparator();
-
-                    //_qUseRange = Menu5.Add<Slider>("qUseRangeCombo", new Slider("Use Q at range:", 1000, 1000, 1100));
                 }
 
                 public static void Initialize() { }
@@ -380,8 +449,6 @@ namespace PartyJanna
             {
                 private static readonly CheckBox _useQ;
                 private static readonly CheckBox _useW;
-                //private static readonly CheckBox _useR;
-                //private static readonly Slider _qUseRange;
 
                 public static bool UseQ
                 {
@@ -391,14 +458,6 @@ namespace PartyJanna
                 {
                     get { return _useW.CurrentValue; }
                 }
-                /*public static bool UseR
-                {
-                    get { return _useR.CurrentValue; }
-                }*/
-                /*public static int QUseRange
-                {
-                    get { return _qUseRange.CurrentValue; }
-                }*/
 
                 static Flee()
                 {
@@ -406,10 +465,6 @@ namespace PartyJanna
 
                     _useQ = Menu6.Add("fleeUseQ", new CheckBox("Use Q"));
                     _useW = Menu6.Add("fleeUseW", new CheckBox("Use W"));
-                    //_useR = Menu6.Add("comboUseR", new CheckBox("Use R", false));
-                    //Menu6.AddSeparator();
-
-                    //_qUseRange = Menu6.Add<Slider>("qUseRangeFlee", new Slider("Use Q at range:", 1000, 1000, 1100));
                 }
 
                 public static void Initialize() { }
@@ -421,7 +476,6 @@ namespace PartyJanna
                 private static readonly CheckBox _useW;
                 private static readonly CheckBox _autoHarass;
                 private static readonly Slider _autoHarassManaPercent;
-                //private static readonly Slider _qUseRange;
 
                 public static bool UseQ
                 {
@@ -439,10 +493,6 @@ namespace PartyJanna
                 {
                     get { return _autoHarassManaPercent.CurrentValue; }
                 }
-                /*public static int QUseRange
-                {
-                    get { return _qUseRange.CurrentValue; }
-                }*/
 
                 static Harass()
                 {
@@ -450,9 +500,6 @@ namespace PartyJanna
 
                     _useQ = Menu7.Add("harassUseQ", new CheckBox("Use Q"));
                     Menu7.AddSeparator(13);
-
-                    //_qUseRange = Menu7.Add<Slider>("qUseRangeHarass", new Slider("Use Q at range:", 1000, 1000, 1100));
-                    //Menu7.AddSeparator();
 
                     _useW = Menu7.Add("harassUseW", new CheckBox("Use W"));
                     Menu7.AddSeparator();
