@@ -18,8 +18,6 @@ namespace PartyJanna.Modes
 
         public override void Execute()
         {
-            //Q.Range = (uint)Settings.QUseRange;
-
             var target = GetTarget(W, DamageType.Magical);
 
             if (target != null && target.IsTargetable && !target.HasBuffOfType(BuffType.SpellImmunity) && Settings.UseW)

@@ -2,6 +2,7 @@
 using EloBuddy.SDK;
 using Settings = PartyJanna.Config.Settings.Items;
 using AutoShield = PartyJanna.Config.Settings.AutoShield;
+using Humanizer = PartyJanna.Config.Settings.Humanizer;
 using System.Linq;
 
 namespace PartyJanna.Modes
@@ -51,7 +52,8 @@ namespace PartyJanna.Modes
 
                                     R.Cast();
 
-                                    Core.RepeatAction(js, 250, 3000);
+                                    if ()
+                                    Core.RepeatAction(js, 250, 1000);
                                 }
                             }
                         }

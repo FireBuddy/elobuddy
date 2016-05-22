@@ -28,9 +28,7 @@ namespace PartyMorg.Modes
 
         public static AIHeroClient GetTarget(Spell.SpellBase spell, DamageType damageType)
         {
-            var target = TargetSelector.GetTarget(spell.Range, damageType, Player.Instance.Position);
-
-            return TargetSelector.SelectedTarget != null && spell.IsInRange(TargetSelector.SelectedTarget) ? TargetSelector.SelectedTarget : target != null ? target : null;
+            return TargetSelector.SelectedTarget != null && spell.IsInRange(TargetSelector.SelectedTarget) ? TargetSelector.SelectedTarget : TargetSelector.GetTarget(spell.Range, damageType, Player.Instance.Position) != null ? TargetSelector.GetTarget(spell.Range, damageType, Player.Instance.Position) : null;
         }
 
         public static bool Immobile(Obj_AI_Base target)
