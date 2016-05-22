@@ -19,7 +19,8 @@ namespace PartyJanna
         public static List<AIHeroClient> hpAllyOrder { get; private set; }
         public static int highestPriority { get; private set; }
         public static float lowestHP { get; private set; }
-        public static Stopwatch stopwatch = new Stopwatch();
+
+        private static Stopwatch stopwatch = new Stopwatch();
 
         static Events()
         {
@@ -260,84 +261,81 @@ namespace PartyJanna
                 }
             }
 
-            if (sender.IsEnemy)
+            if (sender.IsEnemy && !sender.IsMinion)
             {
-                if (!sender.IsMinion)
+                if (AutoShield.PriorMode == 0)
                 {
-                    if (AutoShield.PriorMode == 0)
+                    foreach (var ally in EntityManager.Heroes.Allies)
                     {
-                        foreach (var ally in EntityManager.Heroes.Allies)
+                        if (ally.Health <= lowestHP)
                         {
-                            if (ally.Health <= lowestHP)
-                            {
-                                lowestHP = ally.Health;
-                                hpAllyOrder.Insert(0, ally);
-                            }
-                            else
-                            {
-                                hpAllyOrder.Add(ally);
-                            }
+                            lowestHP = ally.Health;
+                            hpAllyOrder.Insert(0, ally);
                         }
-
-                        foreach (var ally in hpAllyOrder.Where(ally => Player.Instance.IsInRange(ally, SpellManager.E.Range)))
+                        else
                         {
-                            foreach (var shieldThisAlly in AutoShield.ShieldAllyList.Where(x => x.DisplayName.Contains(ally.ChampionName) && x.CurrentValue))
+                            hpAllyOrder.Add(ally);
+                        }
+                    }
+
+                    foreach (var ally in hpAllyOrder.Where(ally => Player.Instance.IsInRange(ally, SpellManager.E.Range)))
+                    {
+                        foreach (var shieldThisAlly in AutoShield.ShieldAllyList.Where(x => x.DisplayName.Contains(ally.ChampionName) && x.CurrentValue))
+                        {
+                            if (args.Target == ally)
                             {
-                                if (args.Target == ally)
-                                {
-                                    CastShield(ally);
-                                }
+                                CastShield(ally);
                             }
                         }
                     }
-                    else
+                }
+                else
+                {
+                    foreach (var slider in AutoShield.Sliders)
                     {
-                        foreach (var slider in AutoShield.Sliders)
+                        if (slider.CurrentValue >= highestPriority)
                         {
-                            if (slider.CurrentValue >= highestPriority)
-                            {
-                                highestPriority = slider.CurrentValue;
+                            highestPriority = slider.CurrentValue;
 
-                                foreach (var ally in AutoShield.Heros)
-                                {
-                                    if (slider.VisibleName.Contains(ally.ChampionName))
-                                    {
-                                        priorAllyOrder.Insert(0, ally);
-                                    }
-                                }
-                            }
-                            else
+                            foreach (var ally in AutoShield.Heros)
                             {
-                                foreach (var ally in AutoShield.Heros)
+                                if (slider.VisibleName.Contains(ally.ChampionName))
                                 {
-                                    if (slider.VisibleName.Contains(ally.ChampionName))
-                                    {
-                                        priorAllyOrder.Add(ally);
-                                    }
+                                    priorAllyOrder.Insert(0, ally);
                                 }
                             }
                         }
-
-                        foreach (var ally in priorAllyOrder.Where(ally => Player.Instance.IsInRange(ally, SpellManager.E.Range)))
+                        else
                         {
-                            foreach (var shieldThisAlly in AutoShield.ShieldAllyList.Where(x => x.DisplayName.Contains(ally.ChampionName) && x.CurrentValue))
+                            foreach (var ally in AutoShield.Heros)
                             {
-                                if (args.Target == ally)
+                                if (slider.VisibleName.Contains(ally.ChampionName))
                                 {
-                                    CastShield(ally);
+                                    priorAllyOrder.Add(ally);
                                 }
                             }
                         }
                     }
 
-                    if (AutoShield.TurretShieldChampion)
+                    foreach (var ally in priorAllyOrder.Where(ally => Player.Instance.IsInRange(ally, SpellManager.E.Range)))
                     {
-                        foreach (var turret in EntityManager.Turrets.Allies)
+                        foreach (var shieldThisAlly in AutoShield.ShieldAllyList.Where(x => x.DisplayName.Contains(ally.ChampionName) && x.CurrentValue))
                         {
-                            if (args.Target == turret && Player.Instance.IsInRange(turret, SpellManager.E.Range))
+                            if (args.Target == ally)
                             {
-                                CastShield(turret);
+                                CastShield(ally);
                             }
+                        }
+                    }
+                }
+
+                if (AutoShield.TurretShieldChampion)
+                {
+                    foreach (var turret in EntityManager.Turrets.Allies)
+                    {
+                        if (args.Target == turret && Player.Instance.IsInRange(turret, SpellManager.E.Range))
+                        {
+                            CastShield(turret);
                         }
                     }
                 }
@@ -354,106 +352,115 @@ namespace PartyJanna
 
         public static void OnProcessSpellCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            if (!sender.IsEnemy || Player.Instance.IsRecalling())
+            if (Player.Instance.IsRecalling())
             { return; }
 
-            priorAllyOrder = new List<AIHeroClient>();
-
-            hpAllyOrder = new List<AIHeroClient>();
-
-            highestPriority = 0;
-
-            lowestHP = int.MaxValue;
-
-            if (AutoShield.PriorMode == 1)
+            foreach (var enemy in EntityManager.Heroes.Enemies)
             {
-                foreach (var slider in AutoShield.Sliders)
+                if (sender.IsAlly && Player.Instance.IsInRange(sender, SpellManager.E.Range) && args.SData.Name == "EzrealMysticShotMissile" && sender.CountEnemiesInRange(1200) > 0 && Prediction.Position.PredictUnitPosition(enemy, 250).IsInRange(args.End, 60))
                 {
-                    if (slider.CurrentValue >= highestPriority)
-                    {
-                        highestPriority = slider.CurrentValue;
-
-                        foreach (var ally in AutoShield.Heros)
-                        {
-                            if (slider.VisibleName.Contains(ally.ChampionName))
-                            {
-                                priorAllyOrder.Insert(0, ally);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        foreach (var ally in AutoShield.Heros)
-                        {
-                            if (slider.VisibleName.Contains(ally.ChampionName))
-                            {
-                                priorAllyOrder.Add(ally);
-                            }
-                        }
-                    }
-                }
-
-                foreach (var ally in priorAllyOrder.Where(ally => Player.Instance.IsInRange(ally, SpellManager.E.Range)))
-                {
-                    foreach (var shieldThisAlly in AutoShield.ShieldAllyList.Where(x => x.DisplayName.Contains(ally.ChampionName) && x.CurrentValue))
-                    {
-                        foreach (var shieldThisSpell in AutoShield.ShieldSpellList.Where(s => s.DisplayName.Contains(args.SData.Name) && s.CurrentValue))
-                        {
-                            if (args.Target == ally)
-                            {
-                                CastShield(ally);
-                            }
-                            else
-                            {
-                                if (Prediction.Position.PredictUnitPosition(ally, 250).IsInRange(args.End, MissileDatabase.rangeRadiusDatabase[shieldThisSpell.DisplayName.Last(), 1]))
-                                {
-                                    CastShield(ally);
-                                }
-
-                                if (sender.IsFacing(ally) && Prediction.Position.PredictUnitPosition(ally, 250).IsInRange(sender, MissileDatabase.rangeRadiusDatabase[shieldThisSpell.DisplayName.Last(), 0]))
-                                {
-                                    CastShield(ally);
-                                }
-                            }
-                        }
-                    }
+                    CastShield(sender);
                 }
             }
-            else
-            {
-                foreach (var ally in EntityManager.Heroes.Allies)
-                {
-                    if (ally.Health <= lowestHP)
-                    {
-                        lowestHP = ally.Health;
-                        hpAllyOrder.Insert(0, ally);
-                    }
-                    else
-                    {
-                        hpAllyOrder.Add(ally);
-                    }
-                }
 
-                foreach (var ally in hpAllyOrder.Where(ally => Player.Instance.IsInRange(ally, SpellManager.E.Range)))
+            if (sender.IsEnemy)
+            {
+                priorAllyOrder = new List<AIHeroClient>();
+
+                hpAllyOrder = new List<AIHeroClient>();
+
+                highestPriority = 0;
+
+                lowestHP = int.MaxValue;
+
+                if (AutoShield.PriorMode == 1)
                 {
-                    foreach (var shieldThisAlly in AutoShield.ShieldAllyList.Where(x => x.DisplayName.Contains(ally.ChampionName) && x.CurrentValue))
+                    foreach (var slider in AutoShield.Sliders)
                     {
-                        foreach (var shieldThisSpell in AutoShield.ShieldSpellList.Where(s => s.DisplayName.Contains(args.SData.Name) && s.CurrentValue))
+                        if (slider.CurrentValue >= highestPriority)
                         {
-                            if (args.Target == ally)
+                            highestPriority = slider.CurrentValue;
+
+                            foreach (var ally in AutoShield.Heros)
                             {
-                                CastShield(ally);
+                                if (slider.VisibleName.Contains(ally.ChampionName))
+                                {
+                                    priorAllyOrder.Insert(0, ally);
+                                }
                             }
-                            else
+                        }
+                        else
+                        {
+                            foreach (var ally in AutoShield.Heros)
                             {
-                                if (Prediction.Position.PredictUnitPosition(ally, 250).IsInRange(args.End, MissileDatabase.rangeRadiusDatabase[shieldThisSpell.DisplayName.Last(), 1]))
+                                if (slider.VisibleName.Contains(ally.ChampionName))
+                                {
+                                    priorAllyOrder.Add(ally);
+                                }
+                            }
+                        }
+                    }
+
+                    foreach (var ally in priorAllyOrder.Where(ally => Player.Instance.IsInRange(ally, SpellManager.E.Range)))
+                    {
+                        foreach (var shieldThisAlly in AutoShield.ShieldAllyList.Where(x => x.DisplayName.Contains(ally.ChampionName) && x.CurrentValue))
+                        {
+                            foreach (var shieldThisSpell in AutoShield.ShieldSpellList.Where(s => s.DisplayName.Contains(args.SData.Name) && s.CurrentValue))
+                            {
+                                if (args.Target == ally)
                                 {
                                     CastShield(ally);
                                 }
+                                else
+                                {
+                                    if (Prediction.Position.PredictUnitPosition(ally, 250).IsInRange(args.End, MissileDatabase.rangeRadiusDatabase[shieldThisSpell.DisplayName.Last(), 1]))
+                                    {
+                                        CastShield(ally);
+                                    }
+                                    else if (sender.IsFacing(ally) && Prediction.Position.PredictUnitPosition(ally, 250).IsInRange(sender, MissileDatabase.rangeRadiusDatabase[shieldThisSpell.DisplayName.Last(), 0]))
+                                    {
+                                        CastShield(ally);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (var ally in EntityManager.Heroes.Allies)
+                    {
+                        if (ally.Health <= lowestHP)
+                        {
+                            lowestHP = ally.Health;
+                            hpAllyOrder.Insert(0, ally);
+                        }
+                        else
+                        {
+                            hpAllyOrder.Add(ally);
+                        }
+                    }
 
-                                if (sender.IsFacing(ally) && Prediction.Position.PredictUnitPosition(ally, 250).IsInRange(sender, MissileDatabase.rangeRadiusDatabase[shieldThisSpell.DisplayName.Last(), 0]))
+                    foreach (var ally in hpAllyOrder.Where(ally => Player.Instance.IsInRange(ally, SpellManager.E.Range)))
+                    {
+                        foreach (var shieldThisAlly in AutoShield.ShieldAllyList.Where(x => x.DisplayName.Contains(ally.ChampionName) && x.CurrentValue))
+                        {
+                            foreach (var shieldThisSpell in AutoShield.ShieldSpellList.Where(s => s.DisplayName.Contains(args.SData.Name) && s.CurrentValue))
+                            {
+                                if (args.Target == ally)
                                 {
                                     CastShield(ally);
+                                }
+                                else
+                                {
+                                    if (Prediction.Position.PredictUnitPosition(ally, 250).IsInRange(args.End, MissileDatabase.rangeRadiusDatabase[shieldThisSpell.DisplayName.Last(), 1]))
+                                    {
+                                        CastShield(ally);
+                                    }
+                                    else if (sender.IsFacing(ally) && Prediction.Position.PredictUnitPosition(ally, 250).IsInRange(sender, MissileDatabase.rangeRadiusDatabase[shieldThisSpell.DisplayName.Last(), 0]))
+                                    {
+                                        CastShield(ally);
+                                    }
                                 }
                             }
                         }

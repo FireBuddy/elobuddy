@@ -1,9 +1,9 @@
 ﻿using EloBuddy;
 using EloBuddy.SDK;
-using Settings = PartyJanna.Config.Settings.Items;
-using AutoShield = PartyJanna.Config.Settings.AutoShield;
-using Humanizer = PartyJanna.Config.Settings.Humanizer;
+using System.Diagnostics;
 using System.Linq;
+using AutoShield = PartyJanna.Config.Settings.AutoShield;
+using Settings = PartyJanna.Config.Settings.Items;
 
 namespace PartyJanna.Modes
 {
@@ -14,6 +14,8 @@ namespace PartyJanna.Modes
         public Item mikael { get; private set; }
         public Item frostQueen { get; private set; }
         public Item talisman { get; private set; }
+
+        private static Stopwatch stopwatch = new Stopwatch();
 
         public override bool ShouldBeExecuted()
         {
@@ -52,8 +54,15 @@ namespace PartyJanna.Modes
 
                                     R.Cast();
 
-                                    if ()
-                                    Core.RepeatAction(js, 250, 1000);
+                                    stopwatch.Start();
+
+                                    do
+                                    {
+                                        Core.RepeatAction(js, 252, 0);
+                                    }
+                                    while (stopwatch.ElapsedMilliseconds <= 3000 && !ModeBase.Immobile(Player.Instance));
+
+                                    stopwatch.Reset();
                                 }
                             }
                         }

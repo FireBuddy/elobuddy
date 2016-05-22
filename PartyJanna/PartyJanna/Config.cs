@@ -3,6 +3,7 @@ using EloBuddy.SDK;
 using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace PartyJanna
 {
@@ -192,7 +193,7 @@ namespace PartyJanna
 
             public static class AutoShield
             {
-                private static readonly CheckBox _boostAD;
+                private static readonly CheckBox _boostAD, _boostEzQ;
                 private static readonly CheckBox _selfShield;
                 private static readonly CheckBox _turretShieldMinion, _turretShieldChampion;
                 private static readonly CheckBox _autoUltimate;
@@ -205,6 +206,10 @@ namespace PartyJanna
                 public static bool BoostAD
                 {
                     get { return _boostAD.CurrentValue; }
+                }
+                public static bool BoostEzQ
+                {
+                    get { return _boostEzQ.CurrentValue; }
                 }
                 public static bool SelfShield
                 {
@@ -261,6 +266,12 @@ namespace PartyJanna
 
                     _boostAD = Menu4.Add("autoShieldBoostAd", new CheckBox("Boost ADCarry Basic Attacks with Shield"));
                     Menu4.AddSeparator(13);
+
+                    foreach (var ally in EntityManager.Heroes.Allies.Where(x => x.ChampionName == "Ezreal"))
+                    {
+                        _boostEzQ = Menu4.Add("autoShieldBoostEzQ", new CheckBox("Boost Ezreal Q with Shield"));
+                        Menu4.AddSeparator(13);
+                    }
 
                     _selfShield = Menu4.Add("selfShield", new CheckBox("Shield Yourself from Basic Attacks"));
                     Menu4.AddSeparator(13);
