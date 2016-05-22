@@ -175,18 +175,6 @@ namespace PartyMorg
             }
         }
 
-        public static System.Drawing.RectangleF GetRectangle(PointF p1, PointF p2)
-        {
-            float top = Math.Min(p1.Y, p2.Y);
-            float bottom = Math.Max(p1.Y, p2.Y);
-            float left = Math.Min(p1.X, p2.X);
-            float right = Math.Max(p1.X, p2.X);
-
-            System.Drawing.RectangleF rect = System.Drawing.RectangleF.FromLTRB(left, top, right, bottom);
-
-            return rect;
-        }
-
         public static void OnProcessSpellCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             if (!sender.IsEnemy || Player.Instance.IsRecalling())
@@ -244,8 +232,7 @@ namespace PartyMorg
                                 {
                                     CastShield(ally);
                                 }
-
-                                if (sender.IsFacing(ally) && Prediction.Position.PredictUnitPosition(ally, 250).IsInRange(sender, MissileDatabase.rangeRadiusDatabase[shieldThisSpell.DisplayName.Last(), 0]))
+                                else if (sender.IsFacing(ally) && Prediction.Position.PredictUnitPosition(ally, 250).IsInRange(sender, MissileDatabase.rangeRadiusDatabase[shieldThisSpell.DisplayName.Last(), 0]))
                                 {
                                     CastShield(ally);
                                 }
@@ -285,8 +272,7 @@ namespace PartyMorg
                                 {
                                     CastShield(ally);
                                 }
-
-                                if (sender.IsFacing(ally) && Prediction.Position.PredictUnitPosition(ally, 250).IsInRange(sender, MissileDatabase.rangeRadiusDatabase[shieldThisSpell.DisplayName.Last(), 0]))
+                                else if (sender.IsFacing(ally) && Prediction.Position.PredictUnitPosition(ally, 250).IsInRange(sender, MissileDatabase.rangeRadiusDatabase[shieldThisSpell.DisplayName.Last(), 0]))
                                 {
                                     CastShield(ally);
                                 }
