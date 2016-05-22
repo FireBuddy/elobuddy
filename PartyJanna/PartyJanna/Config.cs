@@ -158,7 +158,7 @@ namespace PartyJanna
 
                     Menu3.AddSeparator(13);
 
-                    _useItems = Menu3.Add("useItemsComboOnly", new CheckBox("Use Items only in Combo Mode", false));
+                    _useItemsComboOnly = Menu3.Add("useItemsComboOnly", new CheckBox("Use Items only in Combo Mode", false));
 
                     Menu3.AddSeparator(13);
 
