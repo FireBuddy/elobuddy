@@ -28,9 +28,12 @@ namespace PartyJanna.Modes
 
         public static AIHeroClient GetTarget(Spell.SpellBase spell, DamageType damageType)
         {
-            var target = TargetSelector.GetTarget(spell.Range, damageType, Player.Instance.Position);
+            return TargetSelector.SelectedTarget != null && spell.IsInRange(TargetSelector.SelectedTarget) ? TargetSelector.SelectedTarget : TargetSelector.GetTarget(spell.Range, damageType, Player.Instance.Position) != null ? TargetSelector.GetTarget(spell.Range, damageType, Player.Instance.Position) : null;
+        }
 
-            return TargetSelector.SelectedTarget != null && spell.IsInRange(TargetSelector.SelectedTarget) ? TargetSelector.SelectedTarget : target != null ? target : null;
+        public static bool Immobile(Obj_AI_Base target)
+        {
+            return target.HasBuffOfType(BuffType.Charm) || target.HasBuffOfType(BuffType.Stun) || target.HasBuffOfType(BuffType.Knockup) || target.HasBuffOfType(BuffType.Snare) || target.HasBuffOfType(BuffType.Taunt) || target.HasBuffOfType(BuffType.Suppression);
         }
     }
 }
