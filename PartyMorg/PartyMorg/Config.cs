@@ -106,12 +106,17 @@ namespace PartyMorg
 
             public static class Items
             {
-                private static readonly CheckBox _useItems;
+                private static readonly CheckBox _useItems, _useItemsComboOnly;
                 private static readonly Slider _allyHpPercentageDamage, _allyHpPercentageCc;
+                private static readonly List<CheckBox> _isAllyList, _fotmAllyList, _mcAllyList, _fqcAllyList, _toaAllyList;
 
                 public static bool UseItems
                 {
                     get { return _useItems.CurrentValue; }
+                }
+                public static bool UseItemsComboOnly
+                {
+                    get { return _useItemsComboOnly.CurrentValue; }
                 }
                 public static int AllyHpPercentageDamage
                 {
@@ -121,13 +126,94 @@ namespace PartyMorg
                 {
                     get { return _allyHpPercentageCc.CurrentValue; }
                 }
+                public static List<CheckBox> ISAllyList
+                {
+                    get { return _isAllyList; }
+                }
+                public static List<CheckBox> FOTMAllyList
+                {
+                    get { return _fotmAllyList; }
+                }
+                public static List<CheckBox> MCAllyList
+                {
+                    get { return _mcAllyList; }
+                }
+                public static List<CheckBox> FQCAllyList
+                {
+                    get { return _fqcAllyList; }
+                }
+                public static List<CheckBox> TOAAllyList
+                {
+                    get { return _toaAllyList; }
+                }
 
                 static Items()
                 {
+                    _isAllyList = new List<CheckBox>();
+                    _fotmAllyList = new List<CheckBox>();
+                    _mcAllyList = new List<CheckBox>();
+                    _fqcAllyList = new List<CheckBox>();
+                    _toaAllyList = new List<CheckBox>();
+
                     Menu3.AddGroupLabel("Items");
 
                     _useItems = Menu3.Add("useItems", new CheckBox("Use Items"));
+
+                    Menu3.AddSeparator(13);
+
+                    _useItemsComboOnly = Menu3.Add("useItemsComboOnly", new CheckBox("Use Items only in Combo Mode", false));
+
+                    Menu3.AddSeparator(13);
+
+                    Menu3.AddGroupLabel("Locket of the Iron Solari");
+
+                    foreach (var ally in EntityManager.Heroes.Allies)
+                    {
+                        _isAllyList.Add(Menu3.Add<CheckBox>("ironSolari" + ally.ChampionName, new CheckBox(string.Format("Use on {0} ({1})", ally.ChampionName, ally.Name))));
+                    }
+
+                    Menu3.AddSeparator(13);
+
+                    Menu3.AddGroupLabel("Face of the Mountain");
+
+                    foreach (var ally in EntityManager.Heroes.Allies)
+                    {
+                        _fotmAllyList.Add(Menu3.Add<CheckBox>("mountain" + ally.ChampionName, new CheckBox(string.Format("Use on {0} ({1})", ally.ChampionName, ally.Name))));
+                    }
+
+                    Menu3.AddSeparator(13);
+
+                    Menu3.AddGroupLabel("Mikael's Crucible");
+
+                    foreach (var ally in EntityManager.Heroes.Allies)
+                    {
+                        _mcAllyList.Add(Menu3.Add<CheckBox>("mikael" + ally.ChampionName, new CheckBox(string.Format("Use on {0} ({1})", ally.ChampionName, ally.Name))));
+                    }
+
+                    Menu3.AddSeparator(13);
+
+                    Menu3.AddGroupLabel("Frost Queen's Claim");
+
+                    foreach (var ally in EntityManager.Heroes.Allies)
+                    {
+                        _fqcAllyList.Add(Menu3.Add<CheckBox>("frostQueen" + ally.ChampionName, new CheckBox(string.Format("Use on {0} ({1})", ally.ChampionName, ally.Name))));
+                    }
+
+                    Menu3.AddSeparator(13);
+
+                    Menu3.AddGroupLabel("Talisman of Ascension");
+
+                    foreach (var ally in EntityManager.Heroes.Allies)
+                    {
+                        _toaAllyList.Add(Menu3.Add<CheckBox>("talisman" + ally.ChampionName, new CheckBox(string.Format("Use on {0} ({1})", ally.ChampionName, ally.Name))));
+                    }
+
+                    Menu3.AddSeparator(13);
+
                     _allyHpPercentageDamage = Menu3.Add("allyHpPercentage", new Slider("Min. Ally Health on Damage (%):", 50, 1));
+
+                    Menu3.AddSeparator(13);
+
                     _allyHpPercentageCc = Menu3.Add("allyHpPercentageCc", new Slider("Min. Ally Health on CC (%):", 100, 1));
                 }
 
