@@ -102,7 +102,7 @@ namespace PartyMorg.Modes
 
             target = GetTarget(R, DamageType.Magical);
 
-            if (R.IsReady() && Settings.UseR)
+            if (R.IsReady() && Settings.UseR && target != null && target.IsTargetable && !target.HasBuffOfType(BuffType.SpellImmunity) && !target.IsDead)
             {
                 if (Player.Instance.CountEnemiesInRange(Settings.UltMinRange) == 0 && Settings.FlashUlt)
                 {
