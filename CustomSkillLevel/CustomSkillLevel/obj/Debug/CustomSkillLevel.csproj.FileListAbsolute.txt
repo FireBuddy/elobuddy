@@ -47,3 +47,4 @@ C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\CustomSkillLevel\CustomSkillLe
 C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\CustomSkillLevel\CustomSkillLevel\obj\Debug\CustomSkillLevel.application
 C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\CustomSkillLevel\CustomSkillLevel\obj\Debug\CustomSkillLevel.exe
 C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\CustomSkillLevel\CustomSkillLevel\obj\Debug\CustomSkillLevel.pdb
+C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\CustomSkillLevel\CustomSkillLevel\obj\Debug\CustomSkillLevel.csprojResolveAssemblyReference.cache

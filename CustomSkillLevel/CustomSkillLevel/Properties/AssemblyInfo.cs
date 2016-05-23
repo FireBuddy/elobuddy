@@ -1,6 +1,5 @@
 ﻿using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Security.Permissions;
 
 [assembly: AssemblyTitle("CustomSkillLevel")]
 [assembly: AssemblyDescription("")]

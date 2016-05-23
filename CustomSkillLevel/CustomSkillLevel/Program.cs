@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Settings = CustomSkillLevel.Config.CSL.LevelingOrderMenu;
 
 namespace CustomSkillLevel
 {
@@ -58,12 +59,15 @@ namespace CustomSkillLevel
 
         private static void OnTick(EventArgs args)
         {
+            if (!Settings.active.CurrentValue)
+                return;
+
             if (Player.Instance.Level > lastLevel)
             {
-                SpellSlot levelSlot = ConvertToSlot(Config.CSL.LevelingOrderMenu.levelingOrderBoxes[lastLevel].CurrentValue);
+                SpellSlot levelSlot = ConvertToSlot(Settings.levelingOrderBoxes[lastLevel].CurrentValue);
 
                 if (levelSlot != SpellSlot.Unknown)
-                    EloBuddy.SDK.Core.DelayAction(() => { Player.LevelSpell(levelSlot); }, new Random().Next(0, 343));
+                    EloBuddy.SDK.Core.DelayAction(() => { Player.LevelSpell(levelSlot); }, Settings.rndmDelay.CurrentValue ? new Random().Next(0, Settings.delay.CurrentValue) : Settings.delay.CurrentValue);
 
                 lastLevel++;
             }

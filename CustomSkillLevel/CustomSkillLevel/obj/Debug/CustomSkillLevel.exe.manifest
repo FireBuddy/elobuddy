@@ -42,14 +42,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CustomSkillLevel.exe" size="9728">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CustomSkillLevel.exe" size="10240">
       <assemblyIdentity name="CustomSkillLevel" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>84I7YDut8E6jYFpuoay8IarSJ2vVnpCY0jY9qLmb99Y=</dsig:DigestValue>
+        <dsig:DigestValue>qbwBT8a6NluOe0m0JZDObgv6T2afthpY6iABjgP38b0=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

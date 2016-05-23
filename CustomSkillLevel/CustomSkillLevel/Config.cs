@@ -38,11 +38,24 @@ namespace CustomSkillLevel
             public static class LevelingOrderMenu
             {
                 public static readonly List<ComboBox> levelingOrderBoxes = new List<ComboBox>();
-                public static readonly CheckBox saveButton;
+                public static readonly CheckBox saveButton, rndmDelay, active;
+                public static readonly Slider delay;
 
                 static LevelingOrderMenu()
                 {
                     Menu.AddGroupLabel("CSL Settings");
+
+                    active = Menu.Add("active", new CheckBox("Activated"));
+
+                    Menu.AddSeparator(13);
+
+                    delay = Menu.Add("delay", new Slider("Delay to Evolve Abilities (1sec = 1000ms):", 343, 0, 2000));
+
+                    Menu.AddSeparator(13);
+
+                    rndmDelay = Menu.Add("rndmdelay", new CheckBox("Randomize Delay?"));
+
+                    Menu.AddSeparator(13);
 
                     Random randomId = new Random();
 
