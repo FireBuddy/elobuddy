@@ -31,20 +31,19 @@ C:\Users\Lucca Vinicius\Documents\Visual Studio 2015\Projects\CustomSkillLevel\C
 C:\Users\Lucca Vinicius\Documents\Visual Studio 2015\Projects\CustomSkillLevel\CustomSkillLevel\obj\Debug\CustomSkillLeveler.application
 C:\Users\Lucca Vinicius\Documents\Visual Studio 2015\Projects\CustomSkillLevel\CustomSkillLevel\obj\Debug\CustomSkillLeveler.exe
 C:\Users\Lucca Vinicius\Documents\Visual Studio 2015\Projects\CustomSkillLevel\CustomSkillLevel\obj\Debug\CustomSkillLeveler.pdb
-C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\CustomSkillLevel\CustomSkillLevel\bin\Debug\CustomSkillLeveler.exe.config
-C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\CustomSkillLevel\CustomSkillLevel\obj\Debug\CustomSkillLeveler.exe
-C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\CustomSkillLevel\CustomSkillLevel\obj\Debug\CustomSkillLeveler.pdb
-C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\CustomSkillLevel\CustomSkillLevel\bin\Debug\CustomSkillLeveler.exe.manifest
-C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\CustomSkillLevel\CustomSkillLevel\bin\Debug\CustomSkillLeveler.application
-C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\CustomSkillLevel\CustomSkillLevel\bin\Debug\CustomSkillLeveler.exe
-C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\CustomSkillLevel\CustomSkillLevel\bin\Debug\CustomSkillLeveler.pdb
+C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\CustomSkillLevel\CustomSkillLevel\bin\Debug\CustomSkillLevel.exe.config
+C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\CustomSkillLevel\CustomSkillLevel\bin\Debug\CustomSkillLevel.exe.manifest
+C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\CustomSkillLevel\CustomSkillLevel\bin\Debug\CustomSkillLevel.application
+C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\CustomSkillLevel\CustomSkillLevel\bin\Debug\CustomSkillLevel.exe
+C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\CustomSkillLevel\CustomSkillLevel\bin\Debug\CustomSkillLevel.pdb
 C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\CustomSkillLevel\CustomSkillLevel\bin\Debug\EloBuddy.dll
 C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\CustomSkillLevel\CustomSkillLevel\bin\Debug\EloBuddy.SDK.dll
 C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\CustomSkillLevel\CustomSkillLevel\bin\Debug\SharpDX.dll
 C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\CustomSkillLevel\CustomSkillLevel\bin\Debug\SharpDX.Direct3D9.dll
 C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\CustomSkillLevel\CustomSkillLevel\bin\Debug\Newtonsoft.Json.dll
 C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\CustomSkillLevel\CustomSkillLevel\bin\Debug\EloBuddy.Sandbox.dll
-C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\CustomSkillLevel\CustomSkillLevel\obj\Debug\CustomSkillLevel.csprojResolveAssemblyReference.cache
-C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\CustomSkillLevel\CustomSkillLevel\obj\Debug\CustomSkillLeveler.TrustInfo.xml
-C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\CustomSkillLevel\CustomSkillLevel\obj\Debug\CustomSkillLeveler.exe.manifest
-C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\CustomSkillLevel\CustomSkillLevel\obj\Debug\CustomSkillLeveler.application
+C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\CustomSkillLevel\CustomSkillLevel\obj\Debug\CustomSkillLevel.TrustInfo.xml
+C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\CustomSkillLevel\CustomSkillLevel\obj\Debug\CustomSkillLevel.exe.manifest
+C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\CustomSkillLevel\CustomSkillLevel\obj\Debug\CustomSkillLevel.application
+C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\CustomSkillLevel\CustomSkillLevel\obj\Debug\CustomSkillLevel.exe
+C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\CustomSkillLevel\CustomSkillLevel\obj\Debug\CustomSkillLevel.pdb
