@@ -1,0 +1,2 @@
+c:\users\lucca vinicius\documents\visual studio 2015\Projects\HPCustomSkillLeveler\HPCustomSkillLeveler\bin\Debug\HPCustomSkillLeveler.exe.config
+c:\users\lucca vinicius\documents\visual studio 2015\Projects\HPCustomSkillLeveler\HPCustomSkillLeveler\bin\Debug\CustomSkillLeveler.exe.config
