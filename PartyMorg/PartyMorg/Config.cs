@@ -25,7 +25,7 @@ namespace PartyMorg
 
         public static class Settings
         {
-            private static readonly Menu Menu0, Menu1, Menu2, Menu3, Menu4, Menu5, Menu6, Menu7, Menu8, Menu9, Menu10;
+            private static readonly Menu Menu0, Menu1, Menu2, Menu3, Menu4, Menu5, Menu6, Menu7, Menu8, Menu9, Menu10, Menu11;
 
             static Settings()
             {
@@ -55,6 +55,9 @@ namespace PartyMorg
 
                 Menu10 = Config.Menu.AddSubMenu("Lane Clear");
                 LaneClear.Initialize();
+
+                Menu11 = Config.Menu.AddSubMenu("Jungle Clear");
+                JungleClear.Initialize();
 
                 Menu8 = Config.Menu.AddSubMenu("Humanizer");
                 Humanizer.Initialize();
@@ -414,7 +417,7 @@ namespace PartyMorg
                     _qMinHitChance = Menu5.Add<Slider>("comboQMinHitChance", new Slider("Q Min. Hit Chance (%):", 75, 50));
                     Menu5.AddSeparator();
 
-                    _useQBeforeW = Menu5.Add("comboUseQBeforeW", new CheckBox("Always Use Q Before W"));
+                    _useQBeforeW = Menu5.Add("comboUseQBeforeW", new CheckBox("Use W after Q only"));
                     _flashUlt = Menu5.Add("flashUlt", new CheckBox("Use Flash + Ultimate (NOT WORKING)", false));
                     _ultZhonya = Menu5.Add("ultZhonya", new CheckBox("Use Zhonya with Ultimate"));
                     _wImmobileOnly = Menu5.Add("comboWImmobileOnly", new CheckBox("W Only Immobile Enemies"));
@@ -581,6 +584,34 @@ namespace PartyMorg
                     Menu10.AddSeparator();
 
                     _minionsToUseW = Menu10.Add<Slider>("minionsToUseW", new Slider("Minions to use W:", 3, 1, 7));
+                }
+
+                public static void Initialize() { }
+            }
+
+            public static class JungleClear
+            {
+                private static readonly CheckBox _useQ;
+                private static readonly CheckBox _useW;
+
+                public static bool UseQ
+                {
+                    get { return _useQ.CurrentValue; }
+                }
+                public static bool UseW
+                {
+                    get { return _useW.CurrentValue; }
+                }
+
+                static JungleClear()
+                {
+                    Menu11.AddGroupLabel("Jungle Clear Settings");
+
+                    _useQ = Menu11.Add("jungleClearUseQ", new CheckBox("Use Q"));
+                    Menu11.AddSeparator();
+
+                    _useW = Menu11.Add("jungleClearUseW", new CheckBox("Use W"));
+                    Menu11.AddSeparator();
                 }
 
                 public static void Initialize() { }

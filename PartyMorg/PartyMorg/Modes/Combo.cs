@@ -9,9 +9,9 @@ namespace PartyMorg.Modes
 {
     public sealed class Combo : ModeBase
     {
-        public static Item zhonyasHourglass { get; private set; }
-        public static Spell.Targeted flashSpell { get; private set; }
-        static int enemiesFaced = 0;
+        private static Item zhonyasHourglass = new Item(3157);
+
+        public static Spell.Skillshot flashSpell { get; private set; }
 
         public override bool ShouldBeExecuted()
         {
@@ -22,8 +22,7 @@ namespace PartyMorg.Modes
 
         public override void Execute()
         {
-            zhonyasHourglass = new Item(3157);
-            flashSpell = new Spell.Targeted(Player.Instance.GetSpellSlotFromName("summonerflash"), uint.MaxValue);
+            flashSpell = new Spell.Skillshot(Player.Instance.GetSpellSlotFromName("summonerflash"), 425, EloBuddy.SDK.Enumerations.SkillShotType.Linear);
 
             var target = GetTarget(Q, DamageType.Magical);
             PredictionResult pred;
@@ -74,30 +73,27 @@ namespace PartyMorg.Modes
 
             if (Settings.WImmobileOnly)
             {
-                pred = W.GetPrediction(target);
-
-                if (target != null && Immobile(target) && Player.Instance.IsInRange(target, W.Range) && !target.IsDead)
+                if (target != null && target.IsTargetable && !target.HasBuffOfType(BuffType.SpellImmunity) && Settings.UseW && !target.IsDead && Player.Instance.IsInRange(target, W.Range) && Immobile(target))
                 {
-                    W.Cast(W.GetPrediction(target).CastPosition);
+                    pred = W.GetPrediction(target);
+
+                    W.Cast(pred.CastPosition);
                 }
             }
             else
             {
-                pred = W.GetPrediction(target);
-
-                if (Settings.UseQBeforeW)
+                if (target != null && target.IsTargetable && !target.HasBuffOfType(BuffType.SpellImmunity) && Settings.UseW && !target.IsDead && Player.Instance.IsInRange(target, W.Range))
                 {
-                    if (Q.IsOnCooldown)
+                    pred = W.GetPrediction(target);
+
+                    if (Settings.UseQBeforeW)
                     {
-                        if (target != null && Player.Instance.IsInRange(target, W.Range) && !target.IsDead)
+                        if (Q.IsOnCooldown)
                         {
                             W.Cast(pred.CastPosition);
                         }
                     }
-                }
-                else
-                {
-                    if (target != null && Player.Instance.IsInRange(target, W.Range) && !target.IsDead)
+                    else
                     {
                         W.Cast(pred.CastPosition);
                     }
@@ -110,6 +106,8 @@ namespace PartyMorg.Modes
             {
                 if (Player.Instance.CountEnemiesInRange(Settings.UltMinRange) == 0 && Settings.FlashUlt)
                 {
+                    int enemiesFaced = 0;
+
                     foreach (var enemy in EntityManager.Heroes.Enemies)
                     {
                         if (Player.Instance.IsFacing(enemy))
@@ -117,9 +115,9 @@ namespace PartyMorg.Modes
                             enemiesFaced++;
                         }
 
-                        if (enemiesFaced >= Settings.RMinEnemies && Player.Instance.CountEnemiesInRange(Settings.UltMinRange + 400) >= Settings.RMinEnemies)
+                        if (enemiesFaced >= Settings.RMinEnemies && Player.Instance.CountEnemiesInRange(Settings.UltMinRange + flashSpell.Range) >= Settings.RMinEnemies)
                         {
-                            flashSpell.Cast(enemy.Position);
+                            flashSpell.Cast(Player.Instance.Position.Extend(enemy.Position, flashSpell.Range).To3D());
 
                             R.Cast();
 

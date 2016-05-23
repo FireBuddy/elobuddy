@@ -36,22 +36,22 @@ namespace PartyMorg
         {
             if (Config.Settings.Draw.DrawQ)
             {
-                Circle.Draw(Color.White, SpellManager.Q.Range, Player.Instance.Position);
+                Circle.Draw(Color.Purple, SpellManager.Q.Range, Player.Instance.Position);
             }
 
             if (Config.Settings.Draw.DrawW)
             {
-                Circle.Draw(Color.White, SpellManager.W.Range, Player.Instance.Position);
+                Circle.Draw(Color.Purple, SpellManager.W.Range, Player.Instance.Position);
             }
 
             if (Config.Settings.Draw.DrawE)
             {
-                Circle.Draw(Color.White, SpellManager.E.Range, Player.Instance.Position);
+                Circle.Draw(Color.Purple, SpellManager.E.Range, Player.Instance.Position);
             }
 
             if (Config.Settings.Draw.DrawR)
             {
-                Circle.Draw(Color.White, SpellManager.R.Range, Player.Instance.Position);
+                Circle.Draw(Color.Purple, SpellManager.R.Range, Player.Instance.Position);
             }
         }
     }
