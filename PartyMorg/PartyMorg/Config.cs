@@ -66,9 +66,7 @@ namespace PartyMorg
                 SkinHack.Initialize();
             }
 
-            public static void Initialize()
-            {
-            }
+            public static void Initialize() { }
 
             public static class Draw
             {
@@ -418,7 +416,7 @@ namespace PartyMorg
                     Menu5.AddSeparator();
 
                     _useQBeforeW = Menu5.Add("comboUseQBeforeW", new CheckBox("Use W after Q only"));
-                    _flashUlt = Menu5.Add("flashUlt", new CheckBox("Use Flash + Ultimate (NOT WORKING)", false));
+                    _flashUlt = Menu5.Add("flashUlt", new CheckBox("Use Flash + Ultimate", false));
                     _ultZhonya = Menu5.Add("ultZhonya", new CheckBox("Use Zhonya with Ultimate"));
                     _wImmobileOnly = Menu5.Add("comboWImmobileOnly", new CheckBox("W Only Immobile Enemies"));
                     Menu5.AddSeparator();
@@ -434,11 +432,9 @@ namespace PartyMorg
             {
                 private static readonly CheckBox _useQ;
                 private static readonly CheckBox _useW;
-                //private static readonly CheckBox _useR;
                 private static readonly CheckBox _useQBeforeW;
                 private static readonly Slider _qMinHitChance;
                 private static readonly CheckBox _wImmobileOnly;
-                //private static readonly Slider _qUseRange;
 
                 public static bool UseQ
                 {
@@ -460,14 +456,6 @@ namespace PartyMorg
                 {
                     get { return _wImmobileOnly.CurrentValue; }
                 }
-                /*public static bool UseR
-                {
-                    get { return _useR.CurrentValue; }
-                }*/
-                /*public static int QUseRange
-                {
-                    get { return _qUseRange.CurrentValue; }
-                }*/
 
                 static Flee()
                 {
@@ -477,15 +465,11 @@ namespace PartyMorg
                     _useW = Menu6.Add("fleeUseW", new CheckBox("Use W"));
                     Menu6.AddSeparator();
 
-                    _useQBeforeW = Menu6.Add("fleeUseQBeforeW", new CheckBox("Always Use Q Before W"));
+                    _useQBeforeW = Menu6.Add("fleeUseQBeforeW", new CheckBox("Use W after Q only"));
                     _wImmobileOnly = Menu6.Add("fleeWImmobileOnly", new CheckBox("W Only Immobile Enemies"));
                     Menu6.AddSeparator();
 
                     _qMinHitChance = Menu6.Add<Slider>("fleeQMinHitChance", new Slider("Q Min. Hit Chance (%):", 75, 50));
-                    //_useR = Menu6.Add("comboUseR", new CheckBox("Use R", false));
-                    //Menu6.AddSeparator();
-
-                    //_qUseRange = Menu6.Add<Slider>("qUseRangeFlee", new Slider("Use Q at range:", 1000, 1000, 1100));
                 }
 
                 public static void Initialize() { }
@@ -495,12 +479,9 @@ namespace PartyMorg
             {
                 private static readonly CheckBox _useQ;
                 private static readonly CheckBox _useW;
-                //private static readonly CheckBox _autoHarass;
+                private static readonly CheckBox _wImmobileOnly;
                 private static readonly CheckBox _useQBeforeW;
                 private static readonly Slider _qMinHitChance;
-                private static readonly CheckBox _wImmobileOnly;
-                //private static readonly Slider _autoHarassManaPercent;
-                //private static readonly Slider _qUseRange;
 
                 public static bool UseQ
                 {
@@ -522,41 +503,21 @@ namespace PartyMorg
                 {
                     get { return _wImmobileOnly.CurrentValue; }
                 }
-                /*public static bool AutoHarass
-                {
-                    get { return _autoHarass.CurrentValue; }
-                }
-                public static int AutoHarassManaPercent
-                {
-                    get { return _autoHarassManaPercent.CurrentValue; }
-                }*/
-                /*public static int QUseRange
-                {
-                    get { return _qUseRange.CurrentValue; }
-                }*/
 
                 static Harass()
                 {
                     Menu7.AddGroupLabel("Harass Settings");
 
                     _useQ = Menu7.Add("harassUseQ", new CheckBox("Use Q"));
-                    //Menu7.AddSeparator(13);
-
-                    //_qUseRange = Menu7.Add<Slider>("qUseRangeHarass", new Slider("Use Q at range:", 1000, 1000, 1100));
-                    //Menu7.AddSeparator();
 
                     _useW = Menu7.Add("harassUseW", new CheckBox("Use W"));
                     Menu7.AddSeparator();
 
-                    _useQBeforeW = Menu7.Add("harassUseQBeforeW", new CheckBox("Always Use Q Before W"));
+                    _useQBeforeW = Menu7.Add("harassUseQBeforeW", new CheckBox("Use W after Q only"));
                     _wImmobileOnly = Menu7.Add("harassWImmobileOnly", new CheckBox("W Only Immobile Enemies"));
                     Menu7.AddSeparator();
 
                     _qMinHitChance = Menu7.Add<Slider>("harassQMinHitChance", new Slider("Q Min. Hit Chance (%):", 75, 50));
-                    /*_autoHarass = Menu7.Add("autoHarass", new CheckBox("Auto Harass with W at mana %"));
-                    Menu7.AddSeparator(13);
-
-                    _autoHarassManaPercent = Menu7.Add<Slider>("autoHarassManaPercent", new Slider("Auto Harass min. mana %:", 75, 1));*/
                 }
 
                 public static void Initialize() { }
