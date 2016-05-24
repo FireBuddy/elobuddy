@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace CustomSkillLevel
+namespace CustomItemBuyer
 {
     class Config
     {
@@ -13,35 +13,35 @@ namespace CustomSkillLevel
 
         static Config()
         {
-            Menu = MainMenu.AddMenu("CustomSkillLevel", "csl");
-            Menu.AddGroupLabel("Welcome to CustomSkillLevel!");
+            Menu = MainMenu.AddMenu("CustomItemBuyer", "cib");
+            Menu.AddGroupLabel("Welcome to CustomItemBuyer!");
 
-            CSL.Initialize();
+            CIB.Initialize();
         }
 
         public static void Initialize() { }
 
-        public static class CSL
+        public static class CIB
         {
             private static readonly Menu Menu;
 
-            static CSL()
+            static CIB()
             {
                 Menu = Config.Menu.AddSubMenu("Settings");
 
-                LevelingOrderMenu.Initialize();
+                BuyingOrderMenu.Initialize();
                 Menu.AddSeparator();
             }
 
             public static void Initialize() { }
 
-            public static class LevelingOrderMenu
+            public static class BuyingOrderMenu
             {
-                public static readonly List<ComboBox> levelingOrderBoxes = new List<ComboBox>();
-                public static readonly CheckBox saveButton, rndmDelay, active;
+                public static readonly List<ComboBox> buyingOrderBoxes = new List<ComboBox>();
+                public static readonly CheckBox /*saveButton, */rndmDelay, active;
                 public static readonly Slider delay;
 
-                static LevelingOrderMenu()
+                static BuyingOrderMenu()
                 {
                     Menu.AddGroupLabel("CSL Settings");
 
@@ -49,7 +49,7 @@ namespace CustomSkillLevel
 
                     Menu.AddSeparator(13);
 
-                    delay = Menu.Add("delay", new Slider("Delay to Evolve Abilities (1sec = 1000ms):", 343, 0, 2000));
+                    delay = Menu.Add("delay", new Slider("Delay to Buy Items (1sec = 1000ms):", 343, 0, 2000));
 
                     Menu.AddSeparator(13);
 
@@ -57,11 +57,11 @@ namespace CustomSkillLevel
 
                     Menu.AddSeparator(13);
 
-                    Random randomId = new Random();
+                    /*Random randomId = new Random();
 
                     int level = 1;
 
-                    foreach (string slot in Program.levelingOrder)
+                    foreach (string slot in Program.buyingOrder)
                     {
                         levelingOrderBoxes.Add(Menu.Add((randomId.Next() + level).ToString(), new ComboBox("Level " + level.ToString(), ConvertToMenuIndex(slot), new string[] { "Q", "W", "E", "R", "None" })));
 
@@ -73,10 +73,10 @@ namespace CustomSkillLevel
 
                     saveButton = Menu.Add("savebutton", new CheckBox("Check Me to Save Your Settings", false));
 
-                    saveButton.OnValueChange += onSaveRequest;
+                    saveButton.OnValueChange += onSaveRequest;*/
                 }
 
-                private static void onSaveRequest(ValueBase<bool> sender, ValueBase<bool>.ValueChangeArgs args)
+                /*private static void onSaveRequest(ValueBase<bool> sender, ValueBase<bool>.ValueChangeArgs args)
                 {
                     if (args.NewValue)
                     {
@@ -95,9 +95,9 @@ namespace CustomSkillLevel
                         saveButton.DisplayName = "Check Me to Save Your Settings [SAVED]";
                         saveButton.CurrentValue = false;
                     }
-                }
+                }*/
 
-                private static int ConvertToMenuIndex(string slot)
+                /*private static int ConvertToMenuIndex(string slot)
                 {
                     switch (slot)
                     {
@@ -107,7 +107,7 @@ namespace CustomSkillLevel
                         case "R": { return 3; }
                         default: { return 4; }
                     }
-                }
+                }*/
 
                 public static void Initialize() { }
             }
