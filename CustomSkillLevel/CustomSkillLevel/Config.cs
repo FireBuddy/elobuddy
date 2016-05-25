@@ -38,14 +38,14 @@ namespace CustomSkillLevel
             public static class LevelingOrderMenu
             {
                 public static readonly List<ComboBox> levelingOrderBoxes = new List<ComboBox>();
-                public static readonly CheckBox saveButton, rndmDelay, active;
+                public static readonly CheckBox saveButton, rndmDelay, enabled;
                 public static readonly Slider delay;
 
                 static LevelingOrderMenu()
                 {
                     Menu.AddGroupLabel("CSL Settings");
 
-                    active = Menu.Add("active", new CheckBox("Activated"));
+                    enabled = Menu.Add("enabled", new CheckBox("Enabled?"));
 
                     Menu.AddSeparator(13);
 

@@ -42,14 +42,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CustomItemBuyer.exe" size="7680">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CustomItemBuyer.exe" size="9728">
       <assemblyIdentity name="CustomItemBuyer" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>1lKAlZQfUxat9l3bV1xLI6fyNMPXmgM/vGT1mYZAUvY=</dsig:DigestValue>
+        <dsig:DigestValue>YPe4u1c2BErFp9UgguN9/jG0tS0r37mwm3z4HhcdOk8=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -78,14 +78,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="EloBuddy.SDK.dll" size="1212624">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="EloBuddy.SDK.dll" size="1712128">
       <assemblyIdentity name="EloBuddy.SDK" version="1.0.0.0" publicKeyToken="6B574A82B1EA937E" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>3pduAsvqUqjSMGuYiIXS7aItb/uZC733zFpYHoSQ1FM=</dsig:DigestValue>
+        <dsig:DigestValue>O09Jv7hXKpLex49FLNPwuhw1lt7p2zAIDVokAkJ7C0g=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

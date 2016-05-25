@@ -59,7 +59,7 @@ namespace CustomSkillLevel
 
         private static void OnTick(EventArgs args)
         {
-            if (!Settings.active.CurrentValue)
+            if (!Settings.enabled.CurrentValue)
                 return;
 
             if (Player.Instance.Level > lastLevel)
