@@ -1,5 +1,7 @@
-﻿using EloBuddy.SDK.Menu;
+﻿using System;
+using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
+using EloBuddy;
 
 namespace CustomItemBuyer
 {
@@ -34,7 +36,7 @@ namespace CustomItemBuyer
 
             public static class BuyingOrderMenu
             {
-                public static readonly CheckBox rndmDelay, enabled;
+                public static readonly CheckBox rndmDelay, enabled, draw;
                 public static readonly Slider delay;
 
                 static BuyingOrderMenu()
@@ -45,7 +47,11 @@ namespace CustomItemBuyer
 
                     Menu.AddSeparator(13);
 
-                    delay = Menu.Add("delay", new Slider("Delay to Buy Items (1sec = 1000ms):", 500, 0, 2000));
+                    draw = Menu.Add("draw", new CheckBox("Draw Text?"));
+
+                    Menu.AddSeparator(13);
+
+                    delay = Menu.Add("delay", new Slider("Delay to Buy Items (1sec = 1000ms):", 500, 500, 2000));
 
                     Menu.AddSeparator(13);
 
