@@ -77,6 +77,15 @@ namespace CustomItemBuyer
                     }
                 }
 
+                if (!wt.IsOwned() && !gst.IsOwned() && !gvt.IsOwned() && !ss.IsOwned() && !sa.IsOwned() && !oa.IsOwned() && !sl.IsOwned())
+                {
+                    using (var sw = new StreamWriter(cibpath + @"saved_data.txt", false))
+                    {
+                        sw.Write("0:0");
+                        sw.Close();
+                    }
+                }
+
                 using (var sr = new StreamReader(cibpath + @"saved_data.txt"))
                 {
                     string settings = sr.ReadToEnd();
