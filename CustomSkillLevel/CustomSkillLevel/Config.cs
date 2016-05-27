@@ -37,7 +37,7 @@ namespace CustomSkillLevel
 
             public static class LevelingOrderMenu
             {
-                public static readonly List<ComboBox> levelingOrderBoxes = new List<ComboBox>();
+                public static readonly List<ComboBox> orderBox = new List<ComboBox>();
                 public static readonly CheckBox saveButton, rndmDelay, enabled;
                 public static readonly Slider delay;
 
@@ -45,15 +45,15 @@ namespace CustomSkillLevel
                 {
                     Menu.AddGroupLabel("CSL Settings");
 
-                    enabled = Menu.Add("enabled", new CheckBox("Enabled?"));
+                    enabled = Menu.Add("enabled", new CheckBox("Enabled"));
 
                     Menu.AddSeparator(13);
 
-                    delay = Menu.Add("delay", new Slider("Delay to Evolve Abilities (1sec = 1000ms):", 343, 0, 2000));
+                    delay = Menu.Add("delay", new Slider("Delay to Evolve Abilities (1 sec = 1000 ms):", 500, 0, 2000));
 
                     Menu.AddSeparator(13);
 
-                    rndmDelay = Menu.Add("rndmdelay", new CheckBox("Randomize Delay?"));
+                    rndmDelay = Menu.Add("rndmdelay", new CheckBox("Randomize Evolve Delay"));
 
                     Menu.AddSeparator(13);
 
@@ -61,9 +61,9 @@ namespace CustomSkillLevel
 
                     int level = 1;
 
-                    foreach (string slot in Program.levelingOrder)
+                    foreach (string slot in Program.order)
                     {
-                        levelingOrderBoxes.Add(Menu.Add((randomId.Next() + level).ToString(), new ComboBox("Level " + level.ToString(), ConvertToMenuIndex(slot), new string[] { "Q", "W", "E", "R", "None" })));
+                        orderBox.Add(Menu.Add((randomId.Next() + level).ToString(), new ComboBox("Level " + level.ToString(), ConvertToMenuIndex(slot), new string[] { "Q", "W", "E", "R", "None" })));
 
                         level++;
 
@@ -80,11 +80,11 @@ namespace CustomSkillLevel
                 {
                     if (args.NewValue)
                     {
-                        File.Delete(Program.appDataPath + @"\EloBuddy\CSL\" + Player.Instance.ChampionName + ".txt");
+                        File.Delete(Program.cslpath + Player.Instance.ChampionName + ".txt");
 
-                        using (StreamWriter streamWriter = new StreamWriter(Program.appDataPath + @"\EloBuddy\CSL\" + Player.Instance.ChampionName + ".txt"))
+                        using (StreamWriter streamWriter = new StreamWriter(Program.cslpath + Player.Instance.ChampionName + ".txt"))
                         {
-                            foreach (ComboBox comboBox in levelingOrderBoxes)
+                            foreach (ComboBox comboBox in orderBox)
                             {
                                 streamWriter.Write(Program.ConvertToSlot(comboBox.SelectedIndex).ToString() + ", ");
                             }

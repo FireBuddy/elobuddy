@@ -10,9 +10,9 @@ namespace CustomSkillLevel
 {
     public static class Program
     {
-        public static List<string> levelingOrder { get; private set; }
-        public static string appDataPath;
-        public static int lastLevel = 0;
+        public static List<string> order { get; private set; }
+        public static string cslpath;
+        public static int last = 0;
 
         public static void Main(string[] args)
         {
@@ -25,24 +25,24 @@ namespace CustomSkillLevel
             {
                 Chat.Print("CustomSkillLevel by houzeparty");
 
-                lastLevel = Player.Instance.Level - Player.Instance.SpellTrainingPoints;
+                last = Player.Instance.Level - Player.Instance.SpellTrainingPoints;
 
-                appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+                cslpath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\EloBuddy\CSL";
 
-                Directory.CreateDirectory(appDataPath + @"\EloBuddy\CSL");
+                Directory.CreateDirectory(cslpath);
 
-                if (!File.Exists(appDataPath + @"\EloBuddy\CSL\" + Player.Instance.ChampionName + ".txt"))
+                if (!File.Exists(cslpath + Player.Instance.ChampionName + ".txt"))
                 {
-                    using (var streamWriter = new StreamWriter(appDataPath + @"\EloBuddy\CSL\" + Player.Instance.ChampionName + ".txt"))
+                    using (var streamWriter = new StreamWriter(cslpath + Player.Instance.ChampionName + ".txt"))
                     {
                         streamWriter.Write("None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None");
                         streamWriter.Close();
                     }
                 }
 
-                using (var streamReader = new StreamReader(appDataPath + @"\EloBuddy\CSL\" + Player.Instance.ChampionName + ".txt"))
+                using (var streamReader = new StreamReader(cslpath + Player.Instance.ChampionName + ".txt"))
                 {
-                    levelingOrder = streamReader.ReadLine().ToUpper().Split(',').Select(str => str.Trim()).ToList();
+                    order = streamReader.ReadLine().ToUpper().Split(',').Select(str => str.Trim()).ToList();
 
                     streamReader.Close();
                 }
@@ -62,14 +62,14 @@ namespace CustomSkillLevel
             if (!Settings.enabled.CurrentValue)
                 return;
 
-            if (Player.Instance.Level > lastLevel)
+            if (Player.Instance.Level > last)
             {
-                SpellSlot levelSlot = ConvertToSlot(Settings.levelingOrderBoxes[lastLevel].CurrentValue);
+                SpellSlot levelSlot = ConvertToSlot(Settings.orderBox[last].CurrentValue);
 
                 if (levelSlot != SpellSlot.Unknown)
                     EloBuddy.SDK.Core.DelayAction(() => { Player.LevelSpell(levelSlot); }, Settings.rndmDelay.CurrentValue ? new Random().Next(0, Settings.delay.CurrentValue) : Settings.delay.CurrentValue);
 
-                lastLevel++;
+                last++;
             }
         }
 
