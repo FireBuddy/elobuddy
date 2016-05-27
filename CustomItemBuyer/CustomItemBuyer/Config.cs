@@ -41,23 +41,23 @@ namespace CustomItemBuyer
                 {
                     Menu.AddGroupLabel("CIB Settings");
 
-                    enabled = Menu.Add("active", new CheckBox("Enabled?"));
+                    enabled = Menu.Add("active", new CheckBox("Enabled"));
 
                     Menu.AddSeparator(13);
 
-                    draw = Menu.Add("draw", new CheckBox("Draw Text?"));
+                    draw = Menu.Add("draw", new CheckBox("Draw Text"));
 
                     Menu.AddSeparator(13);
 
-                    buyComp = Menu.Add("buycomp", new CheckBox("Buy Item Components?"));
+                    buyComp = Menu.Add("buycomp", new CheckBox("Buy Item Components"));
 
                     Menu.AddSeparator(13);
 
-                    delay = Menu.Add("delay", new Slider("Delay to Buy Items (1sec = 1000ms):", 500, 500, 2000));
+                    delay = Menu.Add("delay", new Slider("Delay to Buy Each Item (1 sec = 1000 ms):", 500, 500, 2000));
 
                     Menu.AddSeparator(13);
 
-                    rndmDelay = Menu.Add("rndmdelay", new CheckBox("Randomize Delay?"));
+                    rndmDelay = Menu.Add("rndmdelay", new CheckBox("Randomize Buy Delay"));
                 }
 
                 public static void Initialize() { }
