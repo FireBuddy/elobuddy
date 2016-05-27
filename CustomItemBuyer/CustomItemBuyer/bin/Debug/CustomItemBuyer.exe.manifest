@@ -42,14 +42,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CustomItemBuyer.exe" size="11264">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CustomItemBuyer.exe" size="13312">
       <assemblyIdentity name="CustomItemBuyer" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>MT4VAui0fA5dfEWkjfsqw0pye1KyeHawaAX6SA/DSjo=</dsig:DigestValue>
+        <dsig:DigestValue>O2gCACKa1vmzjOzcFjBT+k2sSJIG+/xr8WOHJb76j1k=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

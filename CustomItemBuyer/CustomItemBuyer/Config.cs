@@ -34,7 +34,7 @@ namespace CustomItemBuyer
 
             public static class BuyingOrderMenu
             {
-                public static readonly CheckBox rndmDelay, enabled, draw;
+                public static readonly CheckBox rndmDelay, enabled, draw, buyComp;
                 public static readonly Slider delay;
 
                 static BuyingOrderMenu()
@@ -46,6 +46,10 @@ namespace CustomItemBuyer
                     Menu.AddSeparator(13);
 
                     draw = Menu.Add("draw", new CheckBox("Draw Text?"));
+
+                    Menu.AddSeparator(13);
+
+                    buyComp = Menu.Add("buycomp", new CheckBox("Buy Item Components?"));
 
                     Menu.AddSeparator(13);
 

@@ -9,9 +9,9 @@ C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\CustomItemBuyer\CustomItemBuye
 C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\CustomItemBuyer\CustomItemBuyer\bin\Debug\SharpDX.Direct3D9.dll
 C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\CustomItemBuyer\CustomItemBuyer\bin\Debug\Newtonsoft.Json.dll
 C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\CustomItemBuyer\CustomItemBuyer\bin\Debug\EloBuddy.Sandbox.dll
-C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\CustomItemBuyer\CustomItemBuyer\obj\Debug\CustomItemBuyer.csprojResolveAssemblyReference.cache
 C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\CustomItemBuyer\CustomItemBuyer\obj\Debug\CustomItemBuyer.TrustInfo.xml
 C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\CustomItemBuyer\CustomItemBuyer\obj\Debug\CustomItemBuyer.exe.manifest
 C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\CustomItemBuyer\CustomItemBuyer\obj\Debug\CustomItemBuyer.application
 C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\CustomItemBuyer\CustomItemBuyer\obj\Debug\CustomItemBuyer.exe
 C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\CustomItemBuyer\CustomItemBuyer\obj\Debug\CustomItemBuyer.pdb
+C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\CustomItemBuyer\CustomItemBuyer\obj\Debug\CustomItemBuyer.csprojResolveAssemblyReference.cache
