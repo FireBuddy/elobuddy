@@ -68,7 +68,7 @@ namespace CustomItemBuyer
                 if (!File.Exists(cibpath + Player.Instance.ChampionName + ".txt"))
                     File.Create(cibpath + Player.Instance.ChampionName + ".txt");
 
-                if (!File.Exists(cibpath + @"saved_data.txt") || !wt.IsOwned() || !gst.IsOwned() || !gvt.IsOwned() || !ss.IsOwned() || !sa.IsOwned() || !oa.IsOwned() || !sl.IsOwned() || dps.IsOwned())
+                if (!File.Exists(cibpath + @"saved_data.txt"))
                 {
                     using (var sw = new StreamWriter(cibpath + @"saved_data.txt", false))
                     {
@@ -129,6 +129,8 @@ namespace CustomItemBuyer
 
             if (current + 1 > order.Count)
                 return;
+
+            goldReq = order[current].GoldRequired();
 
             text.Color = Player.Instance.Gold >= goldReq ? Color.LightGreen : Color.DarkRed;
             text.TextValue = Settings.enabled.CurrentValue ? string.Format("Next Item: {0}\nPrice: {1}", order[current].ItemInfo.Name, goldReq) : string.Empty;
@@ -216,25 +218,15 @@ namespace CustomItemBuyer
                             Shop.BuyItem(item.Id);
 
                             current++;
-
-                            goldReq = order[current].ItemInfo.Gold.Total;
                         }
-                        else if (Settings.buyComp.CurrentValue)
+                        /*else if (Settings.buyComp.CurrentValue)
                         {
-                            foreach (var comp1 in item.GetComponents().OrderByDescending(x => x.GoldRequired()).Where(comp => Player.Instance.Gold >= comp.GoldRequired() && !comp.IsOwned()))
+                            foreach (var comp1 in item.GetComponents().OrderByDescending(x => x.GoldRequired()))
                             {
-                                Shop.BuyItem(comp1.Id);
+                                if (Shop.BuyItem(comp1.Id))
+                                    goldReq -= comp1.ItemInfo.Gold.Base;
                             }
-
-                            compTotal = 0;
-
-                            foreach (var comp in item.GetComponents().Where(c => c.IsOwned()))
-                            {
-                                compTotal += comp.GoldRequired();
-                            }
-
-                            goldReq = order[current].ItemInfo.Gold.Total - compTotal;
-                        }
+                        }*/
                     }
                     break;
                 case 's':

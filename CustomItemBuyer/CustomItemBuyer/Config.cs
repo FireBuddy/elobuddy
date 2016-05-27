@@ -49,9 +49,9 @@ namespace CustomItemBuyer
 
                     Menu.AddSeparator(13);
 
-                    buyComp = Menu.Add("buycomp", new CheckBox("Buy Item Components"));
+                    //buyComp = Menu.Add("buycomp", new CheckBox("Buy Item Components"));
 
-                    Menu.AddSeparator(13);
+                    //Menu.AddSeparator(13);
 
                     delay = Menu.Add("delay", new Slider("Delay to Buy Each Item (1 sec = 1000 ms):", 500, 500, 2000));
 
