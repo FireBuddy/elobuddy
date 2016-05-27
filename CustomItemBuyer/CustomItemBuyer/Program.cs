@@ -28,7 +28,7 @@ namespace CustomItemBuyer
 
         private static string cibpath;
 
-        private static Item hppot, bisc, bo, bom, bos, bol, wt, gst, gvt, oa, sl, ss, sa;
+        private static Item hppot, bisc, bo, bom, bos, bol, wt, gst, gvt, oa, sl, ss, sa, dps;
 
         private static Text text;
 
@@ -57,6 +57,7 @@ namespace CustomItemBuyer
                 sa = new Item(3345);
                 oa = new Item(3364);
                 sl = new Item(3341);
+                dps = new Item(2054);
 
                 text = new Text("[Next Item Info]", new Font("Consolas", 12f));
 
@@ -67,7 +68,7 @@ namespace CustomItemBuyer
                 if (!File.Exists(cibpath + Player.Instance.ChampionName + ".txt"))
                     File.Create(cibpath + Player.Instance.ChampionName + ".txt");
 
-                if (!File.Exists(cibpath + @"saved_data.txt") || GetQtt(wt) == 0 || GetQtt(gst) == 0 || GetQtt(gvt) == 0 || GetQtt(ss) == 0 || GetQtt(sa) == 0 || GetQtt(oa) == 0 || GetQtt(sl) == 0)
+                if (!File.Exists(cibpath + @"saved_data.txt") || !wt.IsOwned() || !gst.IsOwned() || !gvt.IsOwned() || !ss.IsOwned() || !sa.IsOwned() || !oa.IsOwned() || !sl.IsOwned() || dps.IsOwned())
                 {
                     using (var sw = new StreamWriter(cibpath + @"saved_data.txt", false))
                     {
