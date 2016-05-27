@@ -27,7 +27,7 @@ namespace CustomSkillLevel
 
                 last = Player.Instance.Level - Player.Instance.SpellTrainingPoints;
 
-                cslpath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\EloBuddy\CSL";
+                cslpath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\EloBuddy\CSL\";
 
                 Directory.CreateDirectory(cslpath);
 

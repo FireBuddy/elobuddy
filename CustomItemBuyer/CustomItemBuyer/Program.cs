@@ -68,23 +68,25 @@ namespace CustomItemBuyer
                 if (!File.Exists(cibpath + Player.Instance.ChampionName + ".txt"))
                     File.Create(cibpath + Player.Instance.ChampionName + ".txt");
 
-                if (!File.Exists(cibpath + @"saved_data.txt"))
-                {
-                    using (var sw = new StreamWriter(cibpath + @"saved_data.txt", false))
-                    {
-                        sw.Write("0:0");
-                        sw.Close();
-                    }
-                }
+                Game.OnNotify += OnNotify;
 
-                if (!wt.IsOwned() && !gst.IsOwned() && !gvt.IsOwned() && !ss.IsOwned() && !sa.IsOwned() && !oa.IsOwned() && !sl.IsOwned())
+                /*if (!File.Exists(cibpath + @"saved_data.txt"))
                 {
                     using (var sw = new StreamWriter(cibpath + @"saved_data.txt", false))
                     {
                         sw.Write("0:0");
                         sw.Close();
                     }
-                }
+                }*/
+
+                /*if (!wt.IsOwned() && !gst.IsOwned() && !gvt.IsOwned() && !ss.IsOwned() && !sa.IsOwned() && !oa.IsOwned() && !sl.IsOwned())
+                {
+                    using (var sw = new StreamWriter(cibpath + @"saved_data.txt", false))
+                    {
+                        sw.Write("0:0");
+                        sw.Close();
+                    }
+                }*/
 
                 using (var sr = new StreamReader(cibpath + @"saved_data.txt"))
                 {
@@ -128,6 +130,18 @@ namespace CustomItemBuyer
             catch (Exception e)
             {
                 Console.WriteLine(e);
+            }
+        }
+
+        private static void OnNotify(GameNotifyEventArgs args)
+        {
+            if (args.EventId == GameEventId.OnGameStart)
+            {
+                using (var sw = new StreamWriter(cibpath + @"saved_data.txt", false))
+                {
+                    sw.Write("0:0");
+                    sw.Close();
+                }
             }
         }
 
