@@ -24,7 +24,7 @@ namespace CustomItemBuyer
 
         private static List<Item> order;
 
-        private static int current, goldReq, compTotal;
+        private static int current, goldReq/*, compTotal*/;
 
         private static string cibpath;
 
@@ -41,6 +41,8 @@ namespace CustomItemBuyer
         {
             try
             {
+                //Game.OnNotify += Game_OnNotify;
+
                 stopwatch = new Stopwatch();
                 ids = new List<int>();
                 order = new List<Item>();
@@ -68,35 +70,6 @@ namespace CustomItemBuyer
                 if (!File.Exists(cibpath + Player.Instance.ChampionName + ".txt"))
                     File.Create(cibpath + Player.Instance.ChampionName + ".txt");
 
-                Game.OnNotify += OnNotify;
-
-                /*if (!File.Exists(cibpath + @"saved_data.txt"))
-                {
-                    using (var sw = new StreamWriter(cibpath + @"saved_data.txt", false))
-                    {
-                        sw.Write("0:0");
-                        sw.Close();
-                    }
-                }*/
-
-                /*if (!wt.IsOwned() && !gst.IsOwned() && !gvt.IsOwned() && !ss.IsOwned() && !sa.IsOwned() && !oa.IsOwned() && !sl.IsOwned())
-                {
-                    using (var sw = new StreamWriter(cibpath + @"saved_data.txt", false))
-                    {
-                        sw.Write("0:0");
-                        sw.Close();
-                    }
-                }*/
-
-                using (var sr = new StreamReader(cibpath + @"saved_data.txt"))
-                {
-                    string settings = sr.ReadToEnd();
-
-                    current = Convert.ToInt32(settings.Substring(0, settings.IndexOf(':')));
-
-                    goldReq = Convert.ToInt32(settings.Substring(settings.IndexOf(':') + 1));
-                }
-
                 try
                 {
                     using (var sr = new StreamReader(cibpath + Player.Instance.ChampionName + ".txt"))
@@ -119,6 +92,24 @@ namespace CustomItemBuyer
                 foreach (var id in ids)
                     order.Add(new Item(id));
 
+                if (!File.Exists(cibpath + @"saved_data.txt") || !HasItems())
+                {
+                    using (var sw = new StreamWriter(cibpath + @"saved_data.txt", false))
+                    {
+                        sw.Write("0:0");
+                        sw.Close();
+                    }
+                }
+
+                using (var sr = new StreamReader(cibpath + @"saved_data.txt"))
+                {
+                    string settings = sr.ReadToEnd();
+
+                    current = Convert.ToInt32(settings.Substring(0, settings.IndexOf(':')));
+
+                    goldReq = Convert.ToInt32(settings.Substring(settings.IndexOf(':') + 1));
+                }
+
                 stopwatch.Start();
 
                 Config.Initialize();
@@ -133,17 +124,19 @@ namespace CustomItemBuyer
             }
         }
 
-        private static void OnNotify(GameNotifyEventArgs args)
+        /*private static void Game_OnNotify(GameNotifyEventArgs args)
         {
             if (args.EventId == GameEventId.OnGameStart)
             {
+                Console.WriteLine("OnGameStart");
+
                 using (var sw = new StreamWriter(cibpath + @"saved_data.txt", false))
                 {
                     sw.Write("0:0");
                     sw.Close();
                 }
             }
-        }
+        }*/
 
         private static void OnTick(EventArgs args)
         {
@@ -206,6 +199,30 @@ namespace CustomItemBuyer
             }
         }
 
+        private static bool HasItems()
+        {
+            foreach (var item in order)
+            {
+                foreach (var slot in Player.Instance.InventoryItems)
+                {
+                    if (item.Id != wt.Id && item.Id != gst.Id && item.Id != gvt.Id && item.Id != oa.Id && item.Id != sl.Id && item.Id != ss.Id && item.Id != sa.Id && item.Id != dps.Id)
+                    {
+                        if (item.Id == hppot.Id)
+                        {
+                            if (slot.Id == hppot.Id || slot.Id == bisc.Id)
+                                return true;
+                        }
+                        else if (slot.Id == item.Id)
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+
+            return false;
+        }
+
         private static int GetQtt(Item item)
         {
             int qtt = 0;
@@ -261,16 +278,12 @@ namespace CustomItemBuyer
                                 Shop.SellItem(GetSlot(hppot).Slot);
 
                                 current++;
-
-                                goldReq = order[current].ItemInfo.Gold.Total;
                             }
                             else if (bisc.IsOwned())
                             {
                                 Shop.SellItem(GetSlot(bisc).Slot);
 
                                 current++;
-
-                                goldReq = order[current].ItemInfo.Gold.Total;
                             }
                         }
                         else if (item.IsOwned())
@@ -278,8 +291,6 @@ namespace CustomItemBuyer
                             Shop.SellItem(GetSlot(item).Slot);
 
                             current++;
-
-                            goldReq = order[current].ItemInfo.Gold.Total;
                         }
                     }
                     break;
