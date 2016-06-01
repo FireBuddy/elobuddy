@@ -24,7 +24,7 @@ namespace CustomItemBuyer
 
         private static List<Item> order;
 
-        private static int current, goldReq/*, compTotal*/;
+        private static int current, goldReq;
 
         private static string cibpath;
 
@@ -41,8 +41,6 @@ namespace CustomItemBuyer
         {
             try
             {
-                //Game.OnNotify += Game_OnNotify;
-
                 stopwatch = new Stopwatch();
                 ids = new List<int>();
                 order = new List<Item>();
@@ -123,20 +121,6 @@ namespace CustomItemBuyer
                 Console.WriteLine(e);
             }
         }
-
-        /*private static void Game_OnNotify(GameNotifyEventArgs args)
-        {
-            if (args.EventId == GameEventId.OnGameStart)
-            {
-                Console.WriteLine("OnGameStart");
-
-                using (var sw = new StreamWriter(cibpath + @"saved_data.txt", false))
-                {
-                    sw.Write("0:0");
-                    sw.Close();
-                }
-            }
-        }*/
 
         private static void OnTick(EventArgs args)
         {
