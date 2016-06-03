@@ -14,6 +14,11 @@ namespace AutoRestarter
                     sysProcess.Close();
                     Console.WriteLine("[{0:hh:mm:ss}] closing ezBot..", DateTime.Now);
                 }
+                else if (sysProcess.ProcessName.Contains("League of Legends"))
+                {
+                    sysProcess.Close();
+                    Console.WriteLine("[{0:hh:mm:ss}] closing LoL..", DateTime.Now);
+                }
             }
 
             Process.Start("ezBot.exe");
