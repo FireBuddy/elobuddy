@@ -15,9 +15,9 @@ namespace AutoRestarter
             Console.WriteLine("Time for each restart (sec): ");
             time = Convert.ToInt32(Console.ReadLine()) * 1000;
 
-            foreach (string file in Directory.EnumerateFiles(Environment.CurrentDirectory, "bot"))
+            foreach (string file in Directory.EnumerateFileSystemEntries(Environment.CurrentDirectory))
             {
-                if (Path.GetExtension(file) == ".exe")
+                if (file.Contains("Bot") || file.Contains("bot") && Path.GetExtension(file) == ".exe")
                 {
                     botPath = file;
                     break;
