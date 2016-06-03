@@ -28,7 +28,7 @@ namespace AutoRestarter
             {
                 foreach (Process sysProcess in Process.GetProcesses())
                 {
-                    if (sysProcess.ProcessName.Contains("bot"))
+                    if (sysProcess.ProcessName.Contains("bot") || sysProcess.ProcessName.Contains("Bot"))
                     {
                         sysProcess.Kill();
                         Console.WriteLine("[{0:hh:mm:ss}] Closing bot..", DateTime.Now);
