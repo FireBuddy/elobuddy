@@ -11,7 +11,7 @@ namespace AutoRestarter
         static void Main(string[] args)
         {
             Console.WriteLine("Time for each restart (sec): ");
-            time = Convert.ToInt32(Console.ReadLine());
+            time = Convert.ToInt32(Console.ReadLine()) * 1000;
 
             while (true)
             {
