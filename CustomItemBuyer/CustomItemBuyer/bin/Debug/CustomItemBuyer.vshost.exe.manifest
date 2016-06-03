@@ -49,7 +49,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>26D6zMwAtit4dtihiuVJLZ4KIVctaJ/aWrOpWavG3rM=</dsig:DigestValue>
+        <dsig:DigestValue>OPPVXq4JUK0+FqlALqMoEVZRN1bh6eLOh5Kmov9gL3w=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -61,7 +61,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>CxonjOhungSZRxulBZD+8nO5rxYRoITQsxBbZCK1o+k=</dsig:DigestValue>
+        <dsig:DigestValue>Nlv7QswVng1YKd+NCUoYICadfP56DkX0vrCvS2bH0Ik=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -78,14 +78,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="EloBuddy.SDK.dll" size="1175760">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="EloBuddy.SDK.dll" size="1176272">
       <assemblyIdentity name="EloBuddy.SDK" version="1.0.0.0" publicKeyToken="6B574A82B1EA937E" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>y11so/q4nbdIc7hN4AUeqjV5KfqFqIbE0vh6/d9deRo=</dsig:DigestValue>
+        <dsig:DigestValue>381thdpi1ilW2YnZGr3DfUzf6hbsTDP9nMcD9O1ODKw=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
