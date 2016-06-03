@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace AutoRestarter
 {
@@ -13,13 +15,21 @@ namespace AutoRestarter
             Console.WriteLine("Time for each restart (sec): ");
             time = Convert.ToInt32(Console.ReadLine()) * 1000;
 
+            foreach (string file in Directory.EnumerateFiles(Environment.CurrentDirectory, "bot"))
+            {
+                if (Path.GetExtension(file) == ".exe")
+                {
+                    botPath = file;
+                    break;
+                }
+            }
+
             while (true)
             {
                 foreach (Process sysProcess in Process.GetProcesses())
                 {
                     if (sysProcess.ProcessName.Contains("bot"))
                     {
-                        botPath = sysProcess.MainModule.FileName;
                         sysProcess.Kill();
                         Console.WriteLine("[{0:hh:mm:ss}] closing bot..", DateTime.Now);
                     }
