@@ -31,17 +31,17 @@ namespace AutoRestarter
                     if (sysProcess.ProcessName.Contains("bot"))
                     {
                         sysProcess.Kill();
-                        Console.WriteLine("[{0:hh:mm:ss}] closing bot..", DateTime.Now);
+                        Console.WriteLine("[{0:hh:mm:ss}] Closing bot..", DateTime.Now);
                     }
                     else if (sysProcess.ProcessName.Contains("League of Legends"))
                     {
                         sysProcess.Kill();
-                        Console.WriteLine("[{0:hh:mm:ss}] closing LoL..", DateTime.Now);
+                        Console.WriteLine("[{0:hh:mm:ss}] Closing LoL..", DateTime.Now);
                     }
                 }
 
                 Process.Start(botPath);
-                Console.WriteLine("[{0:hh:mm:ss}] initializing bot..", DateTime.Now);
+                Console.WriteLine("[{0:hh:mm:ss}] Initializing bot..", DateTime.Now);
 
                 System.Threading.Thread.Sleep(time);
             }
