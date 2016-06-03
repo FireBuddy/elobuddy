@@ -7,24 +7,27 @@ namespace AutoRestarter
     {
         static void Main(string[] args)
         {
-            foreach (Process sysProcess in Process.GetProcesses())
+            while (true)
             {
-                if (sysProcess.ProcessName.Contains("ezBot"))
+                foreach (Process sysProcess in Process.GetProcesses())
                 {
-                    sysProcess.Close();
-                    Console.WriteLine("[{0:hh:mm:ss}] closing ezBot..", DateTime.Now);
+                    if (sysProcess.ProcessName.Contains("ezBot"))
+                    {
+                        sysProcess.Close();
+                        Console.WriteLine("[{0:hh:mm:ss}] closing ezBot..", DateTime.Now);
+                    }
+                    else if (sysProcess.ProcessName.Contains("League of Legends"))
+                    {
+                        sysProcess.Close();
+                        Console.WriteLine("[{0:hh:mm:ss}] closing LoL..", DateTime.Now);
+                    }
                 }
-                else if (sysProcess.ProcessName.Contains("League of Legends"))
-                {
-                    sysProcess.Close();
-                    Console.WriteLine("[{0:hh:mm:ss}] closing LoL..", DateTime.Now);
-                }
+
+                Process.Start("ezBot.exe");
+                Console.WriteLine("[{0:hh:mm:ss}] initializing ezBot..", DateTime.Now);
+
+                System.Threading.Thread.Sleep(3600000);
             }
-
-            Process.Start("ezBot.exe");
-            Console.WriteLine("[{0:hh:mm:ss}] initializing ezBot..", DateTime.Now);
-
-            System.Threading.Thread.Sleep(3600000);
         }
     }
 }
