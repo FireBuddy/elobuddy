@@ -33,7 +33,7 @@ namespace AutoRestarter
                 Process.Start(botPath);
                 Console.WriteLine("[{0:hh:mm:ss}] initializing bot..", DateTime.Now);
 
-                System.Threading.Thread.Sleep(3600000);
+                System.Threading.Thread.Sleep(time);
             }
         }
     }
