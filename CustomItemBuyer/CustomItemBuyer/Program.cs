@@ -1,14 +1,14 @@
-﻿using EloBuddy;
-using EloBuddy.SDK;
-using EloBuddy.SDK.Events;
-using EloBuddy.SDK.Rendering;
-using SharpDX;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using EloBuddy;
+using EloBuddy.SDK;
+using EloBuddy.SDK.Events;
+using EloBuddy.SDK.Rendering;
+using SharpDX;
 using Color = System.Drawing.Color;
 using Settings = CustomItemBuyer.Config.CIB.BuyingOrderMenu;
 
@@ -72,36 +72,44 @@ namespace CustomItemBuyer
                 {
                     using (var sr = new StreamReader(cibpath + Player.Instance.ChampionName + ".txt"))
                     {
-                        string settings = sr.ReadToEnd();
+                        var settings = sr.ReadToEnd();
 
-                        ids = settings.Split(',').Select(str => str.Substring(str.IndexOf(':') + 1).Trim()).ToList().ConvertAll(Convert.ToInt32);
+                        ids =
+                            settings.Split(',')
+                                .Select(str => str.Substring(str.IndexOf(':') + 1).Trim())
+                                .ToList()
+                                .ConvertAll(Convert.ToInt32);
 
-                        op = settings.Split(',').Select(str => str.Substring(0, str.IndexOf(':')).Trim().ToLower()).ToList().ConvertAll(Convert.ToChar);
+                        op =
+                            settings.Split(',')
+                                .Select(str => str.Substring(0, str.IndexOf(':')).Trim().ToLower())
+                                .ToList()
+                                .ConvertAll(Convert.ToChar);
 
                         sr.Close();
                     }
                 }
                 catch (NullReferenceException)
                 {
-                    Console.WriteLine("CustomItemBuyer: There are no items set for {0} at \"{1}\"", Player.Instance.ChampionName, cibpath + Player.Instance.ChampionName + ".txt");
-                    Chat.Print("CustomItemBuyer: There are no items set for {0} at \"{1}\"", Player.Instance.ChampionName, cibpath + Player.Instance.ChampionName + ".txt");
+                    Console.WriteLine(
+                        $"CustomItemBuyer: There are no items set for {Player.Instance.ChampionName} at \"{cibpath + Player.Instance.ChampionName}.txt\"");
+                    Chat.Print(
+                        $"CustomItemBuyer: There are no items set for {Player.Instance.ChampionName} at \"{cibpath + Player.Instance.ChampionName}.txt\"");
                 }
 
                 foreach (var id in ids)
                     order.Add(new Item(id));
 
                 if (!File.Exists(cibpath + @"saved_data.txt") || !HasItems())
-                {
                     using (var sw = new StreamWriter(cibpath + @"saved_data.txt", false))
                     {
                         sw.Write("0:0");
                         sw.Close();
                     }
-                }
 
                 using (var sr = new StreamReader(cibpath + @"saved_data.txt"))
                 {
-                    string settings = sr.ReadToEnd();
+                    var settings = sr.ReadToEnd();
 
                     current = Convert.ToInt32(settings.Substring(0, settings.IndexOf(':')));
 
@@ -124,53 +132,48 @@ namespace CustomItemBuyer
 
         private static void OnTick(EventArgs args)
         {
-            if (!Settings.enabled.CurrentValue)
-                return;
+            if (!Settings.enabled.CurrentValue) return;
 
-            if (current + 1 > order.Count)
-                return;
+            if (current + 1 > order.Count) return;
 
             goldReq = order[current].GoldRequired();
 
             text.Color = Player.Instance.Gold >= goldReq ? Color.LightGreen : Color.DarkRed;
-            text.TextValue = Settings.enabled.CurrentValue ? string.Format("Next Item: {0}\nPrice: {1}", order[current].ItemInfo.Name, goldReq) : string.Empty;
+            text.TextValue = Settings.enabled.CurrentValue
+                ? $"Next Item: {order[current].ItemInfo.Name}\nPrice: {goldReq}"
+                : string.Empty;
 
             if (Settings.rndmDelay.CurrentValue)
             {
-                if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Settings.delay.CurrentValue))
+                if (stopwatch.ElapsedMilliseconds < new Random().Next(250, Settings.delay.CurrentValue)) return;
+
+                if (Player.Instance.IsInShopRange())
                 {
-                    if (Player.Instance.IsInShopRange())
-                    {
-                        TryBuySell(order[current], op[current]);
-
-                        SaveData();
-                    }
-
-                    stopwatch.Restart();
+                    TryBuySell(order[current], op[current]);
+                    SaveData();
                 }
+
+                stopwatch.Restart();
             }
             else
             {
-                if (stopwatch.ElapsedMilliseconds >= Settings.delay.CurrentValue)
+                if (stopwatch.ElapsedMilliseconds < Settings.delay.CurrentValue) return;
+
+                if (Player.Instance.IsInShopRange())
                 {
-                    if (Player.Instance.IsInShopRange())
-                    {
-                        TryBuySell(order[current], op[current]);
-
-                        SaveData();
-                    }
-
-                    stopwatch.Restart();
+                    TryBuySell(order[current], op[current]);
+                    SaveData();
                 }
+
+                stopwatch.Restart();
             }
         }
 
         private static void OnDraw(EventArgs args)
         {
-            if (!Settings.enabled.CurrentValue || !Settings.draw.CurrentValue)
-                return;
+            if (!Settings.enabled.CurrentValue || !Settings.draw.CurrentValue) return;
 
-            text.Position = Player.Instance.Position.WorldToScreen() - new Vector2(text.Bounding.Width / 2, -75);
+            text.Position = Player.Instance.Position.WorldToScreen() - new Vector2(text.Bounding.Width/2, -75);
             text.Draw();
         }
 
@@ -178,7 +181,7 @@ namespace CustomItemBuyer
         {
             using (var sw = new StreamWriter(cibpath + @"saved_data.txt", false))
             {
-                sw.Write("{0}:{1}", current, goldReq);
+                sw.Write($"{current}:{goldReq}");
                 sw.Close();
             }
         }
@@ -187,63 +190,46 @@ namespace CustomItemBuyer
         {
             foreach (var item in order)
             {
-                foreach (var slot in Player.Instance.InventoryItems)
+                foreach (
+                    var slot in
+                        Player.Instance.InventoryItems.Where(
+                            slot =>
+                                item.Id != wt.Id && item.Id != gst.Id && item.Id != gvt.Id && item.Id != oa.Id &&
+                                item.Id != sl.Id && item.Id != ss.Id && item.Id != sa.Id && item.Id != dps.Id))
                 {
-                    if (item.Id != wt.Id && item.Id != gst.Id && item.Id != gvt.Id && item.Id != oa.Id && item.Id != sl.Id && item.Id != ss.Id && item.Id != sa.Id && item.Id != dps.Id)
+                    if (item.Id == hppot.Id)
                     {
-                        if (item.Id == hppot.Id)
-                        {
-                            if (slot.Id == hppot.Id || slot.Id == bisc.Id)
-                                return true;
-                        }
-                        else if (slot.Id == item.Id)
-                        {
+                        if (slot.Id == hppot.Id || slot.Id == bisc.Id)
                             return true;
-                        }
                     }
+                    else if (slot.Id == item.Id)
+                        return true;
                 }
             }
 
             return false;
         }
 
-        private static int GetQtt(Item item)
-        {
-            int qtt = 0;
-
-            foreach (var slot in Player.Instance.InventoryItems)
-            {
-                if (slot.Id == item.Id)
-                    qtt++;
-            }
-
-            return qtt;
-        }
+/*
+        private static int GetQtt(Item item) 
+            => Player.Instance.InventoryItems.Count(slot => slot.Id == item.Id);
+*/
 
         private static InventorySlot GetSlot(Item item)
-        {
-            foreach (var slot in Player.Instance.InventoryItems)
-            {
-                if (slot.Id == item.Id)
-                    return slot;
-            }
-
-            return null;
-        }
+            => Player.Instance.InventoryItems.FirstOrDefault(slot => slot.Id == item.Id);
 
         private static void TryBuySell(Item item, char bs)
         {
             switch (bs)
             {
                 case 'b':
+                {
+                    if (Player.Instance.Gold >= goldReq)
                     {
-                        if (Player.Instance.Gold >= goldReq)
-                        {
-                            Shop.BuyItem(item.Id);
-
-                            current++;
-                        }
-                        /*else if (Settings.buyComp.CurrentValue)
+                        Shop.BuyItem(item.Id);
+                        current++;
+                    }
+                    /*else if (Settings.buyComp.CurrentValue)
                         {
                             foreach (var comp1 in item.GetComponents().OrderByDescending(x => x.GoldRequired()))
                             {
@@ -251,37 +237,31 @@ namespace CustomItemBuyer
                                     goldReq -= comp1.ItemInfo.Gold.Base;
                             }
                         }*/
-                    }
+                }
                     break;
                 case 's':
+                    if (item.Id == hppot.Id)
                     {
-                        if (item.Id == hppot.Id)
+                        if (hppot.IsOwned())
                         {
-                            if (hppot.IsOwned())
-                            {
-                                Shop.SellItem(GetSlot(hppot).Slot);
-
-                                current++;
-                            }
-                            else if (bisc.IsOwned())
-                            {
-                                Shop.SellItem(GetSlot(bisc).Slot);
-
-                                current++;
-                            }
+                            Shop.SellItem(GetSlot(hppot).Slot);
+                            current++;
                         }
-                        else if (item.IsOwned())
+                        else if (bisc.IsOwned())
                         {
-                            Shop.SellItem(GetSlot(item).Slot);
-
+                            Shop.SellItem(GetSlot(bisc).Slot);
                             current++;
                         }
                     }
+                    else if (item.IsOwned())
+                    {
+                        Shop.SellItem(GetSlot(item).Slot);
+                        current++;
+                    }
                     break;
                 default:
-                    {
-                        Console.WriteLine("Error: item set for {0} was not set properly - b:ItemId or s:ItemId", Player.Instance.ChampionName);
-                    }
+                    Console.WriteLine("Error: item set for {0} was not set properly - b:ItemId or s:ItemId",
+                        Player.Instance.ChampionName);
                     break;
             }
         }

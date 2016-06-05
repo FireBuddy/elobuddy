@@ -3,7 +3,7 @@ using EloBuddy.SDK.Menu.Values;
 
 namespace CustomItemBuyer
 {
-    class Config
+    internal static class Config
     {
         private static readonly Menu Menu;
 
@@ -15,7 +15,9 @@ namespace CustomItemBuyer
             CIB.Initialize();
         }
 
-        public static void Initialize() { }
+        public static void Initialize()
+        {
+        }
 
         public static class CIB
         {
@@ -30,11 +32,18 @@ namespace CustomItemBuyer
                 Menu.AddSeparator();
             }
 
-            public static void Initialize() { }
+            public static void Initialize()
+            {
+            }
 
             public static class BuyingOrderMenu
             {
-                public static readonly CheckBox rndmDelay, enabled, draw, buyComp;
+                public static readonly CheckBox rndmDelay;
+                public static readonly CheckBox enabled;
+                public static readonly CheckBox draw;
+/*
+                public static readonly CheckBox buyComp;
+*/
                 public static readonly Slider delay;
 
                 static BuyingOrderMenu()
@@ -60,7 +69,9 @@ namespace CustomItemBuyer
                     rndmDelay = Menu.Add("rndmdelay", new CheckBox("Randomize Buy Delay"));
                 }
 
-                public static void Initialize() { }
+                public static void Initialize()
+                {
+                }
             }
         }
     }

@@ -42,14 +42,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CustomItemBuyer.exe" size="12288">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CustomItemBuyer.exe" size="12800">
       <assemblyIdentity name="CustomItemBuyer" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>ta/lABJXfDdj85sQwfFY+gvcYGCbZyLXEZnLt2ZxeQ0=</dsig:DigestValue>
+        <dsig:DigestValue>I8WjjjVl+Mlbkflv5DFIjf1UDpLsGrUyl95rcVCFb14=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -85,7 +85,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>1hKZtRxBmQDloUqCSf3xZM9ypWASoKr6Xny1VfPA1Y8=</dsig:DigestValue>
+        <dsig:DigestValue>ZM3yx1+aimIWvzkqdfEN6SE0v+aYyf2n62HBGabVQj8=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -125,13 +125,13 @@
       </hash>
     </dependentAssembly>
   </dependency>
-  <file name="CustomItemBuyer.exe.config" size="229">
+  <file name="CustomItemBuyer.exe.config" size="213">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>oT6OFJ0SJ6n+SMIpu28Yue7mCUPHR+IYqY8PTy8mrj4=</dsig:DigestValue>
+      <dsig:DigestValue>TMuwndvQaOo/g4wwKkUd0HO9hmxgcY1cOSp8IGSrGrI=</dsig:DigestValue>
     </hash>
   </file>
   <compatibility xmlns="urn:schemas-microsoft-com:compatibility.v1">
