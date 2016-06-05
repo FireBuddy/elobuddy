@@ -1,14 +1,14 @@
-﻿using EloBuddy;
+﻿using System;
+using EloBuddy;
 using EloBuddy.SDK.Events;
 using EloBuddy.SDK.Rendering;
 using SharpDX;
-using System;
 
 namespace PartyMorg
 {
     public static class Program
     {
-        public const string ChampName = "Morgana";
+        private const string ChampName = "Morgana";
 
         public static void Main(string[] args)
         {
@@ -17,10 +17,7 @@ namespace PartyMorg
 
         private static void OnLoadingComplete(EventArgs args)
         {
-            if (Player.Instance.ChampionName != ChampName)
-            {
-                return;
-            }
+            if (Player.Instance.ChampionName != ChampName) return;
 
             Config.Initialize();
             SpellManager.Initialize();
@@ -35,24 +32,16 @@ namespace PartyMorg
         private static void OnDraw(EventArgs args)
         {
             if (Config.Settings.Draw.DrawQ)
-            {
                 Circle.Draw(Color.Purple, SpellManager.Q.Range, Player.Instance.Position);
-            }
 
             if (Config.Settings.Draw.DrawW)
-            {
                 Circle.Draw(Color.Purple, SpellManager.W.Range, Player.Instance.Position);
-            }
 
             if (Config.Settings.Draw.DrawE)
-            {
                 Circle.Draw(Color.Purple, SpellManager.E.Range, Player.Instance.Position);
-            }
 
             if (Config.Settings.Draw.DrawR)
-            {
                 Circle.Draw(Color.Purple, SpellManager.R.Range, Player.Instance.Position);
-            }
         }
     }
 }

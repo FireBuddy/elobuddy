@@ -1,27 +1,17 @@
-﻿using EloBuddy;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using EloBuddy;
 using EloBuddy.SDK;
 using EloBuddy.SDK.Enumerations;
 using EloBuddy.SDK.Events;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
+using static PartyMorg.SpellManager;
 using _Interrupter = PartyMorg.Config.Settings.Interrupter;
-using AntiGapcloser = PartyMorg.Config.Settings.AntiGapcloser;
-using AutoShield = PartyMorg.Config.Settings.AutoShield;
-using Humanizer = PartyMorg.Config.Settings.Humanizer;
 
 namespace PartyMorg
 {
     public static class Events
     {
-        public static List<AIHeroClient> priorAllyOrder { get; private set; }
-        public static List<AIHeroClient> hpAllyOrder { get; private set; }
-        public static int highestPriority { get; private set; }
-        public static float lowestHP { get; private set; }
-        public static Stopwatch stopwatch = new Stopwatch();
-
         static Events()
         {
             Obj_AI_Base.OnProcessSpellCast += OnProcessSpellCast;
@@ -29,156 +19,93 @@ namespace PartyMorg
             Interrupter.OnInterruptableSpell += OnInterruptableSpell;
         }
 
-        public static void Initialize() { }
+        private static List<AIHeroClient> priorAllyOrder { get; set; }
+        private static List<AIHeroClient> hpAllyOrder { get; set; }
+        private static int highestPriority { get; set; }
+        private static float lowestHP { get; set; }
+
+        public static void Initialize()
+        {
+        }
 
         private static void CastShield(Obj_AI_Base target)
         {
-            if (Humanizer.ECastDelayEnabled)
+            if (Config.Settings.Humanizer.ECastDelayEnabled)
             {
-                if (Humanizer.ERndmDelay)
-                {
-                    stopwatch.Start();
-
-                    if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.ECastDelay))
-                    {
-                        SpellManager.E.Cast(target);
-                        stopwatch.Reset();
-                    }
-                }
-                else
-                {
-                    stopwatch.Start();
-
-                    if (stopwatch.ElapsedMilliseconds >= Humanizer.ECastDelay)
-                    {
-                        SpellManager.E.Cast(target);
-                        stopwatch.Reset();
-                    }
-                }
+                Core.DelayAction(() => { E.Cast(target); },
+                    Config.Settings.Humanizer.ERndmDelay
+                        ? new Random().Next(250, Config.Settings.Humanizer.ECastDelay)
+                        : Config.Settings.Humanizer.ECastDelay);
             }
             else
             {
-                SpellManager.E.Cast(target);
+                E.Cast(target);
             }
         }
 
         private static void OnGapcloser(AIHeroClient sender, Gapcloser.GapcloserEventArgs e)
         {
-            if (!sender.IsEnemy || !AntiGapcloser.AntiGap || Player.Instance.IsRecalling())
-            { return; }
+            if (!sender.IsEnemy || !Config.Settings.AntiGapcloser.AntiGap || Player.Instance.IsRecalling()) return;
 
-            foreach (var ally in EntityManager.Heroes.Allies)
+            foreach (
+                var ally in
+                    EntityManager.Heroes.Allies.Where(ally => sender.IsFacing(ally) && Q.IsInRange(sender.Position)))
             {
-                if (sender.IsFacing(ally) && SpellManager.Q.IsInRange(sender.Position))
+                if (Config.Settings.Humanizer.QCastDelayEnabled)
                 {
-                    if (Humanizer.QCastDelayEnabled)
-                    {
-                        if (Humanizer.QRndmDelay)
-                        {
-                            stopwatch.Start();
-
-                            if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.QCastDelay))
-                            {
-                                SpellManager.Q.Cast(SpellManager.Q.GetPrediction(sender).CastPosition);
-                                stopwatch.Reset();
-                            }
-                        }
-                        else
-                        {
-                            stopwatch.Start();
-
-                            if (stopwatch.ElapsedMilliseconds >= Humanizer.QCastDelay)
-                            {
-                                SpellManager.Q.Cast(SpellManager.Q.GetPrediction(sender).CastPosition);
-                                stopwatch.Reset();
-                            }
-                        }
-                    }
-                    else
-                    {
-                        SpellManager.Q.Cast(SpellManager.Q.GetPrediction(sender).CastPosition);
-                    }
+                    Core.DelayAction(() => { Q.Cast(Q.GetPrediction(sender).CastPosition); },
+                        Config.Settings.Humanizer.QRndmDelay
+                            ? new Random().Next(250, Config.Settings.Humanizer.QCastDelay)
+                            : Config.Settings.Humanizer.QCastDelay);
+                }
+                else
+                {
+                    Q.Cast(Q.GetPrediction(sender).CastPosition);
                 }
             }
         }
 
         private static void OnInterruptableSpell(Obj_AI_Base sender, Interrupter.InterruptableSpellEventArgs e)
         {
-            if (!sender.IsEnemy || Player.Instance.IsRecalling())
-            { return; }
+            if (!sender.IsEnemy || Player.Instance.IsRecalling()) return;
 
             if (e.DangerLevel == DangerLevel.High)
             {
-                if (_Interrupter.QInterruptDangerous && SpellManager.Q.IsReady() && SpellManager.Q.IsInRange(sender))
+                if (!_Interrupter.QInterruptDangerous || !Q.IsReady() || !Q.IsInRange(sender)) return;
+
+                if (Config.Settings.Humanizer.QCastDelayEnabled)
                 {
-                    if (Humanizer.QCastDelayEnabled)
-                    {
-                        if (Humanizer.QRndmDelay)
-                        {
-                            stopwatch.Start();
-
-                            if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.QCastDelay))
-                            {
-                                SpellManager.Q.Cast(SpellManager.Q.GetPrediction(sender).CastPosition);
-                                stopwatch.Reset();
-                            }
-                        }
-                        else
-                        {
-                            stopwatch.Start();
-
-                            if (stopwatch.ElapsedMilliseconds >= Humanizer.QCastDelay)
-                            {
-                                SpellManager.Q.Cast(SpellManager.Q.GetPrediction(sender).CastPosition);
-                                stopwatch.Reset();
-                            }
-                        }
-                    }
-                    else
-                    {
-                        SpellManager.Q.Cast(SpellManager.Q.GetPrediction(sender).CastPosition);
-                    }
+                    Core.DelayAction(() => { Q.Cast(Q.GetPrediction(sender).CastPosition); },
+                        Config.Settings.Humanizer.QRndmDelay
+                            ? new Random().Next(250, Config.Settings.Humanizer.QCastDelay)
+                            : Config.Settings.Humanizer.QCastDelay);
+                }
+                else
+                {
+                    Q.Cast(Q.GetPrediction(sender).CastPosition);
                 }
             }
             else
             {
-                if (_Interrupter.QInterrupt && SpellManager.Q.IsReady() && SpellManager.Q.IsInRange(sender))
+                if (!_Interrupter.QInterrupt || !Q.IsReady() || !Q.IsInRange(sender)) return;
+
+                if (Config.Settings.Humanizer.QCastDelayEnabled)
                 {
-                    if (Humanizer.QCastDelayEnabled)
-                    {
-                        if (Humanizer.QRndmDelay)
-                        {
-                            stopwatch.Start();
-
-                            if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.QCastDelay))
-                            {
-                                SpellManager.Q.Cast(SpellManager.Q.GetPrediction(sender).CastPosition);
-                                stopwatch.Reset();
-                            }
-                        }
-                        else
-                        {
-                            stopwatch.Start();
-
-                            if (stopwatch.ElapsedMilliseconds >= Humanizer.QCastDelay)
-                            {
-                                SpellManager.Q.Cast(SpellManager.Q.GetPrediction(sender).CastPosition);
-                                stopwatch.Reset();
-                            }
-                        }
-                    }
-                    else
-                    {
-                        SpellManager.Q.Cast(SpellManager.Q.GetPrediction(sender).CastPosition);
-                    }
+                    Core.DelayAction(() => { Q.Cast(Q.GetPrediction(sender).CastPosition); },
+                        Config.Settings.Humanizer.QRndmDelay
+                            ? new Random().Next(250, Config.Settings.Humanizer.QCastDelay)
+                            : Config.Settings.Humanizer.QCastDelay);
+                }
+                else
+                {
+                    Q.Cast(Q.GetPrediction(sender).CastPosition);
                 }
             }
         }
 
-        public static void OnProcessSpellCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
+        private static void OnProcessSpellCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            if (!sender.IsEnemy || Player.Instance.IsRecalling())
-            { return; }
+            if (!sender.IsEnemy || Player.Instance.IsRecalling()) return;
 
             priorAllyOrder = new List<AIHeroClient>();
 
@@ -188,54 +115,61 @@ namespace PartyMorg
 
             lowestHP = int.MaxValue;
 
-            if (AutoShield.PriorMode == 1)
+            if (Config.Settings.AutoShield.PriorMode == 1)
             {
-                foreach (var slider in AutoShield.Sliders)
+                foreach (var slider in Config.Settings.AutoShield.Sliders)
                 {
                     if (slider.CurrentValue >= highestPriority)
                     {
                         highestPriority = slider.CurrentValue;
 
-                        foreach (var ally in AutoShield.Heros)
+                        foreach (
+                            var ally in
+                                Config.Settings.AutoShield.Heros.Where(
+                                    ally => slider.VisibleName.Contains(ally.ChampionName)))
                         {
-                            if (slider.VisibleName.Contains(ally.ChampionName))
-                            {
-                                priorAllyOrder.Insert(0, ally);
-                            }
+                            priorAllyOrder.Insert(0, ally);
                         }
                     }
                     else
                     {
-                        foreach (var ally in AutoShield.Heros)
+                        foreach (
+                            var ally in
+                                Config.Settings.AutoShield.Heros.Where(
+                                    ally => slider.VisibleName.Contains(ally.ChampionName)))
                         {
-                            if (slider.VisibleName.Contains(ally.ChampionName))
-                            {
-                                priorAllyOrder.Add(ally);
-                            }
+                            priorAllyOrder.Add(ally);
                         }
                     }
                 }
 
-                foreach (var ally in priorAllyOrder.Where(ally => Player.Instance.IsInRange(ally, SpellManager.E.Range)))
+                foreach (var ally in priorAllyOrder.Where(ally => Player.Instance.IsInRange(ally, E.Range)))
                 {
-                    foreach (var shieldThisAlly in AutoShield.ShieldAllyList.Where(x => x.DisplayName.Contains(ally.ChampionName) && x.CurrentValue))
+                    foreach (
+                        var shieldThisSpell in
+                            Config.Settings.AutoShield.ShieldAllyList.Where(
+                                x => x.DisplayName.Contains(ally.ChampionName) && x.CurrentValue)
+                                .SelectMany(
+                                    shieldThisAlly =>
+                                        Config.Settings.AutoShield.ShieldSpellList.Where(
+                                            s => s.DisplayName.Contains(args.SData.Name) && s.CurrentValue)))
                     {
-                        foreach (var shieldThisSpell in AutoShield.ShieldSpellList.Where(s => s.DisplayName.Contains(args.SData.Name) && s.CurrentValue))
+                        if (args.Target == ally)
+                            CastShield(ally);
+                        else
                         {
-                            if (args.Target == ally)
+                            if (Prediction.Position.PredictUnitPosition(ally, 250)
+                                .IsInRange(args.End,
+                                    MissileDatabase.rangeRadiusDatabase[shieldThisSpell.DisplayName.Last(), 1]))
                             {
                                 CastShield(ally);
                             }
-                            else
+                            else if (sender.IsFacing(ally) &&
+                                     Prediction.Position.PredictUnitPosition(ally, 250)
+                                         .IsInRange(sender,
+                                             MissileDatabase.rangeRadiusDatabase[shieldThisSpell.DisplayName.Last(), 0]))
                             {
-                                if (Prediction.Position.PredictUnitPosition(ally, 250).IsInRange(args.End, MissileDatabase.rangeRadiusDatabase[shieldThisSpell.DisplayName.Last(), 1]))
-                                {
-                                    CastShield(ally);
-                                }
-                                else if (sender.IsFacing(ally) && Prediction.Position.PredictUnitPosition(ally, 250).IsInRange(sender, MissileDatabase.rangeRadiusDatabase[shieldThisSpell.DisplayName.Last(), 0]))
-                                {
-                                    CastShield(ally);
-                                }
+                                CastShield(ally);
                             }
                         }
                     }
@@ -251,31 +185,36 @@ namespace PartyMorg
                         hpAllyOrder.Insert(0, ally);
                     }
                     else
-                    {
                         hpAllyOrder.Add(ally);
-                    }
                 }
 
-                foreach (var ally in hpAllyOrder.Where(ally => Player.Instance.IsInRange(ally, SpellManager.E.Range)))
+                foreach (var ally in hpAllyOrder.Where(ally => Player.Instance.IsInRange(ally, E.Range)))
                 {
-                    foreach (var shieldThisAlly in AutoShield.ShieldAllyList.Where(a => a.DisplayName.Contains(ally.ChampionName) && a.CurrentValue))
+                    foreach (
+                        var shieldThisSpell in
+                            Config.Settings.AutoShield.ShieldAllyList.Where(
+                                a => a.DisplayName.Contains(ally.ChampionName) && a.CurrentValue)
+                                .SelectMany(
+                                    shieldThisAlly =>
+                                        Config.Settings.AutoShield.ShieldSpellList.Where(
+                                            s => s.DisplayName.Contains(args.SData.Name) && s.CurrentValue)))
                     {
-                        foreach (var shieldThisSpell in AutoShield.ShieldSpellList.Where(s => s.DisplayName.Contains(args.SData.Name) && s.CurrentValue))
+                        if (args.Target == ally)
+                            CastShield(ally);
+                        else
                         {
-                            if (args.Target == ally)
+                            if (Prediction.Position.PredictUnitPosition(ally, 250)
+                                .IsInRange(args.End,
+                                    MissileDatabase.rangeRadiusDatabase[shieldThisSpell.DisplayName.Last(), 1]))
                             {
                                 CastShield(ally);
                             }
-                            else
+                            else if (sender.IsFacing(ally) &&
+                                     Prediction.Position.PredictUnitPosition(ally, 250)
+                                         .IsInRange(sender,
+                                             MissileDatabase.rangeRadiusDatabase[shieldThisSpell.DisplayName.Last(), 0]))
                             {
-                                if (Prediction.Position.PredictUnitPosition(ally, 250).IsInRange(args.End, MissileDatabase.rangeRadiusDatabase[shieldThisSpell.DisplayName.Last(), 1]))
-                                {
-                                    CastShield(ally);
-                                }
-                                else if (sender.IsFacing(ally) && Prediction.Position.PredictUnitPosition(ally, 250).IsInRange(sender, MissileDatabase.rangeRadiusDatabase[shieldThisSpell.DisplayName.Last(), 0]))
-                                {
-                                    CastShield(ally);
-                                }
+                                CastShield(ally);
                             }
                         }
                     }

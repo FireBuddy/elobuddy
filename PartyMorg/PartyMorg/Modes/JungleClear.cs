@@ -1,31 +1,29 @@
-﻿using EloBuddy.SDK;
-using System;
+﻿using System;
+using EloBuddy.SDK;
 using Settings = PartyMorg.Config.Settings.JungleClear;
 
 namespace PartyMorg.Modes
 {
     public sealed class JungleClear : ModeBase
     {
-        public override bool ShouldBeExecuted()
-        {
-            return Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear);
-        }
+        public override bool ShouldBeExecuted() => Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.JungleClear);
 
         public override void Execute()
         {
-            var farmLocation = EntityManager.MinionsAndMonsters.GetLineFarmLocation(EntityManager.MinionsAndMonsters.GetJungleMonsters(), 80, Convert.ToInt32(Q.Range));
+            var farmLocation =
+                EntityManager.MinionsAndMonsters.GetLineFarmLocation(
+                    EntityManager.MinionsAndMonsters.GetJungleMonsters(), 80, Convert.ToInt32(Q.Range));
 
             if (Settings.UseQ)
-            {
                 Q.Cast(farmLocation.CastPosition);
-            }
 
-            if (Settings.UseW)
-            {
-                farmLocation = EntityManager.MinionsAndMonsters.GetCircularFarmLocation(EntityManager.MinionsAndMonsters.GetJungleMonsters(), 300, Convert.ToInt32(W.Range));
+            if (!Settings.UseW) return;
 
-                W.Cast(farmLocation.CastPosition);
-            }
+            farmLocation =
+                EntityManager.MinionsAndMonsters.GetCircularFarmLocation(
+                    EntityManager.MinionsAndMonsters.GetJungleMonsters(), 300, Convert.ToInt32(W.Range));
+
+            W.Cast(farmLocation.CastPosition);
         }
     }
 }

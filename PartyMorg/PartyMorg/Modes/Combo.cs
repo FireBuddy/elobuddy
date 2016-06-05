@@ -1,88 +1,62 @@
-﻿using EloBuddy;
+﻿using System;
+using EloBuddy;
 using EloBuddy.SDK;
-using System;
-using System.Diagnostics;
-using Humanizer = PartyMorg.Config.Settings.Humanizer;
+using EloBuddy.SDK.Enumerations;
+using static PartyMorg.Config.Settings;
 using Settings = PartyMorg.Config.Settings.Combo;
 
 namespace PartyMorg.Modes
 {
     public sealed class Combo : ModeBase
     {
-        private static Item zhonyasHourglass = new Item(3157);
+        private static readonly Item zhonyasHourglass = new Item(3157);
 
-        public static Spell.Skillshot flashSpell { get; private set; }
+        private static Spell.Skillshot flashSpell { get; set; }
 
-        public override bool ShouldBeExecuted()
-        {
-            return Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo);
-        }
-
-        public static Stopwatch stopwatch = new Stopwatch();
+        public override bool ShouldBeExecuted() => Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo);
 
         public override void Execute()
         {
-            flashSpell = new Spell.Skillshot(Player.Instance.GetSpellSlotFromName("summonerflash"), 425, EloBuddy.SDK.Enumerations.SkillShotType.Linear);
+            flashSpell = new Spell.Skillshot(Player.Instance.GetSpellSlotFromName("summonerflash"), 425,
+                SkillShotType.Linear);
 
             var target = GetTarget(Q, DamageType.Magical);
+
             PredictionResult pred;
 
-            if (target != null && target.IsTargetable && !target.HasBuffOfType(BuffType.SpellImmunity) && Settings.UseQ && !target.IsDead)
+            if (target != null && target.IsTargetable && !target.HasBuffOfType(BuffType.SpellImmunity) && Settings.UseQ &&
+                !target.IsDead)
             {
                 pred = Q.GetPrediction(target);
 
                 if (Humanizer.QCastDelayEnabled)
                 {
-                    if (Humanizer.QRndmDelay)
-                    {
-                        stopwatch.Start();
-
-                        if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.QCastDelay))
-                        {
-                            if (pred.HitChancePercent >= Settings.QMinHitChance)
-                            {
-                                Q.Cast(pred.CastPosition);
-                            }
-
-                            stopwatch.Reset();
-                        }
-                    }
-                    else
-                    {
-                        stopwatch.Start();
-
-                        if (stopwatch.ElapsedMilliseconds >= Humanizer.QCastDelay)
-                        {
-                            if (pred.HitChancePercent >= Settings.QMinHitChance)
-                            {
-                                Q.Cast(pred.CastPosition);
-                            }
-
-                            stopwatch.Reset();
-                        }
-                    }
+                    if (pred.HitChancePercent >= Settings.QMinHitChance)
+                        Core.DelayAction(() => { Q.Cast(pred.CastPosition); },
+                            Humanizer.QRndmDelay
+                                ? new Random().Next(250, Humanizer.QCastDelay)
+                                : Humanizer.QCastDelay);
                 }
                 else
                 {
                     if (pred.HitChancePercent >= Settings.QMinHitChance)
-                    {
                         Q.Cast(pred.CastPosition);
-                    }
                 }
             }
 
             if (Settings.WImmobileOnly)
             {
-                if (target != null && target.IsTargetable && !target.HasBuffOfType(BuffType.SpellImmunity) && Settings.UseW && !target.IsDead && Player.Instance.IsInRange(target, W.Range) && Immobile(target))
+                if (target != null && target.IsTargetable && !target.HasBuffOfType(BuffType.SpellImmunity) &&
+                    Settings.UseW && !target.IsDead && Player.Instance.IsInRange(target, W.Range) && IsImmobile(target))
                 {
                     pred = W.GetPrediction(target);
-
                     W.Cast(pred.CastPosition);
                 }
             }
             else
             {
-                if (target != null && target.IsTargetable && !target.HasBuffOfType(BuffType.SpellImmunity) && Settings.UseW && !target.IsDead && Player.Instance.IsInRange(target, W.Range))
+                if (target != null && target.IsTargetable && !target.HasBuffOfType(BuffType.SpellImmunity) &&
+                    Settings.UseW && !target.IsDead && Player.Instance.IsInRange(target, W.Range))
                 {
                     pred = W.GetPrediction(target);
 
@@ -102,83 +76,61 @@ namespace PartyMorg.Modes
 
             target = GetTarget(R, DamageType.Magical);
 
-            if (R.IsReady() && Settings.UseR && target != null && target.IsTargetable && !target.HasBuffOfType(BuffType.SpellImmunity) && !target.IsDead)
+            if (!R.IsReady() || !Settings.UseR || target == null || !target.IsTargetable ||
+                target.HasBuffOfType(BuffType.SpellImmunity) || target.IsDead) return;
+
+            if (Player.Instance.CountEnemiesInRange(Settings.UltMinRange) == 0 && Settings.FlashUlt)
             {
-                if (Player.Instance.CountEnemiesInRange(Settings.UltMinRange) == 0 && Settings.FlashUlt)
+                var enemiesFaced = 0;
+
+                foreach (var enemy in EntityManager.Heroes.Enemies)
                 {
-                    int enemiesFaced = 0;
+                    if (Player.Instance.IsFacing(enemy))
+                        enemiesFaced++;
 
-                    foreach (var enemy in EntityManager.Heroes.Enemies)
+                    if (enemiesFaced < Settings.RMinEnemies ||
+                        Player.Instance.CountEnemiesInRange(Settings.UltMinRange + flashSpell.Range) <
+                        Settings.RMinEnemies) continue;
+
+                    flashSpell.Cast(Player.Instance.Position.Extend(enemy.Position, flashSpell.Range).To3D());
+
+                    R.Cast();
+
+                    if (Settings.UltZhonya)
+                        zhonyasHourglass.Cast();
+
+                    enemiesFaced = 0;
+                }
+            }
+            else
+            {
+                if (!target.IsTargetable || target.HasBuffOfType(BuffType.SpellImmunity) || !Settings.UseR ||
+                    Player.Instance.CountEnemiesInRange(Settings.UltMinRange) < Settings.RMinEnemies || target.IsDead)
+                    return;
+
+                if (Humanizer.RCastDelayEnabled)
+                {
+                    if (Humanizer.RRndmDelay)
                     {
-                        if (Player.Instance.IsFacing(enemy))
-                        {
-                            enemiesFaced++;
-                        }
+                        Core.DelayAction(() => { R.Cast(); }, new Random().Next(250, Humanizer.RCastDelay));
 
-                        if (enemiesFaced >= Settings.RMinEnemies && Player.Instance.CountEnemiesInRange(Settings.UltMinRange + flashSpell.Range) >= Settings.RMinEnemies)
-                        {
-                            flashSpell.Cast(Player.Instance.Position.Extend(enemy.Position, flashSpell.Range).To3D());
+                        if (Settings.UltZhonya)
+                            zhonyasHourglass.Cast();
+                    }
+                    else
+                    {
+                        Core.DelayAction(() => { R.Cast(); }, Humanizer.RCastDelay);
 
-                            R.Cast();
-
-                            if (Settings.UltZhonya)
-                            {
-                                zhonyasHourglass.Cast();
-                            }
-
-                            enemiesFaced = 0;
-                        }
+                        if (Settings.UltZhonya)
+                            zhonyasHourglass.Cast();
                     }
                 }
                 else
                 {
-                    if (target != null && target.IsTargetable && !target.HasBuffOfType(BuffType.SpellImmunity) && Settings.UseR && Player.Instance.CountEnemiesInRange(Settings.UltMinRange) >= Settings.RMinEnemies && !target.IsDead)
-                    {
-                        if (Humanizer.RCastDelayEnabled)
-                        {
-                            if (Humanizer.RRndmDelay)
-                            {
-                                stopwatch.Start();
+                    R.Cast();
 
-                                if (stopwatch.ElapsedMilliseconds >= new Random().Next(250, Humanizer.RCastDelay))
-                                {
-                                    R.Cast();
-
-                                    if (Settings.UltZhonya)
-                                    {
-                                        zhonyasHourglass.Cast();
-                                    }
-
-                                    stopwatch.Reset();
-                                }
-                            }
-                            else
-                            {
-                                stopwatch.Start();
-
-                                if (stopwatch.ElapsedMilliseconds >= Humanizer.RCastDelay)
-                                {
-                                    R.Cast();
-
-                                    if (Settings.UltZhonya)
-                                    {
-                                        zhonyasHourglass.Cast();
-                                    }
-
-                                    stopwatch.Reset();
-                                }
-                            }
-                        }
-                        else
-                        {
-                            R.Cast();
-
-                            if (Settings.UltZhonya)
-                            {
-                                zhonyasHourglass.Cast();
-                            }
-                        }
-                    }
+                    if (Settings.UltZhonya)
+                        zhonyasHourglass.Cast();
                 }
             }
         }
