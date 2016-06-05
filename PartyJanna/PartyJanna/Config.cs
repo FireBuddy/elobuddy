@@ -1,9 +1,9 @@
-﻿using EloBuddy;
+﻿using System.Collections.Generic;
+using System.Linq;
+using EloBuddy;
 using EloBuddy.SDK;
 using EloBuddy.SDK.Menu;
 using EloBuddy.SDK.Menu.Values;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace PartyJanna
 {
@@ -21,7 +21,9 @@ namespace PartyJanna
             Settings.Initialize();
         }
 
-        public static void Initialize() { }
+        public static void Initialize()
+        {
+        }
 
         public static class Settings
         {
@@ -29,34 +31,34 @@ namespace PartyJanna
 
             static Settings()
             {
-                Menu0 = Config.Menu.AddSubMenu("Draw");
+                Menu0 = Menu.AddSubMenu("Draw");
                 Draw.Initialize();
 
-                Menu1 = Config.Menu.AddSubMenu("Anti-Gapcloser");
+                Menu1 = Menu.AddSubMenu("Anti-Gapcloser");
                 AntiGapcloser.Initialize();
 
-                Menu2 = Config.Menu.AddSubMenu("Interrupter");
+                Menu2 = Menu.AddSubMenu("Interrupter");
                 Interrupter.Initialize();
 
-                Menu3 = Config.Menu.AddSubMenu("Items");
+                Menu3 = Menu.AddSubMenu("Items");
                 Items.Initialize();
 
-                Menu4 = Config.Menu.AddSubMenu("Auto-Shield");
+                Menu4 = Menu.AddSubMenu("Auto-Shield");
                 AutoShield.Initialize();
 
-                Menu5 = Config.Menu.AddSubMenu("Combo");
+                Menu5 = Menu.AddSubMenu("Combo");
                 Combo.Initialize();
 
-                Menu6 = Config.Menu.AddSubMenu("Flee");
+                Menu6 = Menu.AddSubMenu("Flee");
                 Flee.Initialize();
 
-                Menu7 = Config.Menu.AddSubMenu("Harass");
+                Menu7 = Menu.AddSubMenu("Harass");
                 Harass.Initialize();
 
-                Menu8 = Config.Menu.AddSubMenu("Humanizer");
+                Menu8 = Menu.AddSubMenu("Humanizer");
                 Humanizer.Initialize();
 
-                Menu9 = Config.Menu.AddSubMenu("Skin Hack");
+                Menu9 = Menu.AddSubMenu("Skin Hack");
                 SkinHack.Initialize();
             }
 
@@ -71,23 +73,6 @@ namespace PartyJanna
                 private static readonly CheckBox _drawE;
                 private static readonly CheckBox _drawR;
 
-                public static bool DrawQ
-                {
-                    get { return _drawQ.CurrentValue; }
-                }
-                public static bool DrawW
-                {
-                    get { return _drawW.CurrentValue; }
-                }
-                public static bool DrawE
-                {
-                    get { return _drawE.CurrentValue; }
-                }
-                public static bool DrawR
-                {
-                    get { return _drawR.CurrentValue; }
-                }
-
                 static Draw()
                 {
                     Menu0.AddGroupLabel("Draw Settings");
@@ -98,51 +83,29 @@ namespace PartyJanna
                     _drawR = Menu0.Add("drawR", new CheckBox("Draw R Range"));
                 }
 
-                public static void Initialize() { }
+                public static bool DrawQ => _drawQ.CurrentValue;
+
+                public static bool DrawW => _drawW.CurrentValue;
+
+                public static bool DrawE => _drawE.CurrentValue;
+
+                public static bool DrawR => _drawR.CurrentValue;
+
+                public static void Initialize()
+                {
+                }
             }
 
             public static class Items
             {
                 private static readonly CheckBox _useItems, _useItemsComboOnly;
                 private static readonly Slider _allyHpPercentageDamage, _allyHpPercentageCc;
-                private static readonly List<CheckBox> _isAllyList, _fotmAllyList, _mcAllyList, _fqcAllyList, _toaAllyList;
 
-                public static bool UseItems
-                {
-                    get { return _useItems.CurrentValue; }
-                }
-                public static bool UseItemsComboOnly
-                {
-                    get { return _useItemsComboOnly.CurrentValue; }
-                }
-                public static int AllyHpPercentageDamage
-                {
-                    get { return _allyHpPercentageDamage.CurrentValue; }
-                }
-                public static int AllyHpPercentageCC
-                {
-                    get { return _allyHpPercentageCc.CurrentValue; }
-                }
-                public static List<CheckBox> ISAllyList
-                {
-                    get { return _isAllyList; }
-                }
-                public static List<CheckBox> FOTMAllyList
-                {
-                    get { return _fotmAllyList; }
-                }
-                public static List<CheckBox> MCAllyList
-                {
-                    get { return _mcAllyList; }
-                }
-                public static List<CheckBox> FQCAllyList
-                {
-                    get { return _fqcAllyList; }
-                }
-                public static List<CheckBox> TOAAllyList
-                {
-                    get { return _toaAllyList; }
-                }
+                private static readonly List<CheckBox> _isAllyList,
+                    _fotmAllyList,
+                    _mcAllyList,
+                    _fqcAllyList,
+                    _toaAllyList;
 
                 static Items()
                 {
@@ -158,7 +121,8 @@ namespace PartyJanna
 
                     Menu3.AddSeparator(13);
 
-                    _useItemsComboOnly = Menu3.Add("useItemsComboOnly", new CheckBox("Use Items only in Combo Mode", false));
+                    _useItemsComboOnly = Menu3.Add("useItemsComboOnly",
+                        new CheckBox("Use Items only in Combo Mode", false));
 
                     Menu3.AddSeparator(13);
 
@@ -166,7 +130,8 @@ namespace PartyJanna
 
                     foreach (var ally in EntityManager.Heroes.Allies)
                     {
-                        _isAllyList.Add(Menu3.Add<CheckBox>("ironSolari" + ally.ChampionName, new CheckBox(string.Format("Use on {0} ({1})", ally.ChampionName, ally.Name))));
+                        _isAllyList.Add(Menu3.Add("ironSolari" + ally.ChampionName, new CheckBox(
+                            $"Use on {ally.ChampionName} ({ally.Name})")));
                     }
 
                     Menu3.AddSeparator(13);
@@ -175,7 +140,8 @@ namespace PartyJanna
 
                     foreach (var ally in EntityManager.Heroes.Allies)
                     {
-                        _fotmAllyList.Add(Menu3.Add<CheckBox>("mountain" + ally.ChampionName, new CheckBox(string.Format("Use on {0} ({1})", ally.ChampionName, ally.Name))));
+                        _fotmAllyList.Add(Menu3.Add("mountain" + ally.ChampionName, new CheckBox(
+                            $"Use on {ally.ChampionName} ({ally.Name})")));
                     }
 
                     Menu3.AddSeparator(13);
@@ -184,7 +150,8 @@ namespace PartyJanna
 
                     foreach (var ally in EntityManager.Heroes.Allies)
                     {
-                        _mcAllyList.Add(Menu3.Add<CheckBox>("mikael" + ally.ChampionName, new CheckBox(string.Format("Use on {0} ({1})", ally.ChampionName, ally.Name))));
+                        _mcAllyList.Add(Menu3.Add("mikael" + ally.ChampionName, new CheckBox(
+                            $"Use on {ally.ChampionName} ({ally.Name})")));
                     }
 
                     Menu3.AddSeparator(13);
@@ -193,7 +160,8 @@ namespace PartyJanna
 
                     foreach (var ally in EntityManager.Heroes.Allies)
                     {
-                        _fqcAllyList.Add(Menu3.Add<CheckBox>("frostQueen" + ally.ChampionName, new CheckBox(string.Format("Use on {0} ({1})", ally.ChampionName, ally.Name))));
+                        _fqcAllyList.Add(Menu3.Add("frostQueen" + ally.ChampionName, new CheckBox(
+                            $"Use on {ally.ChampionName} ({ally.Name})")));
                     }
 
                     Menu3.AddSeparator(13);
@@ -202,29 +170,47 @@ namespace PartyJanna
 
                     foreach (var ally in EntityManager.Heroes.Allies)
                     {
-                        _toaAllyList.Add(Menu3.Add<CheckBox>("talisman" + ally.ChampionName, new CheckBox(string.Format("Use on {0} ({1})", ally.ChampionName, ally.Name))));
+                        _toaAllyList.Add(Menu3.Add("talisman" + ally.ChampionName, new CheckBox(
+                            $"Use on {ally.ChampionName} ({ally.Name})")));
                     }
 
                     Menu3.AddSeparator(13);
 
-                    _allyHpPercentageDamage = Menu3.Add("allyHpPercentage", new Slider("Min. Ally Health on Damage (%):", 50, 1));
+                    _allyHpPercentageDamage = Menu3.Add("allyHpPercentage",
+                        new Slider("Min. Ally Health on Damage (%):", 50, 1));
 
                     Menu3.AddSeparator(13);
 
-                    _allyHpPercentageCc = Menu3.Add("allyHpPercentageCc", new Slider("Min. Ally Health on CC (%):", 100, 1));
+                    _allyHpPercentageCc = Menu3.Add("allyHpPercentageCc",
+                        new Slider("Min. Ally Health on CC (%):", 100, 1));
                 }
 
-                public static void Initialize() { }
+                public static bool UseItems => _useItems.CurrentValue;
+
+                public static bool UseItemsComboOnly => _useItemsComboOnly.CurrentValue;
+
+                public static int AllyHpPercentageDamage => _allyHpPercentageDamage.CurrentValue;
+
+                public static int AllyHpPercentageCC => _allyHpPercentageCc.CurrentValue;
+
+                public static IEnumerable<CheckBox> ISAllyList => _isAllyList;
+
+                public static IEnumerable<CheckBox> FOTMAllyList => _fotmAllyList;
+
+                public static IEnumerable<CheckBox> MCAllyList => _mcAllyList;
+
+                public static IEnumerable<CheckBox> FQCAllyList => _fqcAllyList;
+
+                public static IEnumerable<CheckBox> TOAAllyList => _toaAllyList;
+
+                public static void Initialize()
+                {
+                }
             }
 
             public static class AntiGapcloser
             {
                 private static readonly CheckBox _antiGapcloser;
-
-                public static bool AntiGap
-                {
-                    get { return _antiGapcloser.CurrentValue; }
-                }
 
                 static AntiGapcloser()
                 {
@@ -233,7 +219,11 @@ namespace PartyJanna
                     _antiGapcloser = Menu1.Add("antiGapcloser", new CheckBox("Anti-Gapcloser"));
                 }
 
-                public static void Initialize() { }
+                public static bool AntiGap => _antiGapcloser.CurrentValue;
+
+                public static void Initialize()
+                {
+                }
             }
 
             public static class Interrupter
@@ -241,19 +231,6 @@ namespace PartyJanna
                 private static readonly CheckBox _qInterrupt;
                 private static readonly CheckBox _qInterruptDangerous;
                 private static readonly CheckBox _rInterruptDangerous;
-
-                public static bool QInterrupt
-                {
-                    get { return _qInterrupt.CurrentValue; }
-                }
-                public static bool QInterruptDangerous
-                {
-                    get { return _qInterruptDangerous.CurrentValue; }
-                }
-                public static bool RInterruptDangerous
-                {
-                    get { return _rInterruptDangerous.CurrentValue; }
-                }
 
                 static Interrupter()
                 {
@@ -265,10 +242,19 @@ namespace PartyJanna
                     _qInterruptDangerous = Menu2.Add("rInterrupt", new CheckBox("Interrupt high-danger spells with Q"));
                     Menu2.AddSeparator(13);
 
-                    _rInterruptDangerous = Menu2.Add("rInterruptDangerous", new CheckBox("Interrupt high-danger spells with R"));
+                    _rInterruptDangerous = Menu2.Add("rInterruptDangerous",
+                        new CheckBox("Interrupt high-danger spells with R"));
                 }
 
-                public static void Initialize() { }
+                public static bool QInterrupt => _qInterrupt.CurrentValue;
+
+                public static bool QInterruptDangerous => _qInterruptDangerous.CurrentValue;
+
+                public static bool RInterruptDangerous => _rInterruptDangerous.CurrentValue;
+
+                public static void Initialize()
+                {
+                }
             }
 
             public static class AutoShield
@@ -281,60 +267,6 @@ namespace PartyJanna
                 private static readonly List<Slider> _sliders, _ultSliders;
                 private static readonly List<AIHeroClient> _heros;
                 private static readonly List<CheckBox> _shieldAllyList, _shieldSpellList, _ultAllyList;
-
-
-                public static bool BoostAD
-                {
-                    get { return _boostAD.CurrentValue; }
-                }
-                public static bool BoostEzQ
-                {
-                    get { return _boostEzQ.CurrentValue; }
-                }
-                public static bool SelfShield
-                {
-                    get { return _selfShield.CurrentValue; }
-                }
-                public static bool TurretShieldMinion
-                {
-                    get { return _turretShieldMinion.CurrentValue; }
-                }
-                public static bool TurretShieldChampion
-                {
-                    get { return _turretShieldChampion.CurrentValue; }
-                }
-                public static int PriorMode
-                {
-                    get { return _priorMode.SelectedIndex; }
-                }
-                public static List<Slider> Sliders
-                {
-                    get { return _sliders; }
-                }
-                public static List<Slider> UltSliders
-                {
-                    get { return _ultSliders; }
-                }
-                public static List<AIHeroClient> Heros
-                {
-                    get { return _heros; }
-                }
-                public static List<CheckBox> ShieldAllyList
-                {
-                    get { return _shieldAllyList; }
-                }
-                public static List<CheckBox> ShieldSpellList
-                {
-                    get { return _shieldSpellList; }
-                }
-                public static List<CheckBox> UltAllyList
-                {
-                    get { return _ultAllyList; }
-                }
-                public static bool AutoUltimate
-                {
-                    get { return _autoUltimate.CurrentValue; }
-                }
 
                 static AutoShield()
                 {
@@ -356,20 +288,24 @@ namespace PartyJanna
                     _selfShield = Menu4.Add("selfShield", new CheckBox("Shield Yourself from Basic Attacks"));
                     Menu4.AddSeparator(13);
 
-                    _turretShieldMinion = Menu4.Add("turretShieldMinion", new CheckBox("Shield Turrets from Enemy Minions", false));
+                    _turretShieldMinion = Menu4.Add("turretShieldMinion",
+                        new CheckBox("Shield Turrets from Enemy Minions", false));
                     Menu4.AddSeparator(13);
 
-                    _turretShieldChampion = Menu4.Add("turretShieldChampion", new CheckBox("Shield Turrets from Enemy Champions"));
+                    _turretShieldChampion = Menu4.Add("turretShieldChampion",
+                        new CheckBox("Shield Turrets from Enemy Champions"));
                     Menu4.AddSeparator(13);
 
-                    _priorMode = Menu4.Add("autoShieldPriorMode", new ComboBox("AutoShield Priority Mode:", 0, new string[] { "Lowest Health", "Priority Level" }));
+                    _priorMode = Menu4.Add("autoShieldPriorMode",
+                        new ComboBox("AutoShield Priority Mode:", 0, "Lowest Health", "Priority Level"));
                     Menu4.AddSeparator(13);
 
                     Menu4.AddGroupLabel("Janna Shield");
 
                     foreach (var ally in EntityManager.Heroes.Allies)
                     {
-                        _shieldAllyList.Add(Menu4.Add<CheckBox>("shield" + ally.ChampionName, new CheckBox(string.Format("Shield {0} ({1})", ally.ChampionName, ally.Name))));
+                        _shieldAllyList.Add(Menu4.Add("shield" + ally.ChampionName, new CheckBox(
+                            $"Shield {ally.ChampionName} ({ally.Name})")));
                     }
 
                     Menu4.AddSeparator(13);
@@ -379,7 +315,8 @@ namespace PartyJanna
 
                     foreach (var ally in EntityManager.Heroes.Allies)
                     {
-                        _sliders.Add(Menu4.Add<Slider>("prior" + ally.ChampionName, new Slider(string.Format("{0}'s Priority:", ally.ChampionName), 1, 1, EntityManager.Heroes.Allies.Count)));
+                        _sliders.Add(Menu4.Add("prior" + ally.ChampionName, new Slider(
+                            $"{ally.ChampionName}'s Priority:", 1, 1, EntityManager.Heroes.Allies.Count)));
 
                         Menu4.AddSeparator(13);
 
@@ -388,10 +325,11 @@ namespace PartyJanna
 
                     foreach (var enemy in EntityManager.Heroes.Enemies)
                     {
-                        for (int i = 0; i <= 185; i++)
+                        for (var i = 0; i <= 185; i++)
                         {
                             if (MissileDatabase.missileDatabase[i, 2] == enemy.ChampionName)
-                                _shieldSpellList.Add(Menu4.Add<CheckBox>(MissileDatabase.missileDatabase[i, 0] + i, new CheckBox(string.Format("Shield from {0}'s {1} ({2})                                                 {3}", MissileDatabase.missileDatabase[i, 2], MissileDatabase.missileDatabase[i, 1], MissileDatabase.missileDatabase[i, 0], i))));
+                                _shieldSpellList.Add(Menu4.Add(MissileDatabase.missileDatabase[i, 0] + i, new CheckBox(
+                                    $"Shield from {MissileDatabase.missileDatabase[i, 2]}'s {MissileDatabase.missileDatabase[i, 1]} ({MissileDatabase.missileDatabase[i, 0]})                                                 {i}")));
                         }
                     }
 
@@ -401,7 +339,8 @@ namespace PartyJanna
 
                     foreach (var ally in EntityManager.Heroes.Allies)
                     {
-                        _ultAllyList.Add(Menu4.Add<CheckBox>("autoUlt" + ally.ChampionName, new CheckBox(string.Format("Ultimate on {0} ({1})", ally.ChampionName, ally.Name))));
+                        _ultAllyList.Add(Menu4.Add("autoUlt" + ally.ChampionName, new CheckBox(
+                            $"Ultimate on {ally.ChampionName} ({ally.Name})")));
                     }
 
                     Menu4.AddSeparator(13);
@@ -410,29 +349,49 @@ namespace PartyJanna
 
                     foreach (var ally in EntityManager.Heroes.Allies)
                     {
-                        _ultSliders.Add(Menu4.Add<Slider>("ultHealth" + ally.ChampionName, new Slider(string.Format("{0}'s Health (%):", ally.ChampionName), 50, 1)));
+                        _ultSliders.Add(Menu4.Add("ultHealth" + ally.ChampionName, new Slider(
+                            $"{ally.ChampionName}'s Health (%):", 50, 1)));
 
                         Menu4.AddSeparator(13);
                     }
                 }
 
-                public static void Initialize() { }
+
+                public static bool BoostAD => _boostAD.CurrentValue;
+
+                public static bool BoostEzQ => _boostEzQ.CurrentValue;
+
+                public static bool SelfShield => _selfShield.CurrentValue;
+
+                public static bool TurretShieldMinion => _turretShieldMinion.CurrentValue;
+
+                public static bool TurretShieldChampion => _turretShieldChampion.CurrentValue;
+
+                public static int PriorMode => _priorMode.SelectedIndex;
+
+                public static IEnumerable<Slider> Sliders => _sliders;
+
+                public static IEnumerable<Slider> UltSliders => _ultSliders;
+
+                public static IEnumerable<AIHeroClient> Heros => _heros;
+
+                public static IEnumerable<CheckBox> ShieldAllyList => _shieldAllyList;
+
+                public static IEnumerable<CheckBox> ShieldSpellList => _shieldSpellList;
+
+                public static IEnumerable<CheckBox> UltAllyList => _ultAllyList;
+
+                public static bool AutoUltimate => _autoUltimate.CurrentValue;
+
+                public static void Initialize()
+                {
+                }
             }
 
             public static class Combo
             {
                 private static readonly CheckBox _useQ;
                 private static readonly CheckBox _useW;
-                //private static readonly Slider _qUseRange;
-
-                public static bool UseQ
-                {
-                    get { return _useQ.CurrentValue; }
-                }
-                public static bool UseW
-                {
-                    get { return _useW.CurrentValue; }
-                }
 
                 static Combo()
                 {
@@ -442,22 +401,21 @@ namespace PartyJanna
                     _useW = Menu5.Add("comboUseW", new CheckBox("Use W"));
                 }
 
-                public static void Initialize() { }
+                //private static readonly Slider _qUseRange;
+
+                public static bool UseQ => _useQ.CurrentValue;
+
+                public static bool UseW => _useW.CurrentValue;
+
+                public static void Initialize()
+                {
+                }
             }
 
             public static class Flee
             {
                 private static readonly CheckBox _useQ;
                 private static readonly CheckBox _useW;
-
-                public static bool UseQ
-                {
-                    get { return _useQ.CurrentValue; }
-                }
-                public static bool UseW
-                {
-                    get { return _useW.CurrentValue; }
-                }
 
                 static Flee()
                 {
@@ -467,7 +425,13 @@ namespace PartyJanna
                     _useW = Menu6.Add("fleeUseW", new CheckBox("Use W"));
                 }
 
-                public static void Initialize() { }
+                public static bool UseQ => _useQ.CurrentValue;
+
+                public static bool UseW => _useW.CurrentValue;
+
+                public static void Initialize()
+                {
+                }
             }
 
             public static class Harass
@@ -476,23 +440,6 @@ namespace PartyJanna
                 private static readonly CheckBox _useW;
                 private static readonly CheckBox _autoHarass;
                 private static readonly Slider _autoHarassManaPercent;
-
-                public static bool UseQ
-                {
-                    get { return _useQ.CurrentValue; }
-                }
-                public static bool UseW
-                {
-                    get { return _useW.CurrentValue; }
-                }
-                public static bool AutoHarass
-                {
-                    get { return _autoHarass.CurrentValue; }
-                }
-                public static int AutoHarassManaPercent
-                {
-                    get { return _autoHarassManaPercent.CurrentValue; }
-                }
 
                 static Harass()
                 {
@@ -507,10 +454,21 @@ namespace PartyJanna
                     _autoHarass = Menu7.Add("autoHarass", new CheckBox("Auto Harass with W at mana %"));
                     Menu7.AddSeparator(13);
 
-                    _autoHarassManaPercent = Menu7.Add<Slider>("autoHarassManaPercent", new Slider("Auto Harass min. mana %:", 75, 1));
+                    _autoHarassManaPercent = Menu7.Add("autoHarassManaPercent",
+                        new Slider("Auto Harass min. mana %:", 75, 1));
                 }
 
-                public static void Initialize() { }
+                public static bool UseQ => _useQ.CurrentValue;
+
+                public static bool UseW => _useW.CurrentValue;
+
+                public static bool AutoHarass => _autoHarass.CurrentValue;
+
+                public static int AutoHarassManaPercent => _autoHarassManaPercent.CurrentValue;
+
+                public static void Initialize()
+                {
+                }
             }
 
             public static class Humanizer
@@ -525,57 +483,20 @@ namespace PartyJanna
                 private static readonly CheckBox _eRndmDelay;
                 private static readonly CheckBox _rRndmDelay;
 
-                public static bool QCastDelayEnabled
-                {
-                    get { return _qCastDelayEnabled.CurrentValue; }
-                }
-                public static bool ECastDelayEnabled
-                {
-                    get { return _eCastDelayEnabled.CurrentValue; }
-                }
-                public static bool RCastDelayEnabled
-                {
-                    get { return _rCastDelayEnabled.CurrentValue; }
-                }
-                public static int QCastDelay
-                {
-                    get { return _qCastDelay.CurrentValue; }
-                }
-                public static int ECastDelay
-                {
-                    get { return _eCastDelay.CurrentValue; }
-                }
-                public static int RCastDelay
-                {
-                    get { return _rCastDelay.CurrentValue; }
-                }
-                public static bool QRndmDelay
-                {
-                    get { return _qRndmDelay.CurrentValue; }
-                }
-                public static bool ERndmDelay
-                {
-                    get { return _eRndmDelay.CurrentValue; }
-                }
-                public static bool RRndmDelay
-                {
-                    get { return _rRndmDelay.CurrentValue; }
-                }
-
                 static Humanizer()
                 {
                     Menu8.AddGroupLabel("Humanizer Settings");
 
                     _qCastDelayEnabled = Menu8.Add("qCastDelayEnabled", new CheckBox("Enabled", false));
-                    _qCastDelay = Menu8.Add<Slider>("qCastDelay", new Slider("Q Cast Delay (1sec = 1000ms):", 500, 250, 1000));
+                    _qCastDelay = Menu8.Add("qCastDelay", new Slider("Q Cast Delay (1sec = 1000ms):", 500, 250, 1000));
                     Menu8.AddSeparator();
 
                     _eCastDelayEnabled = Menu8.Add("eCastDelayEnabled", new CheckBox("Enabled", false));
-                    _eCastDelay = Menu8.Add<Slider>("eCastDelay", new Slider("E Cast Delay (1sec = 1000ms):", 500, 250, 1000));
+                    _eCastDelay = Menu8.Add("eCastDelay", new Slider("E Cast Delay (1sec = 1000ms):", 500, 250, 1000));
                     Menu8.AddSeparator();
 
                     _rCastDelayEnabled = Menu8.Add("rCastDelayEnabled", new CheckBox("Enabled", false));
-                    _rCastDelay = Menu8.Add<Slider>("rCastDelay", new Slider("R Cast Delay (1sec = 1000ms):", 500, 250, 1000));
+                    _rCastDelay = Menu8.Add("rCastDelay", new Slider("R Cast Delay (1sec = 1000ms):", 500, 250, 1000));
                     Menu8.AddSeparator();
 
                     _qRndmDelay = Menu8.Add("qRndmDelay", new CheckBox("Randomize Q Cast Delay"));
@@ -588,22 +509,33 @@ namespace PartyJanna
                     Menu8.AddSeparator();
                 }
 
-                public static void Initialize() { }
+                public static bool QCastDelayEnabled => _qCastDelayEnabled.CurrentValue;
+
+                public static bool ECastDelayEnabled => _eCastDelayEnabled.CurrentValue;
+
+                public static bool RCastDelayEnabled => _rCastDelayEnabled.CurrentValue;
+
+                public static int QCastDelay => _qCastDelay.CurrentValue;
+
+                public static int ECastDelay => _eCastDelay.CurrentValue;
+
+                public static int RCastDelay => _rCastDelay.CurrentValue;
+
+                public static bool QRndmDelay => _qRndmDelay.CurrentValue;
+
+                public static bool ERndmDelay => _eRndmDelay.CurrentValue;
+
+                public static bool RRndmDelay => _rRndmDelay.CurrentValue;
+
+                public static void Initialize()
+                {
+                }
             }
 
-            public static class SkinHack
+            private static class SkinHack
             {
                 private static readonly CheckBox _skinHackEnabled;
                 private static readonly Slider _skinId;
-
-                public static bool SkinHackEnabled
-                {
-                    get { return _skinHackEnabled.CurrentValue; }
-                }
-                public static int SkinID
-                {
-                    get { return _skinId.CurrentValue; }
-                }
 
                 static SkinHack()
                 {
@@ -613,7 +545,7 @@ namespace PartyJanna
 
                     Menu4.AddSeparator(13);
 
-                    _skinId = Menu9.Add<Slider>("skinId", new Slider("Skin ID:", 0, 0, 11));
+                    _skinId = Menu9.Add("skinId", new Slider("Skin ID:", 0, 0, 11));
 
                     _skinId.OnValueChange += OnSkinIdChange;
                     _skinHackEnabled.OnValueChange += OnSkinHackToggle;
@@ -621,12 +553,13 @@ namespace PartyJanna
                     Player.Instance.SetSkinId(SkinID);
                 }
 
+                private static bool SkinHackEnabled => _skinHackEnabled.CurrentValue;
+
+                private static int SkinID => _skinId.CurrentValue;
+
                 private static void OnSkinHackToggle(ValueBase<bool> sender, ValueBase<bool>.ValueChangeArgs args)
                 {
-                    if (!args.NewValue)
-                        Player.Instance.SetSkinId(0);
-                    else
-                        Player.Instance.SetSkinId(SkinID);
+                    Player.Instance.SetSkinId(args.NewValue == false ? 0 : SkinID);
                 }
 
                 private static void OnSkinIdChange(ValueBase<int> sender, ValueBase<int>.ValueChangeArgs args)
@@ -635,7 +568,9 @@ namespace PartyJanna
                         Player.Instance.SetSkinId(args.NewValue);
                 }
 
-                public static void Initialize() { }
+                public static void Initialize()
+                {
+                }
             }
         }
     }

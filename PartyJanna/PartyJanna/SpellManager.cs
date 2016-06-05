@@ -6,11 +6,6 @@ namespace PartyJanna
 {
     public static class SpellManager
     {
-        public static Spell.Skillshot Q { get; private set; }
-        public static Spell.Targeted W { get; private set; }
-        public static Spell.Targeted E { get; private set; }
-        public static Spell.Active R { get; private set; }
-
         static SpellManager()
         {
             Q = new Spell.Skillshot(SpellSlot.Q, 1000, SkillShotType.Linear);
@@ -19,6 +14,13 @@ namespace PartyJanna
             R = new Spell.Active(SpellSlot.R, 725);
         }
 
-        public static void Initialize() { }
+        public static Spell.Skillshot Q { get; private set; }
+        public static Spell.Targeted W { get; private set; }
+        public static Spell.Targeted E { get; private set; }
+        public static Spell.Active R { get; private set; }
+
+        public static void Initialize()
+        {
+        }
     }
 }

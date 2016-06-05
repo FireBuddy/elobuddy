@@ -1,16 +1,14 @@
-﻿using EloBuddy;
+﻿using System;
+using System.Collections.Generic;
+using EloBuddy;
 using EloBuddy.SDK.Enumerations;
 using EloBuddy.SDK.Utils;
 using PartyJanna.Modes;
-using System;
-using System.Collections.Generic;
 
 namespace PartyJanna
 {
     public static class ModeManager
     {
-        private static List<ModeBase> Modes { get; set; }
-
         static ModeManager()
         {
             Modes = new List<ModeBase>();
@@ -29,7 +27,11 @@ namespace PartyJanna
             Game.OnTick += OnTick;
         }
 
-        public static void Initialize() { }
+        private static List<ModeBase> Modes { get; }
+
+        public static void Initialize()
+        {
+        }
 
         private static void OnTick(EventArgs args)
         {
@@ -38,13 +40,11 @@ namespace PartyJanna
                 try
                 {
                     if (mode.ShouldBeExecuted())
-                    {
                         mode.Execute();
-                    }
                 }
                 catch (Exception e)
                 {
-                    Logger.Log(LogLevel.Error, "Error executing mode '{0}'\n{1}", mode.GetType().Name, e);
+                    Logger.Log(LogLevel.Error, $"Error executing mode '{mode.GetType().Name}'\n{e}");
                 }
             });
         }
