@@ -33,17 +33,17 @@ namespace BotAutoRestarter
                     if (sysProcess.ProcessName.Contains("bot") || sysProcess.ProcessName.Contains("Bot"))
                     {
                         sysProcess.Kill();
-                        Console.WriteLine($"[{DateTime.Now,0:hh:mm:ss}] Closing bot..");
+                        Console.WriteLine($"[{DateTime.Now:hh:mm:ss}] Closing bot..");
                     }
                     else if (sysProcess.ProcessName.Contains("League of Legends"))
                     {
                         sysProcess.Kill();
-                        Console.WriteLine($"[{DateTime.Now,0:hh:mm:ss}] Closing LoL..");
+                        Console.WriteLine($"[{DateTime.Now:hh:mm:ss}] Closing LoL..");
                     }
                 }
 
                 Process.Start(botPath);
-                Console.WriteLine($"[{DateTime.Now,0:hh:mm:ss}] Initializing bot..");
+                Console.WriteLine($"[{DateTime.Now:hh:mm:ss}] Initializing bot..");
 
                 Sleep(time);
             }
