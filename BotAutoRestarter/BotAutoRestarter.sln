@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoRestarter", "AutoRestarter\AutoRestarter.csproj", "{0A561DAD-FD25-4378-B746-6118458794D4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BotAutoRestarter", "BotAutoRestarter\BotAutoRestarter.csproj", "{0A561DAD-FD25-4378-B746-6118458794D4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

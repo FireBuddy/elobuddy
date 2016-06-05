@@ -4,3 +4,4 @@ C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\AutoRestarter\AutoRestarter\bi
 C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\AutoRestarter\AutoRestarter\obj\Debug\AutoRestarter.csprojResolveAssemblyReference.cache
 C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\AutoRestarter\AutoRestarter\obj\Debug\AutoRestarter.exe
 C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\AutoRestarter\AutoRestarter\obj\Debug\AutoRestarter.pdb
+C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\AutoRestarter\AutoRestarter\bin\Debug\BotAutoRestarter.exe.config

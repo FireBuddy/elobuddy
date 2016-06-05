@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using static System.Threading.Thread;
 
-namespace AutoRestarter
+namespace BotAutoRestarter
 {
     internal static class Program
     {

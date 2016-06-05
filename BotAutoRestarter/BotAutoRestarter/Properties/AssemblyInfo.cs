@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 
-[assembly: AssemblyTitle("AutoRestarter")]
+[assembly: AssemblyTitle("BotAutoRestarter")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("EloBuddy")]
-[assembly: AssemblyProduct("AutoRestarter")]
+[assembly: AssemblyProduct("BotAutoRestarter")]
 [assembly: AssemblyCopyright("Copyright © houzeparty 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

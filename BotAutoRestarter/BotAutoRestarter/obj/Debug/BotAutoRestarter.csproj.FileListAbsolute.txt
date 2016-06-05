@@ -1,0 +1,11 @@
+C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\AutoRestarter\AutoRestarter\bin\Debug\BotAutoRestarter.exe.config
+C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\AutoRestarter\AutoRestarter\bin\Debug\BotAutoRestarter.exe
+C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\AutoRestarter\AutoRestarter\bin\Debug\BotAutoRestarter.pdb
+C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\AutoRestarter\AutoRestarter\obj\Debug\BotAutoRestarter.exe
+C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\AutoRestarter\AutoRestarter\obj\Debug\BotAutoRestarter.pdb
+C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\BotAutoRestarter\BotAutoRestarter\bin\Debug\BotAutoRestarter.exe.config
+C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\BotAutoRestarter\BotAutoRestarter\bin\Debug\BotAutoRestarter.exe
+C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\BotAutoRestarter\BotAutoRestarter\bin\Debug\BotAutoRestarter.pdb
+C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\BotAutoRestarter\BotAutoRestarter\obj\Debug\BotAutoRestarter.csprojResolveAssemblyReference.cache
+C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\BotAutoRestarter\BotAutoRestarter\obj\Debug\BotAutoRestarter.exe
+C:\Users\Lucca Vinicius\Documents\GitHub\elobuddy\BotAutoRestarter\BotAutoRestarter\obj\Debug\BotAutoRestarter.pdb
