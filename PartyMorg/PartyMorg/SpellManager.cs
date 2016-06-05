@@ -6,6 +6,11 @@ namespace PartyMorg
 {
     public static class SpellManager
     {
+        public static Spell.Skillshot Q { get; private set; }
+        public static Spell.Skillshot W { get; private set; }
+        public static Spell.Targeted E { get; private set; }
+        public static Spell.Active R { get; private set; }
+
         static SpellManager()
         {
             Q = new Spell.Skillshot(SpellSlot.Q, 1300, SkillShotType.Linear, 250, 1200, 80);
@@ -13,11 +18,6 @@ namespace PartyMorg
             E = new Spell.Targeted(SpellSlot.E, 750);
             R = new Spell.Active(SpellSlot.R, 625);
         }
-
-        public static Spell.Skillshot Q { get; private set; }
-        public static Spell.Skillshot W { get; private set; }
-        public static Spell.Targeted E { get; private set; }
-        public static Spell.Active R { get; private set; }
 
         public static void Initialize()
         {

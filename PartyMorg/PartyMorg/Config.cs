@@ -241,7 +241,6 @@ namespace PartyMorg
             {
                 private static readonly CheckBox _qInterrupt;
                 private static readonly CheckBox _qInterruptDangerous;
-                private static readonly CheckBox _rInterruptDangerous;
 
                 static Interrupter()
                 {
@@ -252,16 +251,11 @@ namespace PartyMorg
 
                     _qInterruptDangerous = Menu2.Add("rInterrupt", new CheckBox("Interrupt high-danger spells with Q"));
                     Menu2.AddSeparator(13);
-
-                    _rInterruptDangerous = Menu2.Add("rInterruptDangerous",
-                        new CheckBox("Interrupt high-danger spells with R"));
                 }
 
                 public static bool QInterrupt => _qInterrupt.CurrentValue;
 
                 public static bool QInterruptDangerous => _qInterruptDangerous.CurrentValue;
-
-                public static bool RInterruptDangerous => _rInterruptDangerous.CurrentValue;
 
                 public static void Initialize()
                 {

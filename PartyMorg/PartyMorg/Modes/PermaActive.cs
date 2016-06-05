@@ -17,8 +17,7 @@ namespace PartyMorg.Modes
 
         public override void Execute()
         {
-            if (!Settings.UseItems || Player.Instance.CountEnemiesInRange(2200) == 0 || Player.Instance.IsRecalling())
-                return;
+            if (!Settings.UseItems || Player.Instance.CountEnemiesInRange(2200) == 0 || Player.Instance.IsRecalling()) return;
 
             if (Settings.UseItemsComboOnly && !Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Combo)) return;
 

@@ -10,10 +10,7 @@ namespace PartyMorg
     {
         private const string ChampName = "Morgana";
 
-        public static void Main(string[] args)
-        {
-            Loading.OnLoadingComplete += OnLoadingComplete;
-        }
+        public static void Main(string[] args) => Loading.OnLoadingComplete += OnLoadingComplete;
 
         private static void OnLoadingComplete(EventArgs args)
         {
