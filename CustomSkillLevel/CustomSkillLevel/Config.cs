@@ -1,13 +1,13 @@
-﻿using EloBuddy;
-using EloBuddy.SDK.Menu;
-using EloBuddy.SDK.Menu.Values;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using EloBuddy;
+using EloBuddy.SDK.Menu;
+using EloBuddy.SDK.Menu.Values;
 
 namespace CustomSkillLevel
 {
-    class Config
+    internal static class Config
     {
         private static readonly Menu Menu;
 
@@ -19,7 +19,9 @@ namespace CustomSkillLevel
             CSL.Initialize();
         }
 
-        public static void Initialize() { }
+        public static void Initialize()
+        {
+        }
 
         public static class CSL
         {
@@ -33,12 +35,15 @@ namespace CustomSkillLevel
                 Menu.AddSeparator();
             }
 
-            public static void Initialize() { }
+            public static void Initialize()
+            {
+            }
 
             public static class LevelingOrderMenu
             {
                 public static readonly List<ComboBox> orderBox = new List<ComboBox>();
-                public static readonly CheckBox saveButton, rndmDelay, enabled;
+                private static readonly CheckBox saveButton;
+                public static readonly CheckBox rndmDelay, enabled;
                 public static readonly Slider delay;
 
                 static LevelingOrderMenu()
@@ -57,13 +62,14 @@ namespace CustomSkillLevel
 
                     Menu.AddSeparator(13);
 
-                    Random randomId = new Random();
+                    var randomId = new Random();
 
-                    int level = 1;
+                    var level = 1;
 
-                    foreach (string slot in Program.order)
+                    foreach (var slot in Program.order)
                     {
-                        orderBox.Add(Menu.Add((randomId.Next() + level).ToString(), new ComboBox("Level " + level.ToString(), ConvertToMenuIndex(slot), new string[] { "Q", "W", "E", "R", "None" })));
+                        orderBox.Add(Menu.Add((randomId.Next() + level).ToString(),
+                            new ComboBox("Level " + level, ConvertToMenuIndex(slot), "Q", "W", "E", "R", "None")));
 
                         level++;
 
@@ -78,38 +84,42 @@ namespace CustomSkillLevel
 
                 private static void onSaveRequest(ValueBase<bool> sender, ValueBase<bool>.ValueChangeArgs args)
                 {
-                    if (args.NewValue)
+                    if (args.NewValue == false) return;
+
+                    File.Delete(Program.cslpath + Player.Instance.ChampionName + ".txt");
+
+                    using (var streamWriter = new StreamWriter(Program.cslpath + Player.Instance.ChampionName + ".txt"))
                     {
-                        File.Delete(Program.cslpath + Player.Instance.ChampionName + ".txt");
+                        foreach (var comboBox in orderBox)
+                            streamWriter.Write(Program.ConvertToSlot(comboBox.SelectedIndex) + ", ");
 
-                        using (StreamWriter streamWriter = new StreamWriter(Program.cslpath + Player.Instance.ChampionName + ".txt"))
-                        {
-                            foreach (ComboBox comboBox in orderBox)
-                            {
-                                streamWriter.Write(Program.ConvertToSlot(comboBox.SelectedIndex).ToString() + ", ");
-                            }
-
-                            streamWriter.Close();
-                        }
-
-                        saveButton.DisplayName = "Check Me to Save Your Settings [SAVED]";
-                        saveButton.CurrentValue = false;
+                        streamWriter.Close();
                     }
+
+                    saveButton.DisplayName = "Check Me to Save Your Settings [SAVED]";
+                    saveButton.CurrentValue = false;
                 }
 
                 private static int ConvertToMenuIndex(string slot)
                 {
                     switch (slot)
                     {
-                        case "Q": { return 0; }
-                        case "W": { return 1; }
-                        case "E": { return 2; }
-                        case "R": { return 3; }
-                        default: { return 4; }
+                        case "Q":
+                            return 0;
+                        case "W":
+                            return 1;
+                        case "E":
+                            return 2;
+                        case "R":
+                            return 3;
+                        default:
+                            return 4;
                     }
                 }
 
-                public static void Initialize() { }
+                public static void Initialize()
+                {
+                }
             }
         }
     }
