@@ -1,49 +1,51 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using static System.Net.Mime.MediaTypeNames;
+using System.Linq;
+using static System.Threading.Thread;
 
 namespace AutoRestarter
 {
-    class Program
+    internal static class Program
     {
-        static int time;
-        static string botPath;
+        private static int time;
+        private static string botPath;
 
-        static void Main(string[] args)
+        private static void Main()
         {
             Console.WriteLine("Time for each restart (sec): ");
-            time = Convert.ToInt32(Console.ReadLine()) * 1000;
+            time = Convert.ToInt32(Console.ReadLine())*1000;
 
-            foreach (string file in Directory.EnumerateFileSystemEntries(Environment.CurrentDirectory))
+            foreach (
+                var fileName in
+                    Directory.EnumerateFileSystemEntries(Environment.CurrentDirectory)
+                        .Where(file => file.Contains("Bot") || file.Contains("bot") && Path.GetExtension(file) == ".exe")
+                )
             {
-                if (file.Contains("Bot") || file.Contains("bot") && Path.GetExtension(file) == ".exe")
-                {
-                    botPath = file;
-                    break;
-                }
+                botPath = fileName;
+                break;
             }
 
             while (true)
             {
-                foreach (Process sysProcess in Process.GetProcesses())
+                foreach (var sysProcess in Process.GetProcesses())
                 {
                     if (sysProcess.ProcessName.Contains("bot") || sysProcess.ProcessName.Contains("Bot"))
                     {
                         sysProcess.Kill();
-                        Console.WriteLine("[{0:hh:mm:ss}] Closing bot..", DateTime.Now);
+                        Console.WriteLine($"[{DateTime.Now,0:hh:mm:ss}] Closing bot..");
                     }
                     else if (sysProcess.ProcessName.Contains("League of Legends"))
                     {
                         sysProcess.Kill();
-                        Console.WriteLine("[{0:hh:mm:ss}] Closing LoL..", DateTime.Now);
+                        Console.WriteLine($"[{DateTime.Now,0:hh:mm:ss}] Closing LoL..");
                     }
                 }
 
                 Process.Start(botPath);
-                Console.WriteLine("[{0:hh:mm:ss}] Initializing bot..", DateTime.Now);
+                Console.WriteLine($"[{DateTime.Now,0:hh:mm:ss}] Initializing bot..");
 
-                System.Threading.Thread.Sleep(time);
+                Sleep(time);
             }
         }
     }
